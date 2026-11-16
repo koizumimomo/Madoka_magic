@@ -1,0 +1,50 @@
+{
+  "sacrifice": {
+    "crown": "#ffe28a", "primary": "#f5c452", "secondary": "#443541",
+    "motif": "butterfly", "accent": "fleck", "motion": "shed"
+  },
+  "take": {
+    "crown": "#ffb665", "primary": "#ffb34d", "secondary": "#ed803a",
+    "motif": "drop", "accent": "honeycomb", "motion": "gather", "boss_crest": "honeycomb"
+  },
+  "atonement": {
+    "crown": "#c4d7ff", "primary": "#aec5ec", "secondary": "#4d6ba4",
+    "motif": "drop", "accent": "thorn", "motion": "bind"
+  },
+  "atonement_player": {
+    "crown": "#c4d7ff", "primary": "#bcefff", "secondary": "#94a9ef",
+    "motif": "shard", "accent": "link", "motion": "thread"
+  },
+  "wither": {
+    "crown": "#c7a2e0", "primary": "#8c71a4", "secondary": "#383040",
+    "motif": "ember", "accent": "fleck", "motion": "fling", "boss_crest": "shard"
+  },
+  "gluttony": {
+    "crown": "#ddff96", "primary": "#a3ea5d", "secondary": "#517d37",
+    "motif": "drop", "accent": "fleck", "motion": "gather"
+  },
+  "kriemhild_gretchen": {
+    "crown": "#ffe0eb", "primary": "#ffc5dd", "secondary": "#ed8daf",
+    "motif": "petal", "accent": "star", "motion": "weave", "boss_crest": "star"
+  },
+  "homulilly": {
+    "crown": "#d0a6ee", "primary": "#b17ad7", "secondary": "#61477e",
+    "motif": "gear", "accent": "fleck", "motion": "rewind"
+  },
+  "candeloro": {
+    "crown": "#ffde95", "primary": "#f8c76d", "secondary": "#db9860",
+    "motif": "ribbon", "accent": "petal", "motion": "invite"
+  },
+  "oktavia": {
+    "crown": "#b2ebff", "primary": "#83d8ff", "secondary": "#5894cf",
+    "motif": "note", "accent": "staff", "motion": "ripple"
+  },
+  "ophelia": {
+    "crown": "#ffc2ac", "primary": "#ff895a", "secondary": "#e24952",
+    "motif": "ember", "accent": "fleck", "motion": "fling"
+  },
+  "walpurgisnacht": {
+    "crown": "#f0b8df", "primary": "#ffdec6", "secondary": "#a5a4c7",
+    "motif": "stage_light", "accent": "gear", "motion": "parade"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:unpayable_promise",
+  "active": true,
+  "name_key": "spell.madoka_magic.unpayable_promise",
+  "desc_key": "spell.madoka_magic.unpayable_promise.desc",
+  "icon": "madoka_magic:textures/gui/spells/unpayable_promise.png",
+  "cooldown": 24,
+  "mana_cost": 15.0,
+  "taint_on_cast": 0.3,
+  "unlock_level": 30
+}

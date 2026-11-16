@@ -1,0 +1,74 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "madoka_magic:item/grief_seed"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 1
+      },
+      "model": "madoka_magic:item/grief_seed_sacrifice"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 2
+      },
+      "model": "madoka_magic:item/grief_seed_take"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 3
+      },
+      "model": "madoka_magic:item/grief_seed_atonement"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 4
+      },
+      "model": "madoka_magic:item/grief_seed_kriemhild_gretchen"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 5
+      },
+      "model": "madoka_magic:item/grief_seed_homulilly"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 6
+      },
+      "model": "madoka_magic:item/grief_seed_candeloro"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 7
+      },
+      "model": "madoka_magic:item/grief_seed_oktavia"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 8
+      },
+      "model": "madoka_magic:item/grief_seed_ophelia"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 9
+      },
+      "model": "madoka_magic:item/grief_seed_walpurgisnacht"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 10
+      },
+      "model": "madoka_magic:item/grief_seed_wither"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 11
+      },
+      "model": "madoka_magic:item/grief_seed_gluttony"
+    }
+  ]
+}

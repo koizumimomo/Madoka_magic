@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:altar_ritual",
+  "ingredients": [
+    {
+      "item": "madoka_magic:wish_eryngium"
+    }
+  ],
+  "result": {
+    "item": "madoka_magic:contract_atonement"
+  }
+}

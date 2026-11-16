@@ -1,0 +1,59 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+logoFile="assets/${mod_id}/textures/gui/logo.png"
+description='''
+${mod_description}
+'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+# GeckoLib - required. Used for the entity models (witch, summons, ...).
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[${geckolib_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+# --- Optional integrations ---------------------------------------------
+# This mod is standalone: it loads fine without either of these.
+# With Iron's Spells 'n Spellbooks installed, the soul gem bonuses are
+# mirrored onto the matching Iron's school attributes (io.madoka.magic.compat).
+[[dependencies.${mod_id}]]
+    modId="irons_spellbooks"
+    mandatory=false
+    versionRange="[${iron_spellbooks_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+# Curios is optional for equipment integrations.
+[[dependencies.${mod_id}]]
+    modId="curios"
+    mandatory=false
+    versionRange="[${curios_version},)"
+    ordering="AFTER"
+    side="BOTH"
+
+# NOTE: caelus / playeranimator / irons_lib are dependencies of Iron's
+# Spells 'n Spellbooks, not of ours. That mod already declares them with the
+# exact version ranges it needs, so we must not declare them a second time.

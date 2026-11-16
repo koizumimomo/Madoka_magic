@@ -1,0 +1,40 @@
+{
+  "name": "献身",
+  "translation_key": "madoka_magic.magical_girl.sacrifice",
+  "classification": "献身型",
+  "role": "持续输出型",
+  "primary_color": "#F2C14E",
+  "secondary_color": "#111014",
+  "element": "butterfly",
+  "school": "holy",
+  "mana_max": 140,
+  "tone": "decisive",
+  "damage_dealt": 1.1,
+  "damage_taken": 1.1,
+  "taint_rate": 1.2,
+  "mana_gain": 1.05,
+  "contract_material": "madoka_magic:wish_black_tulip",
+  "witch_dimension": "madoka_magic:witch_sacrifice",
+  "skills": [
+    "butterfly_slash",
+    "tulip_burst",
+    "pollen",
+    "blossom",
+    "wither"
+  ],
+  "passives": [
+    "devotion_wing",
+    "obsession",
+    "ember"
+  ],
+  "planned_skills": [],
+  "growth": {"speed_per_step": 0.015},
+  "witch_form": {
+    "health_bonus": 12,
+    "attack_bonus": 4,
+    "armor_bonus": 3,
+    "speed_bonus": 0.02,
+    "skills": ["witch_black_wings", "witch_cocoon_burst"],
+    "passives": ["devotion_wing"]
+  }
+}

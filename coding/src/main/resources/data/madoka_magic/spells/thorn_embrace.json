@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:thorn_embrace",
+  "active": true,
+  "name_key": "spell.madoka_magic.thorn_embrace",
+  "desc_key": "spell.madoka_magic.thorn_embrace.desc",
+  "icon": "madoka_magic:textures/gui/spells/thorn_embrace.png",
+  "cooldown": 12,
+  "mana_cost": 18.0,
+  "taint_on_cast": 0.3,
+  "unlock_level": 10
+}

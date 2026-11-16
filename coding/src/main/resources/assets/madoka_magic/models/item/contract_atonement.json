@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "madoka_magic:item/contract",
+    "layer1": "madoka_magic:item/contract_seal/atonement"
+  }
+}

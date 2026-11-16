@@ -1,0 +1,24 @@
+{
+  "type": "madoka_magic:witch_take",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:polished_andesite",
+          "height": 2
+        },
+        {
+          "block": "madoka_magic:barrier_floor_take",
+          "height": 1
+        }
+      ],
+      "biome": "madoka_magic:witch_barrier",
+      "structure_overrides": []
+    }
+  }
+}

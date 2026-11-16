@@ -1,0 +1,41 @@
+{
+  "name": "索取",
+  "translation_key": "madoka_magic.magical_girl.take",
+  "classification": "索取型",
+  "role": "控制掠夺型",
+  "primary_color": "#E8A33D",
+  "secondary_color": "#3A2410",
+  "element": "honeycomb",
+  "school": "blood",
+  "mana_max": 90,
+  "tone": "casual",
+  "damage_dealt": 0.9,
+  "damage_taken": 0.9,
+  "taint_rate": 0.85,
+  "mana_gain": 1.1,
+  "contract_material": "madoka_magic:wish_honey_bottle",
+  "witch_dimension": "madoka_magic:witch_take",
+  "skills": [
+    "bee_sting",
+    "swarm_call",
+    "honey",
+    "injection",
+    "illusion",
+    "dandelion_drift"
+  ],
+  "passives": [
+    "selfish_eye",
+    "obsession",
+    "ember"
+  ],
+  "planned_skills": [],
+  "growth": {"mana_regen_per_step": 0.05},
+  "witch_form": {
+    "health_bonus": 16,
+    "attack_bonus": 3,
+    "armor_bonus": 5,
+    "speed_bonus": 0.01,
+    "skills": ["witch_venom", "witch_honey_tide"],
+    "passives": ["selfish_eye"]
+  }
+}

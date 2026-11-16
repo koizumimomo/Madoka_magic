@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:obsession",
+  "active": false,
+  "name_key": "spell.madoka_magic.obsession",
+  "desc_key": "spell.madoka_magic.obsession.desc",
+  "icon": "madoka_magic:textures/gui/spells/obsession.png",
+  "cooldown": 0,
+  "mana_cost": 0.0,
+  "taint_on_cast": 0.0,
+  "unlock_level": 20
+}

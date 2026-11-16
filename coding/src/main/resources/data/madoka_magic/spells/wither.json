@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:wither",
+  "active": true,
+  "name_key": "spell.madoka_magic.wither",
+  "desc_key": "spell.madoka_magic.wither.desc",
+  "icon": "madoka_magic:textures/gui/spells/wither.png",
+  "cooldown": 30,
+  "mana_cost": 15.0,
+  "taint_on_cast": 0.3,
+  "unlock_level": 90
+}

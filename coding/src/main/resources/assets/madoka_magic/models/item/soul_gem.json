@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "madoka_magic:item/soul_gem"
+                 },
+    "parent":  "minecraft:item/generated"
+}

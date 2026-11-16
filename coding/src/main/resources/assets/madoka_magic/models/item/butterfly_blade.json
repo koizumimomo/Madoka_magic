@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "madoka_magic:item/butterfly_blade"
+  }
+}

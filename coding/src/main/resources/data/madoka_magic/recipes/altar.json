@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "GAG",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:polished_andesite"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "result": {
+    "item": "madoka_magic:altar"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "赎罪",
+  "translation_key": "madoka_magic.magical_girl.atonement",
+  "classification": "赎罪型",
+  "role": "反击型",
+  "primary_color": "#1B2A4A",
+  "secondary_color": "#C8CEDA",
+  "element": "eryngium",
+  "school": "eldritch",
+  "mana_max": 120,
+  "tone": "pressed",
+  "damage_dealt": 1.0,
+  "damage_taken": 1.0,
+  "taint_rate": 1.0,
+  "mana_gain": 1.0,
+  "contract_material": "madoka_magic:wish_eryngium",
+  "witch_dimension": "madoka_magic:witch_atonement",
+  "skills": [
+    "thorn_embrace",
+    "unpayable_promise",
+    "redemption_blade"
+  ],
+  "passives": [
+    "sin_mark",
+    "obsession",
+    "ember"
+  ],
+  "planned_skills": [],
+  "growth": {"armor_per_step": 0.5},
+  "witch_form": {
+    "health_bonus": 20,
+    "attack_bonus": 3,
+    "armor_bonus": 7,
+    "speed_bonus": -0.005,
+    "skills": ["witch_tear_rain", "witch_thorn_echo"],
+    "passives": ["sin_mark"]
+  }
+}

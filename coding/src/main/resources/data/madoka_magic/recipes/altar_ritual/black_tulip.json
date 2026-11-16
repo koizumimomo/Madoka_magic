@@ -1,0 +1,11 @@
+{
+    "type": "madoka_magic:altar_ritual",
+    "ingredients": [
+        { "item": "minecraft:orange_tulip" },
+        { "item": "minecraft:coal" }
+    ],
+    "result": {
+        "item": "madoka_magic:black_tulip",
+        "count": 1
+    }
+}

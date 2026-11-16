@@ -1,0 +1,19 @@
+{
+  "type": "madoka_magic:swarm_call",
+  "active": true,
+  "name_key": "spell.madoka_magic.swarm_call",
+  "desc_key": "spell.madoka_magic.swarm_call.desc",
+  "icon": "madoka_magic:textures/gui/spells/swarm_call.png",
+  "cooldown": 20,
+  "mana_cost": 35.0,
+  "taint_on_cast": 0.8,
+  "unlock_level": 30,
+  "parameters": {
+    "count": 3,
+    "max_bees": 6,
+    "duration_seconds": 12,
+    "range": 9,
+    "sting_damage": 2.5,
+    "sting_interval_seconds": 1.25
+  }
+}

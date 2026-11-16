@@ -1,0 +1,16 @@
+{
+  "type": "madoka_magic:witch_cocoon_burst",
+  "active": true,
+  "name_key": "spell.madoka_magic.witch_cocoon_burst",
+  "desc_key": "spell.madoka_magic.witch_cocoon_burst.desc",
+  "icon": "madoka_magic:textures/gui/spells/tulip_burst.png",
+  "cooldown": 11,
+  "mana_cost": 18,
+  "unlock_level": 25,
+  "parameters": {
+    "damage": 3,
+    "damage_per_mark": 1.35,
+    "radius": 4,
+    "vertical_reach": 1.6
+  }
+}

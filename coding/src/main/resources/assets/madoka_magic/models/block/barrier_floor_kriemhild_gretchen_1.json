@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "madoka_magic:block/barrier_floor/kriemhild_gretchen_1",
+    "side": "minecraft:block/pink_terracotta",
+    "bottom": "minecraft:block/pink_terracotta"
+  }
+}

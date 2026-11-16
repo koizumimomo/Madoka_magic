@@ -1,0 +1,14 @@
+{
+  "type": "madoka_magic:altar_ritual",
+  "ingredients": [
+    {
+      "item": "minecraft:cornflower"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    }
+  ],
+  "result": {
+    "item": "madoka_magic:eryngium"
+  }
+}

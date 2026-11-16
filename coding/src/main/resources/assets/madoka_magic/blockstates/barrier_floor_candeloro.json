@@ -1,0 +1,86 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_0",
+        "y": 0,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_0",
+        "y": 90,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_0",
+        "y": 180,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_0",
+        "y": 270,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_1",
+        "y": 0,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_1",
+        "y": 90,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_1",
+        "y": 180,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_1",
+        "y": 270,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_2",
+        "y": 0,
+        "weight": 5
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_2",
+        "y": 90,
+        "weight": 5
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_2",
+        "y": 180,
+        "weight": 5
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_2",
+        "y": 270,
+        "weight": 5
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_3",
+        "y": 0,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_3",
+        "y": 90,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_3",
+        "y": 180,
+        "weight": 1
+      },
+      {
+        "model": "madoka_magic:block/barrier_floor_candeloro_3",
+        "y": 270,
+        "weight": 1
+      }
+    ]
+  }
+}

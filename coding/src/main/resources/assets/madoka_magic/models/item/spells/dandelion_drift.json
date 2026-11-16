@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "madoka_magic:textures/gui/spells/dandelion_drift.png"
+                 },
+    "parent":  "minecraft:item/generated"
+}

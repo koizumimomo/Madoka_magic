@@ -1,0 +1,32 @@
+# Workspace tools and caches
+/.gradle-home/
+/.tmp/
+/NVIDIA Corporation/
+/skill/
+/toolchains/
+/.idea/
+/.vscode/
+/.env
+
+# Forge and Gradle outputs
+/coding/.gradle/
+/coding/.idea/
+/coding/.vscode/
+/coding/build/
+/coding/libs/
+/coding/mcmodsrepo/
+/coding/Mod参考/
+/coding/run-data/
+/coding/src/generated/resources/.cache/
+*.iml
+
+# Keep the mod's default server configuration available for new saves.
+/coding/run/*
+!/coding/run/defaultconfigs/
+/coding/run/defaultconfigs/*
+!/coding/run/defaultconfigs/madoka_magic-witches.toml
+
+# Local diagnostics and art references
+/coding/docs/env-audit/
+/model/references/
+/model/tooltip_borders.png

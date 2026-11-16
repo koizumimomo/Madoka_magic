@@ -1,0 +1,12 @@
+{
+  "loader": "forge:obj",
+  "model": "madoka_magic:models/entity/tea_fork.obj",
+  "flip_v": false,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "madoka_magic:block/tea_cutlery"
+  }
+}

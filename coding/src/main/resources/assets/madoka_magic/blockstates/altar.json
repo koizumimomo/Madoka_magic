@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "madoka_magic:block/altar"
+    },
+    "facing=west": {
+      "model": "madoka_magic:block/altar",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "madoka_magic:block/altar",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "madoka_magic:block/altar",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "madoka_magic:item/black_tulip"
+                 },
+    "parent":  "minecraft:item/generated"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "madoka_magic:witch_thorn_echo",
+  "active": true,
+  "name_key": "spell.madoka_magic.witch_thorn_echo",
+  "desc_key": "spell.madoka_magic.witch_thorn_echo.desc",
+  "icon": "madoka_magic:textures/gui/spells/thorn_embrace.png",
+  "cooldown": 12,
+  "mana_cost": 16,
+  "unlock_level": 25,
+  "parameters": {
+    "damage": 4,
+    "damage_per_guilt": 0.55,
+    "radius": 5,
+    "vertical_reach": 2
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "madoka_magic:witch_tear_rain",
+  "active": true,
+  "name_key": "spell.madoka_magic.witch_tear_rain",
+  "desc_key": "spell.madoka_magic.witch_tear_rain.desc",
+  "icon": "madoka_magic:textures/gui/spells/pollen.png",
+  "cooldown": 9,
+  "mana_cost": 14,
+  "unlock_level": 10,
+  "parameters": {
+    "damage": 2.5,
+    "radius": 3.6,
+    "vertical_reach": 2,
+    "pulses": 3,
+    "pulse_interval_ticks": 14
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#madoka_magic:has_eryngium",
+  "features": "madoka_magic:patch_eryngium",
+  "step": "vegetal_decoration"
+}

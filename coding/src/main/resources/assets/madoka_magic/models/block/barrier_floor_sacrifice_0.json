@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "madoka_magic:block/barrier_floor/sacrifice_0",
+    "side": "minecraft:block/polished_andesite",
+    "bottom": "minecraft:block/polished_andesite"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:pollen",
+  "active": true,
+  "name_key": "spell.madoka_magic.pollen",
+  "desc_key": "spell.madoka_magic.pollen.desc",
+  "icon": "madoka_magic:textures/gui/spells/pollen.png",
+  "cooldown": 8,
+  "mana_cost": 12.0,
+  "taint_on_cast": 0.3,
+  "unlock_level": 50
+}

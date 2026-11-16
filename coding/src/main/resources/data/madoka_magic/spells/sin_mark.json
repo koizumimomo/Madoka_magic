@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:sin_mark",
+  "active": false,
+  "name_key": "spell.madoka_magic.sin_mark",
+  "desc_key": "spell.madoka_magic.sin_mark.desc",
+  "icon": "madoka_magic:textures/gui/spells/sin_mark.png",
+  "cooldown": 0,
+  "mana_cost": 0.0,
+  "taint_on_cast": 0.0,
+  "unlock_level": 10
+}

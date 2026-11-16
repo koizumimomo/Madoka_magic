@@ -1,0 +1,17 @@
+{
+  "type": "madoka_magic:honey",
+  "icon": "madoka_magic:textures/gui/spells/honey.png",
+  "cooldown": 7,
+  "mana_cost": 14.0,
+  "taint_on_cast": 0.4,
+  "unlock_level": 10,
+  "parameters": {
+    "range": 12.0,
+    "radius": 3.5,
+    "height": 1.5,
+    "duration_seconds": 8.0,
+    "linger_seconds": 3.0,
+    "slow_per_layer": 0.30,
+    "max_layers": 2
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "providers": [
+    {
+      "type": "space",
+      "advances": {
+        " ": 3
+      }
+    },
+    {
+      "type": "bitmap",
+      "file": "madoka_magic:font/witch_runes.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "ABCDEFGHI",
+        "JKLMNOPQR",
+        "STUVWXYZ-"
+      ]
+    }
+  ]
+}

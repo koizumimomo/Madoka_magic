@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#madoka_magic:has_black_tulip",
+  "features": "madoka_magic:patch_black_tulip",
+  "step": "vegetal_decoration"
+}

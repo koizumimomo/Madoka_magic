@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:creeper",
+    "minecraft:spider",
+    "minecraft:cave_spider",
+    "madoka_magic:butterfly_princess"
+  ]
+}

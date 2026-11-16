@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:altar_ritual",
+  "ingredients": [
+    {
+      "item": "madoka_magic:wish_black_tulip"
+    }
+  ],
+  "result": {
+    "item": "madoka_magic:contract_sacrifice"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "madoka_magic:selfish_eye",
+  "active": false,
+  "name_key": "spell.madoka_magic.selfish_eye",
+  "desc_key": "spell.madoka_magic.selfish_eye.desc",
+  "icon": "madoka_magic:textures/gui/spells/selfish_eye.png",
+  "cooldown": 0,
+  "mana_cost": 0.0,
+  "taint_on_cast": 0.0,
+  "unlock_level": 10,
+  "parameters": {
+    "steal_ratio": 0.05,
+    "retention_ratio": 0.01,
+    "combat_timeout_seconds": 5.0
+  }
+}

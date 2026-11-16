@@ -1,0 +1,15 @@
+{
+  "type": "madoka_magic:injection",
+  "icon": "madoka_magic:textures/gui/spells/injection.png",
+  "cooldown": 6,
+  "mana_cost": 6.0,
+  "taint_on_cast": 0.3,
+  "unlock_level": 10,
+  "parameters": {
+    "range": 8.0,
+    "damage": 3.0,
+    "heal_ratio": 0.5,
+    "honey_heal_bonus": 0.25,
+    "mana_return": 9.0
+  }
+}

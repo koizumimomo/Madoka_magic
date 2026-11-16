@@ -1,0 +1,108 @@
+
+#普通魔女的默认属性。
+[defaults]
+	#默认基础护甲。
+	#Range: 0.0 ~ 30.0
+	armor = 0.0
+	#填 0 沿用 madoka_magic-common.toml 中的 witch.witch_health。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+
+#救济的魔女
+[kriemhild_gretchen]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#武旦的魔女
+[ophelia]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#凋零的魔女
+[wither]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 300.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = 4.0
+
+#蝴蝶的魔女
+[sacrifice]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#索取的魔女
+[take]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#不幸的罪责
+[atonement]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#胡桃夹子的魔女
+[homulilly]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#梳妆的魔女
+[candeloro]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#人鱼的魔女
+[oktavia]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#变形的魔女
+[gluttony]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0
+
+#魔女之夜
+[walpurgisnacht]
+	#填 0 使用默认生命值。
+	#Range: 0.0 ~ 1024.0
+	max_health = 0.0
+	#填 -1 使用默认护甲，填 0 表示没有护甲。
+	#Range: -1.0 ~ 30.0
+	armor = -1.0

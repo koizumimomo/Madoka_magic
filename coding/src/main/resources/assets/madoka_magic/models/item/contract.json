@@ -1,0 +1,26 @@
+{
+  "textures": {
+    "layer0": "madoka_magic:item/contract"
+  },
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "predicate": {
+        "madoka_magic:contract_seal": 1
+      },
+      "model": "madoka_magic:item/contract_sacrifice"
+    },
+    {
+      "predicate": {
+        "madoka_magic:contract_seal": 2
+      },
+      "model": "madoka_magic:item/contract_take"
+    },
+    {
+      "predicate": {
+        "madoka_magic:contract_seal": 3
+      },
+      "model": "madoka_magic:item/contract_atonement"
+    }
+  ]
+}
