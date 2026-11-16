@@ -14,9 +14,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 final class CandeloroVisuals {
-    private static final RenderType LAYER = RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(
-            MadokaMagic.MODID, "textures/particle/candeloro_orbit.png"));
-    private static final int MOTIFS = 3;
+    static final ResourceLocation ORBIT_ATLAS = ResourceLocation.fromNamespaceAndPath(
+            MadokaMagic.MODID, "textures/particle/candeloro_orbit.png");
+    private static final RenderType LAYER = RenderType.entityTranslucentEmissive(ORBIT_ATLAS);
+    static final int MOTIFS = 3;
     private static final int PARTICLES = 6;
     static final RenderType TEA = RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(
             MadokaMagic.MODID, "textures/particle/tea_stain.png"));

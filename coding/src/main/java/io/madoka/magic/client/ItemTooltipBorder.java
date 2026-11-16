@@ -2,6 +2,7 @@ package io.madoka.magic.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.client.renderer.RitualItemParticles;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
@@ -81,6 +82,7 @@ public final class ItemTooltipBorder {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
+        RitualItemParticles.tooltip(graphics, event.getItemStack(), left, top, right, bottom, BACKGROUND_Z + 1);
         blit(graphics, left - 3, top - 3, 0, 0, CORNER_SIZE, CORNER_SIZE);
         blit(graphics, right - 4, top - 3, 8, 0, CORNER_SIZE, CORNER_SIZE);
         blit(graphics, left - 3, bottom - 4, 16, 0, CORNER_SIZE, CORNER_SIZE);

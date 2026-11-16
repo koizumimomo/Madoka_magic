@@ -153,6 +153,13 @@ final class QuintetWitchVisuals {
         star(Vec3.ZERO, radius * 0.68D, 5, time * 0.04D, GOLD, 150);
     }
 
+    void mourningSkullOrbit(double radius, double progress) {
+        int glow = (int) Mth.lerp(progress, 145, 245);
+        ring(Vec3.ZERO, radius, 0.10D, VIOLET, glow);
+        ring(Vec3.ZERO, radius - 0.12D, 0.035D, FOAM, glow * 2 / 3);
+        star(Vec3.ZERO, 0.43D, 4, Math.PI / 4, FOAM, glow);
+    }
+
     private void cutleryWarning(MadokaWitchEntity witch, WitchCast cast, int lane, boolean knife) {
         Vec3 direction = cast.cutleryDirection(lane, knife);
         Vec3 start = cast.cutleryStart(direction);

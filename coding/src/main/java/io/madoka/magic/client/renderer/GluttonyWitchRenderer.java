@@ -19,8 +19,9 @@ import net.minecraft.util.Mth;
 public final class GluttonyWitchRenderer extends MobRenderer<GluttonyWitchEntity, SlimeModel<GluttonyWitchEntity>> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
             MadokaMagic.MODID, "textures/entity/gluttony_witch.png");
-    private static final RenderType MORPH = RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(
-            MadokaMagic.MODID, "textures/particle/gluttony_morph.png"));
+    static final ResourceLocation MORPH_ATLAS = ResourceLocation.fromNamespaceAndPath(
+            MadokaMagic.MODID, "textures/particle/gluttony_morph.png");
+    private static final RenderType MORPH = RenderType.entityTranslucentEmissive(MORPH_ATLAS);
     private static final int MORPH_FRAMES = 36;
 
     public GluttonyWitchRenderer(EntityRendererProvider.Context context) {
@@ -48,13 +49,17 @@ public final class GluttonyWitchRenderer extends MobRenderer<GluttonyWitchEntity
             var shapes = new RitualSprites(pose, buffers, camera, MORPH);
             for (int i = 0; i < 7; i++) {
                 double angle = ticks * 0.035 + i * WitchAura.TURN / 7;
-                int frame = Math.floorMod((int) (ticks / 2.7) + i * 3, MORPH_FRAMES);
+                int frame = morphFrame(ticks, i);
                 double radius = 2.65 + 0.23 * Math.sin(angle * 2);
                 double y = height * (0.48 + 0.20 * Math.sin(angle + i * 0.8));
                 shapes.drawTile(frame, 6, 6, 32, 32, Math.cos(angle) * radius, y, Math.sin(angle) * radius,
                         0.33, 0.33, 0.0, 0xffffff, 0.86);
             }
         }
+    }
+
+    static int morphFrame(double ticks, int index) {
+        return Math.floorMod((int) (ticks / 2.7D) + index * 3, MORPH_FRAMES);
     }
 
     @Override

@@ -40,7 +40,7 @@ public final class MadokaNetwork {
      * <p>消息或实体同步格式变更时递增：客户端/服务端版本不一致时 Forge 会直接拒绝连接，
      * 比"字段错位读出乱数据"安全。</p>
      */
-    private static final String PROTOCOL = "16";
+    private static final String PROTOCOL = "18";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MadokaMagic.MODID, "main"),
@@ -75,8 +75,10 @@ public final class MadokaNetwork {
         CHANNEL.registerMessage(id++, WeaponInput.class, (msg, buffer) -> buffer.writeEnum(msg.input()),
                 buffer -> new WeaponInput(buffer.readEnum(ContractWeaponEvents.Input.class)),
                 WeaponInput::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(id, NightArrival.class, (msg, buffer) -> {}, buffer -> new NightArrival(),
+        CHANNEL.registerMessage(id++, NightArrival.class, (msg, buffer) -> {}, buffer -> new NightArrival(),
                 NightArrival::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id, RitualCraftFx.class, RitualCraftFx::encode, RitualCraftFx::decode,
+                RitualCraftFx::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public record NightArrival() {

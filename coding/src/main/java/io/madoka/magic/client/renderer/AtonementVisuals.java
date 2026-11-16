@@ -19,9 +19,9 @@ final class AtonementVisuals {
     private static final RenderType SPRITES = RenderType.entityTranslucentEmissive(ATLAS);
     static final RenderType CIRCLES = RenderType.entityTranslucentEmissive(
             ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "textures/particle/atonement_circle.png"));
-    private static final int SHARDS = 3;
+    static final int SHARDS = 3;
     private static final int FLOWER = 3;
-    private static final int COLUMNS = 4;
+    static final int COLUMNS = 4;
     private static final double TURN = Math.PI * 2.0D;
 
     private AtonementVisuals() {}

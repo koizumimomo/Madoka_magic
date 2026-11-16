@@ -116,10 +116,14 @@ for (const [index, [name, label, draw]] of weapons.entries()) {
     const texture = join(asset, 'textures/item', name + '.png');
     const model = join(asset, 'models/item', name + '.json');
     writeFileSync(texture, encodePNG(size, size, pixels));
-    writeFileSync(model, JSON.stringify({
-        parent: 'minecraft:item/handheld',
-        textures: { layer0: 'madoka_magic:item/' + name },
-    }, null, 2) + '\n');
+    try {
+        writeFileSync(model, JSON.stringify({
+            parent: 'minecraft:item/handheld',
+            textures: { layer0: 'madoka_magic:item/' + name },
+        }, null, 2) + '\n', { flag: 'wx' });
+    } catch (error) {
+        if (error.code !== 'EEXIST') throw error;
+    }
     previewSprite(pixels, index, label);
 }
 

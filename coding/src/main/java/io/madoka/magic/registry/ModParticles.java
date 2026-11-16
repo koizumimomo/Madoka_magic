@@ -11,6 +11,10 @@ import net.minecraftforge.registries.RegistryObject;
 public final class ModParticles {
     private static final DeferredRegister<ParticleType<?>> TYPES =
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MadokaMagic.MODID);
+    public static final RegistryObject<SimpleParticleType> MOURNING_FOOTPRINT = TYPES.register(
+            "mourning_footprint", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> MOURNING_ROSE = TYPES.register(
+            "mourning_rose", () -> new SimpleParticleType(false));
 
     private ModParticles() {
     }

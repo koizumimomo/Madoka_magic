@@ -3,7 +3,9 @@ package io.madoka.magic.block;
 import io.madoka.magic.data.MagicalGirl;
 import io.madoka.magic.data.MagicalGirlRegistry;
 import io.madoka.magic.item.ContractItem;
+import io.madoka.magic.item.RitualItemAppearance;
 import io.madoka.magic.item.WishMaterialItem;
+import io.madoka.magic.network.RitualCraftFx;
 import io.madoka.magic.registry.ModBlockEntities;
 import io.madoka.magic.ritual.AltarRecipe;
 import io.madoka.magic.ritual.RitualRecipe;
@@ -220,20 +222,6 @@ public class AltarBlockEntity extends BlockEntity {
         NonNullList<ItemStack> remainders = recipe == null || wish
                 ? NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY) : recipe.getRemainingItems(materials);
 
-        // 粒子：材料环绕祭坛，然后汇入中心
-        double cx = pos.getX() + 0.5D;
-        double cy = pos.getY() + 1.0D;
-        double cz = pos.getZ() + 0.5D;
-        for (int tick = 0; tick < 30; tick++) {
-            final int t = tick;
-            serverLevel.sendParticles(ParticleTypes.ENCHANT,
-                    cx + Math.cos(t * 0.6D) * 1.2D, cy + t * 0.05D, cz + Math.sin(t * 0.6D) * 1.2D,
-                    3, 0.1D, 0.1D, 0.1D, 0.02D);
-        }
-        serverLevel.sendParticles(ParticleTypes.END_ROD, cx, cy, cz, 40, 0.4D, 0.4D, 0.4D, 0.05D);
-        serverLevel.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.8F, 1.3F);
-        serverLevel.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.6F, 1.6F);
-
         if (healthCost > 0.0F) {
             player.setHealth(player.getHealth() - healthCost);
         }
@@ -252,8 +240,28 @@ public class AltarBlockEntity extends BlockEntity {
             serverPlayer.displayClientMessage(Component.translatable("message.madoka_magic.contract_created",
                     result.getHoverName()), false);
         }
+        var appearance = RitualItemAppearance.of(result);
         giveResult(serverLevel, player, pos, result);
+        playRitualEffects(serverLevel, pos, appearance);
         return RitualResult.SUCCESS;
+    }
+
+    private static void playRitualEffects(ServerLevel level, BlockPos pos, @Nullable RitualItemAppearance appearance) {
+        if (appearance != null) {
+            RitualCraftFx.send(level, pos, appearance);
+        } else {
+            double x = pos.getX() + 0.5D;
+            double y = pos.getY() + 1.0D;
+            double z = pos.getZ() + 0.5D;
+            for (int i = 0; i < 30; i++) {
+                level.sendParticles(ParticleTypes.ENCHANT,
+                        x + Math.cos(i * 0.6D) * 1.2D, y + i * 0.05D, z + Math.sin(i * 0.6D) * 1.2D,
+                        3, 0.1D, 0.1D, 0.1D, 0.02D);
+            }
+            level.sendParticles(ParticleTypes.END_ROD, x, y, z, 40, 0.4D, 0.4D, 0.4D, 0.05D);
+        }
+        level.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.8F, 1.3F);
+        level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.6F, 1.6F);
     }
 
     private static boolean canCraftContract(ItemStack result, SimpleContainer materials) {

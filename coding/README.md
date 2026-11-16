@@ -122,7 +122,7 @@ Madoka_magic/
 │  └─ mods/                         两个模组 jar 的完整解包
 ├─ docs/                             设计提案 v2.0（当前） + v1.0 备份 + C 盘审计记录
 ├─ run/ / run-data/                  开发客户端与数据生成的运行目录
-└─ build/libs/madoka_magic-0.1.1.jar 构建产物
+└─ build/libs/madoka_magic-1.0.0.jar 构建产物
 ```
 
 ## 7. 常用命令

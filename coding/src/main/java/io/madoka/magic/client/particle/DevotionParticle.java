@@ -1,6 +1,8 @@
 package io.madoka.magic.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import io.madoka.magic.entity.MourningWitchCombat;
+import io.madoka.magic.registry.ModParticles;
 import io.madoka.magic.registry.ModParticles.Devotion;
 import io.madoka.magic.registry.ModParticles.Take;
 import net.minecraft.client.Camera;
@@ -67,6 +69,9 @@ public final class DevotionParticle extends TextureSheetParticle {
         register(event, Take.HONEY.get(), new Style(12, 0.20F, -0.015F, 0.11F, Surface.BILLBOARD), false);
         register(event, Take.SEED.get(), new Style(6, 0.22F), false);
         register(event, Take.ILLUSION.get(), new Style(12, 0.28F, -0.012F, 0.07F, Surface.BILLBOARD), false);
+        register(event, ModParticles.MOURNING_FOOTPRINT.get(),
+                new Style(MourningWitchCombat.FOOTPRINT_WARNING_TICKS, 1.0F, 0, 0, Surface.GROUND), true);
+        register(event, ModParticles.MOURNING_ROSE.get(), new Style(18, 0.82F), false);
     }
 
     private static void register(RegisterParticleProvidersEvent event, SimpleParticleType type, Style style, boolean scaled) {

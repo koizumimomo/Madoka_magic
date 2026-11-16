@@ -33,8 +33,9 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
  */
 @Mod.EventBusSubscriber(modid = MadokaMagic.MODID, value = Dist.CLIENT)
 public class MadokaWitchRenderer extends GeoEntityRenderer<MadokaWitchEntity> {
-    private static final RenderType WITHER_EMBERS = RenderType.entityTranslucentEmissive(
-            ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "textures/particle/wither_ember.png"));
+    static final ResourceLocation WITHER_EMBER_ATLAS = ResourceLocation.fromNamespaceAndPath(
+            MadokaMagic.MODID, "textures/particle/wither_ember.png");
+    private static final RenderType WITHER_EMBERS = RenderType.entityTranslucentEmissive(WITHER_EMBER_ATLAS);
 
     public MadokaWitchRenderer(EntityRendererProvider.Context context) {
         super(context, new MadokaWitchModel());

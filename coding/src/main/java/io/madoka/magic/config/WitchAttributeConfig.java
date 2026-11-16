@@ -54,7 +54,7 @@ public final class WitchAttributeConfig {
             case "sacrifice" -> "蝴蝶的魔女";
             case "take" -> "索取的魔女";
             case "atonement" -> "不幸的罪责";
-            case WitchTypes.WITHER -> "凋零的魔女";
+            case WitchTypes.WITHER -> "悼亡的魔女";
             case WitchTypes.SALVATION -> "救济的魔女";
             case WitchTypes.NUTCRACKER -> "胡桃夹子的魔女";
             case "candeloro" -> "梳妆的魔女";

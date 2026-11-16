@@ -14,6 +14,7 @@ import io.madoka.magic.entity.AtonementMinions;
 import io.madoka.magic.entity.FrameShardEntity;
 import io.madoka.magic.entity.NightGearEntity;
 import io.madoka.magic.entity.MermaidNoteEntity;
+import io.madoka.magic.entity.MourningSkullOrbitEntity;
 import io.madoka.magic.entity.CandeloroCutleryEntity;
 import io.madoka.magic.entity.DessertFamiliarEntity;
 import net.minecraft.world.entity.EntityType;
@@ -98,6 +99,12 @@ public final class ModEntities {
                     .of(MermaidNoteEntity::new, MobCategory.MISC)
                     .sized(0.38F, 0.38F).clientTrackingRange(8).updateInterval(2).noSave().noSummon()
                     .build("madoka_magic:mermaid_note"));
+
+    public static final RegistryObject<EntityType<MourningSkullOrbitEntity>> MOURNING_SKULL_ORBIT =
+            ENTITIES.register("mourning_skull_orbit", () -> EntityType.Builder
+                    .of(MourningSkullOrbitEntity::new, MobCategory.MISC)
+                    .sized(0.6F, 0.6F).clientTrackingRange(10).updateInterval(20).noSave().noSummon()
+                    .build("madoka_magic:mourning_skull_orbit"));
 
     public static final RegistryObject<EntityType<DessertFamiliarEntity>> DESSERT_FAMILIAR =
             ENTITIES.register("dessert_familiar", () -> EntityType.Builder

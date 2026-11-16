@@ -6,6 +6,8 @@ import io.madoka.magic.client.renderer.BlackBeeRenderer;
 import io.madoka.magic.client.renderer.AtonementRenderers;
 import io.madoka.magic.client.renderer.GluttonyWitchRenderer;
 import io.madoka.magic.client.renderer.MadokaWitchRenderer;
+import io.madoka.magic.client.renderer.MagicalGirlAccessories;
+import io.madoka.magic.client.renderer.MourningSkullOrbitRenderer;
 import io.madoka.magic.client.renderer.RainThornRenderer;
 import io.madoka.magic.client.renderer.WitchPortalRenderer;
 import io.madoka.magic.client.renderer.LightArrowRenderer;
@@ -63,6 +65,7 @@ public final class MadokaClient {
     @SubscribeEvent
     public static void onAddLayers(net.minecraftforge.client.event.EntityRenderersEvent.AddLayers event) {
         io.madoka.magic.client.renderer.ContractWeaponRenderer.addLayers(event);
+        MagicalGirlAccessories.addLayers(event);
     }
 
     @SubscribeEvent
@@ -92,6 +95,7 @@ public final class MadokaClient {
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.FRAME_SHARD.get(), AtonementRenderers.Shard::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.NIGHT_GEAR.get(), NightGearRenderer::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.MERMAID_NOTE.get(), MermaidNoteRenderer::new);
+        event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.MOURNING_SKULL_ORBIT.get(), MourningSkullOrbitRenderer::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.DESSERT_FAMILIAR.get(), CandeloroCombatRenderers.Dessert::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.CANDELORO_CUTLERY.get(), CandeloroCombatRenderers.Cutlery::new);
         event.registerEntityRenderer(EntityType.WITHER, WitherWitchRenderer::new);

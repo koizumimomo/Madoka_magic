@@ -64,6 +64,12 @@ public final class MadokaConfig {
     public static final ForgeConfigSpec.DoubleValue WITCH_COCOON_TRIGGER;
     public static final ForgeConfigSpec.IntValue WITCH_COCOON_TICKS;
     public static final ForgeConfigSpec.DoubleValue WITCH_ARENA_RADIUS;
+    public static final ForgeConfigSpec.IntValue MOURNING_SKULL_INTERVAL;
+    public static final ForgeConfigSpec.IntValue MOURNING_BLUE_SKULL_COOLDOWN;
+    public static final ForgeConfigSpec.IntValue MOURNING_PATH_COOLDOWN;
+    public static final ForgeConfigSpec.DoubleValue MOURNING_PATH_DAMAGE;
+    public static final ForgeConfigSpec.IntValue MOURNING_ORBIT_COOLDOWN;
+    public static final ForgeConfigSpec.DoubleValue MOURNING_ORBIT_DAMAGE;
     public static final ForgeConfigSpec.IntValue WITCH_ARENA_COOLDOWN;
     public static final ForgeConfigSpec.IntValue WITCH_ARENA_CHARGE;
     public static final ForgeConfigSpec.IntValue WITCH_ARENA_BEE_STEP;
@@ -276,6 +282,16 @@ public final class MadokaConfig {
         WITCH_RAIN_RADIUS = builder.defineInRange("sorrow_rain_radius", 12.0D, 4.0D, 24.0D);
         WITCH_RAIN_BANK_CAP = builder.defineInRange("sorrow_rain_stored_damage_cap", 24.0D, 0.0D, 200.0D);
         WITCH_RAIN_PULSE_DAMAGE = builder.defineInRange("sorrow_rain_base_pulse_damage", 2.0D, 0.0D, 20.0D);
+        builder.push("mourning");
+        MOURNING_SKULL_INTERVAL = builder.comment("中央头沿用原版射击 AI 的发射间隔（刻）。")
+                .defineInRange("skull_interval_ticks", 52, 20, 200);
+        MOURNING_BLUE_SKULL_COOLDOWN = builder.comment("三颗头共用的蓝色颅骨冷却（刻）。")
+                .defineInRange("blue_skull_cooldown_ticks", 110, 40, 400);
+        MOURNING_PATH_COOLDOWN = builder.defineInRange("flower_path_cooldown_ticks", 170, 60, 1200);
+        MOURNING_PATH_DAMAGE = builder.defineInRange("flower_path_damage", 6.0D, 0.0D, 60.0D);
+        MOURNING_ORBIT_COOLDOWN = builder.defineInRange("skull_orbit_cooldown_ticks", 240, 90, 1200);
+        MOURNING_ORBIT_DAMAGE = builder.defineInRange("skull_orbit_damage", 8.0D, 0.0D, 60.0D);
+        builder.pop();
         builder.push("atonement");
         ATONEMENT_REST = builder.defineInRange("skill_rest_ticks", 100, 30, 600);
         ATONEMENT_SUMMON_WARNING = builder.defineInRange("summon_warning_ticks", 42, 20, 120);
