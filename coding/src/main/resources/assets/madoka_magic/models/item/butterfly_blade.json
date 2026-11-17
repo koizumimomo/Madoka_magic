@@ -1,14 +1,3 @@
 {
-  "loader": "forge:separate_transforms",
-  "base": {
-    "parent": "madoka_magic:item/weapon/butterfly_blade"
-  },
-  "perspectives": {
-    "gui": {
-      "parent": "minecraft:item/generated",
-      "textures": {
-        "layer0": "madoka_magic:item/butterfly_blade"
-      }
-    }
-  }
+  "parent": "madoka_magic:item/weapon/butterfly_blade"
 }
