@@ -1,5 +1,6 @@
 package io.madoka.magic.entity;
 
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.registry.ModEntities;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,6 +21,10 @@ public final class WitchTypes {
     private WitchTypes() {}
 
     public static String bossTheme(Entity entity) {
+        String compat = CataclysmCompat.barrierTheme(entity);
+        if (!compat.isEmpty()) {
+            return compat;
+        }
         if (entity instanceof WitherBoss) {
             return WITHER;
         }

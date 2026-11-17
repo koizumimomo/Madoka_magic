@@ -1,6 +1,7 @@
 package io.madoka.magic.event;
 
 import com.mojang.authlib.GameProfile;
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.config.MadokaConfig;
 import io.madoka.magic.data.MadokaSavedData;
 import io.madoka.magic.data.PlayerMadokaData;
@@ -15,6 +16,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -45,6 +48,9 @@ public class PortalEvents {
     public void onWitchDeath(LivingDeathEvent event) {
         var witch = event.getEntity();
         String theme = WitchTypes.bossTheme(witch);
+        if (theme.isEmpty()) {
+            theme = CataclysmCompat.barrierTheme(witch);
+        }
         if (!(witch.level() instanceof ServerLevel level) || !MadokaDimensions.hasBarrier(theme)
                 || !level.dimension().equals(MadokaDimensions.witchLevel(theme))) {
             return;
@@ -237,6 +243,34 @@ public class PortalEvents {
             MadokaSavedData.get(overworld).setEntrance(player.getUUID(),
                     overworld.dimension().location(), pos);
         }
+    }
+
+    /**
+     * 在固定位置（灾变祭坛/刷怪笼上方）开一道入口门。
+     *
+     * <p>灾变入口不走随机刷新、也不消耗祭品：右键原召唤方块即开门，
+     * 开门前先回收该玩家之前的入口，避免叠门。</p>
+     */
+    public static boolean openFixedEntrance(ServerLevel level, ServerPlayer player, BlockPos pos, String themeId) {
+        if (!MadokaDimensions.hasBarrier(themeId)) {
+            return false;
+        }
+        var saved = MadokaSavedData.get(level);
+        closeEntrance(level.getServer(), saved, player.getUUID(), null);
+        boolean existing = !level.getEntitiesOfClass(WitchPortalEntity.class,
+                new AABB(pos).inflate(4.0D),
+                portal -> portal.isEntrance() && player.getUUID().equals(portal.getOwnerUUID())).isEmpty();
+        if (existing) {
+            return true;
+        }
+        WitchPortalEntity portal = WitchPortalEntity.spawn(level, WitchPortalEntity.KIND_ENTRANCE,
+                themeId, player.getUUID(), pos);
+        if (portal == null) {
+            return false;
+        }
+        saved.setEntrance(player.getUUID(), level.dimension().location(), pos);
+        level.playSound(null, pos, SoundEvents.PORTAL_TRIGGER, SoundSource.BLOCKS, 0.5F, 1.4F);
+        return true;
     }
 
     /** 魔女只存了主人名字：优先在线玩家，离线走 profile cache 解析 UUID。 */

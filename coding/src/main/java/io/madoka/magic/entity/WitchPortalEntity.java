@@ -1,5 +1,6 @@
 package io.madoka.magic.entity;
 
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.config.MadokaConfig;
 import io.madoka.magic.data.MadokaSavedData;
 import io.madoka.magic.dimension.BarrierFloor;
@@ -303,10 +304,17 @@ public class WitchPortalEntity extends Entity {
         BlockPos anchor = encounter.arena();
         BarrierFloor.refreshLegacyArena(dimension, anchor, getThemeId());
         dimension.getChunkAt(anchor);
-        int y = dimension.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, anchor.getX(), anchor.getZ());
+        boolean compat = CataclysmCompat.isBarrierTheme(getThemeId());
+        int surfaceY = dimension.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, anchor.getX(), anchor.getZ());
+        if (compat) {
+            CataclysmCompat.prepareArena(dimension, anchor.offset(0, 0, -16), surfaceY, getThemeId());
+        }
+        int y = compat ? CataclysmCompat.bossSpawnY(dimension, anchor, surfaceY, getThemeId()) : surfaceY;
         BlockPos near = anchor.atY(y);
         Mob boss;
-        if (WitchTypes.WITHER.equals(getThemeId())) {
+        if (compat) {
+            boss = CataclysmCompat.createBoss(dimension, getThemeId());
+        } else if (WitchTypes.WITHER.equals(getThemeId())) {
             boss = EntityType.WITHER.create(dimension);
         } else if (WitchTypes.GLUTTONY.equals(getThemeId())) {
             boss = ModEntities.GLUTTONY_WITCH.get().create(dimension);
@@ -334,7 +342,11 @@ public class WitchPortalEntity extends Entity {
         if (!dimension.addFreshEntity(boss)) {
             return false;
         }
-        WitchFamiliars.spawn(dimension, near, getThemeId(), id);
+        if (compat) {
+            CataclysmCompat.spawnFamiliars(dimension, anchor, y, getThemeId(), id);
+        } else {
+            WitchFamiliars.spawn(dimension, near, getThemeId(), id);
+        }
         return true;
     }
 

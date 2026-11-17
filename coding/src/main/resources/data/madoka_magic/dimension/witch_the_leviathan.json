@@ -1,0 +1,28 @@
+{
+  "type": "madoka_magic:witch_sacrifice",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:stone",
+          "height": 13
+        },
+        {
+          "block": "minecraft:prismarine",
+          "height": 1
+        },
+        {
+          "block": "minecraft:water",
+          "height": 30
+        }
+      ],
+      "biome": "madoka_magic:witch_barrier",
+      "structure_overrides": []
+    }
+  }
+}

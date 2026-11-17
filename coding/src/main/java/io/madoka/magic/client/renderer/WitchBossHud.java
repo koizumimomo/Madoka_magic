@@ -2,6 +2,7 @@ package io.madoka.magic.client.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.dimension.MadokaDimensions;
 import io.madoka.magic.entity.WitchTypes;
 import io.madoka.magic.item.GriefSeedItem;
@@ -25,6 +26,7 @@ public final class WitchBossHud {
     private static final int ORNAMENT_SIZE = 14;
     private static final String NAME_PREFIX = "witch.madoka_magic.";
     private static final String NAME_SUFFIX = ".name";
+    private static final String CATACLYSM_PREFIX = "entity.cataclysm.";
     private static final ResourceLocation RUNE_FONT = ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "witch_runes");
 
     private WitchBossHud() {}
@@ -46,7 +48,8 @@ public final class WitchBossHud {
         int left = center - width / 2;
         int y = event.getY() + 5;
 
-        Component displayName = WitchTypes.WITHER.equals(theme) ? GriefSeedItem.witchName(theme) : title;
+        boolean witchNamed = WitchTypes.WITHER.equals(theme) || CataclysmCompat.isBarrierTheme(theme);
+        Component displayName = witchNamed ? GriefSeedItem.witchName(theme) : title;
         graphics.drawCenteredString(font, displayName, center, event.getY() - 10, 0xfff8f1ff);
         drawBar(graphics, left, y, width, event.getBossEvent().getProgress(), style);
 
@@ -69,6 +72,10 @@ public final class WitchBossHud {
         }
         if (WitchTypes.GLUTTONY_BAR_TITLE.equals(key)) {
             return WitchTypes.GLUTTONY;
+        }
+        if (key.startsWith(CATACLYSM_PREFIX)) {
+            String theme = CataclysmCompat.themeForEntityPath(key.substring(CATACLYSM_PREFIX.length()));
+            return MadokaDimensions.hasBarrier(theme) ? theme : "";
         }
         if (key.length() <= NAME_PREFIX.length() + NAME_SUFFIX.length()
                 || !key.startsWith(NAME_PREFIX) || !key.endsWith(NAME_SUFFIX)) {

@@ -46,5 +46,41 @@
   "walpurgisnacht": {
     "crown": "#f0b8df", "primary": "#ffdec6", "secondary": "#a5a4c7",
     "motif": "stage_light", "accent": "gear", "motion": "parade"
+  },
+  "netherite_monstrosity": {
+    "crown": "#ffb066", "primary": "#c8683c", "secondary": "#3a2f2c",
+    "motif": "shard", "accent": "ember", "motion": "fling", "boss_crest": "shard"
+  },
+  "ignis": {
+    "crown": "#ffdd88", "primary": "#ff7a33", "secondary": "#5c2320",
+    "motif": "ember", "accent": "fleck", "motion": "fling", "boss_crest": "ember"
+  },
+  "ender_guardian": {
+    "crown": "#d6a8ff", "primary": "#8a5bd6", "secondary": "#33284a",
+    "motif": "shard", "accent": "star", "motion": "bind", "boss_crest": "shard"
+  },
+  "the_harbinger": {
+    "crown": "#ff9e9e", "primary": "#b83a3a", "secondary": "#2f2226",
+    "motif": "gear", "accent": "fleck", "motion": "rewind", "boss_crest": "gear"
+  },
+  "the_leviathan": {
+    "crown": "#9ef2ff", "primary": "#3aa9c9", "secondary": "#123a4d",
+    "motif": "drop", "accent": "thorn", "motion": "ripple", "boss_crest": "drop"
+  },
+  "amethyst_crab": {
+    "crown": "#f2b6ff", "primary": "#b45bd6", "secondary": "#42284a",
+    "motif": "shard", "accent": "petal", "motion": "gather", "boss_crest": "shard"
+  },
+  "ancient_remnant": {
+    "crown": "#ffe0a3", "primary": "#d6a24a", "secondary": "#4a3826",
+    "motif": "star", "accent": "fleck", "motion": "parade", "boss_crest": "star"
+  },
+  "maledictus": {
+    "crown": "#bfe8ff", "primary": "#6aa8c9", "secondary": "#24343d",
+    "motif": "thorn", "accent": "shard", "motion": "bind", "boss_crest": "shard"
+  },
+  "scylla": {
+    "crown": "#a9ffd6", "primary": "#38b383", "secondary": "#1d3f38",
+    "motif": "drop", "accent": "thorn", "motion": "ripple", "boss_crest": "drop"
   }
 }

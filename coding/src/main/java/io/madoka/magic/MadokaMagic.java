@@ -1,5 +1,6 @@
 package io.madoka.magic;
 
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.compat.IronsCompat;
 import io.madoka.magic.compat.IronsTaintEvents;
 import io.madoka.magic.config.MadokaConfig;
@@ -87,6 +88,10 @@ public class MadokaMagic {
         // 本模组不装铁魔法也必须能正常加载。
         if (IronsCompat.isPresent()) {
             MinecraftForge.EVENT_BUS.register(new IronsTaintEvents());
+        }
+        // 可选兼容：灾变首领改为专属结界维度，并取消其原生成。
+        if (CataclysmCompat.isPresent()) {
+            MinecraftForge.EVENT_BUS.register(new CataclysmCompat.Events());
         }
     }
 

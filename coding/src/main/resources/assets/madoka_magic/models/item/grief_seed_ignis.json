@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "madoka_magic:item/grief_seed",
+    "layer1": "madoka_magic:item/witch_rune/ignis"
+  }
+}

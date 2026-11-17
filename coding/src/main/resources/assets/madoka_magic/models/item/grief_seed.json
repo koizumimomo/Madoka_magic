@@ -69,6 +69,60 @@
         "madoka_magic:witch_rune": 11
       },
       "model": "madoka_magic:item/grief_seed_gluttony"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 12
+      },
+      "model": "madoka_magic:item/grief_seed_netherite_monstrosity"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 13
+      },
+      "model": "madoka_magic:item/grief_seed_ignis"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 14
+      },
+      "model": "madoka_magic:item/grief_seed_ender_guardian"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 15
+      },
+      "model": "madoka_magic:item/grief_seed_the_harbinger"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 16
+      },
+      "model": "madoka_magic:item/grief_seed_the_leviathan"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 17
+      },
+      "model": "madoka_magic:item/grief_seed_amethyst_crab"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 18
+      },
+      "model": "madoka_magic:item/grief_seed_ancient_remnant"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 19
+      },
+      "model": "madoka_magic:item/grief_seed_maledictus"
+    },
+    {
+      "predicate": {
+        "madoka_magic:witch_rune": 20
+      },
+      "model": "madoka_magic:item/grief_seed_scylla"
     }
   ]
 }

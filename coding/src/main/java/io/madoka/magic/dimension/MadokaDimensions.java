@@ -1,6 +1,7 @@
 package io.madoka.magic.dimension;
 
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.data.MagicalGirl;
 import io.madoka.magic.data.MagicalGirlRegistry;
 import io.madoka.magic.entity.WitchTypes;
@@ -47,13 +48,20 @@ public final class MadokaDimensions {
     }
 
     public static boolean hasBarrier(String themeId) {
-        return BARRIERS.contains(themeId);
+        return BARRIERS.contains(themeId) || CataclysmCompat.isBarrierTheme(themeId) && CataclysmCompat.isPresent();
     }
 
     public static String barrierTheme(ResourceKey<Level> dimension) {
         for (String theme : BARRIERS) {
             if (dimension.equals(witchLevel(theme))) {
                 return theme;
+            }
+        }
+        if (CataclysmCompat.isPresent()) {
+            for (String theme : CataclysmCompat.barrierThemes()) {
+                if (dimension.equals(witchLevel(theme))) {
+                    return theme;
+                }
             }
         }
         return "";

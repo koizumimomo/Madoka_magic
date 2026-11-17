@@ -1,6 +1,7 @@
 package io.madoka.magic.faction;
 
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.data.MadokaSavedData;
 import io.madoka.magic.dimension.MadokaDimensions;
 import io.madoka.magic.entity.GluttonyWitchEntity;
@@ -83,6 +84,12 @@ public final class WitchFamiliars {
         if (barrier.isEmpty()) {
             if (AtonementMinions.isMinion(mob) || mob instanceof DessertFamiliarEntity || mob.getType() == ModEntities.BLACK_BEE.get()
                     || mob.getType() == ModEntities.BUTTERFLY_PRINCESS.get()) {
+                event.setCanceled(true);
+            }
+            return;
+        }
+        if (CataclysmCompat.isBarrierTheme(barrier)) {
+            if (!CataclysmCompat.belongsToBarrier(mob, barrier)) {
                 event.setCanceled(true);
             }
             return;
