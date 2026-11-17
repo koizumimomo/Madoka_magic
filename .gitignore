@@ -15,7 +15,7 @@
 /coding/build/
 /coding/libs/
 /coding/mcmodsrepo/
-/coding/Modå‚è€ƒ/
+/coding/Modå‚è€?
 /coding/run-data/
 /coding/src/generated/resources/.cache/
 *.iml
@@ -30,3 +30,8 @@
 /coding/docs/env-audit/
 /model/references/
 /model/tooltip_borders.png
+
+# ±¾µØ²úÎïÓë¹¤¾ß£¬²»Èë¿â
+/art/
+/build/
+/.pixelfx-tool/
