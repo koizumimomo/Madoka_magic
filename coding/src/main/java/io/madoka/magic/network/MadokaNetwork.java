@@ -40,7 +40,7 @@ public final class MadokaNetwork {
      * <p>消息或实体同步格式变更时递增：客户端/服务端版本不一致时 Forge 会直接拒绝连接，
      * 比"字段错位读出乱数据"安全。</p>
      */
-    private static final String PROTOCOL = "18";
+    private static final String PROTOCOL = "19";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MadokaMagic.MODID, "main"),
@@ -79,6 +79,8 @@ public final class MadokaNetwork {
                 NightArrival::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id, RitualCraftFx.class, RitualCraftFx::encode, RitualCraftFx::decode,
                 RitualCraftFx::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, SpawnWitchPortal.class, SpawnWitchPortal::encode, SpawnWitchPortal::decode,
+                SpawnWitchPortal::handle);
     }
 
     public record NightArrival() {
@@ -440,6 +442,34 @@ public final class MadokaNetwork {
                 ServerPlayer sender = ctx.get().getSender();
                 if (sender != null) {
                     io.madoka.magic.data.PlayerTransformation.beginHalfWitch(sender);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    /** 客户端 → 服务端：测试工具请求在脚下生成所选魔女的结界入口传送门。 */
+    public static class SpawnWitchPortal {
+        private final String themeId;
+
+        public SpawnWitchPortal(String themeId) {
+            this.themeId = themeId;
+        }
+
+        public static void encode(SpawnWitchPortal msg, FriendlyByteBuf buf) {
+            buf.writeUtf(msg.themeId);
+        }
+
+        public static SpawnWitchPortal decode(FriendlyByteBuf buf) {
+            return new SpawnWitchPortal(buf.readUtf());
+        }
+
+        public static void handle(SpawnWitchPortal msg, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(() -> {
+                ServerPlayer sender = ctx.get().getSender();
+                if (sender != null && sender.isCreative()) {
+                    io.madoka.magic.event.PortalEvents.openFixedEntrance(sender.serverLevel(), sender,
+                            sender.blockPosition(), msg.themeId);
                 }
             });
             ctx.get().setPacketHandled(true);

@@ -15,6 +15,7 @@ import io.madoka.magic.spell.SelfishEye;
 import io.madoka.magic.spell.ThornTracker;
 import io.madoka.magic.spell.WitchPlayerSpells;
 import io.madoka.magic.event.PlayerEvents;
+import io.madoka.magic.item.ContractWeapon;
 import io.madoka.magic.util.MadokaMath;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,6 +24,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.UUID;
 
@@ -44,6 +46,7 @@ public final class PlayerTransformation {
             revert(player);
         } else {
             data.setTransformed(true);
+            giveWeapon(player, theme);
             applyAttributes(player);
             player.setHealth(player.getMaxHealth());
             data.setMana(MadokaMath.manaMax(player));
@@ -61,6 +64,7 @@ public final class PlayerTransformation {
     public static void revert(ServerPlayer player) {
         PlayerMadokaData data = PlayerMadokaData.of(player);
         data.setTransformed(false);
+        removeWeapon(player);
         BlossomState.stop(player);
         PromiseState.clear(player);
         PollenTracker.clear(player.getUUID());
@@ -119,6 +123,29 @@ public final class PlayerTransformation {
         PlayerFormState.broadcast(player);
         MadokaNetwork.syncTo(player);
         player.displayClientMessage(Component.translatable("message.madoka_magic.witch_power_inherited"), false);
+    }
+
+    /** 变身时回收旧武器再发放契约武器，避免背包里叠加多把。 */
+    private static void giveWeapon(ServerPlayer player, MagicalGirl theme) {
+        removeWeapon(player);
+        var weapon = ContractWeapon.forTheme(theme.getId());
+        if (weapon == null) {
+            return;
+        }
+        var stack = new ItemStack(io.madoka.magic.registry.ModItems.CONTRACT_WEAPONS.get(weapon).get());
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
+    }
+
+    /** 解除变身时回收背包（含副手）里的契约武器。 */
+    private static void removeWeapon(ServerPlayer player) {
+        var inventory = player.getInventory();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (ContractWeapon.of(inventory.getItem(i)) != null) {
+                inventory.setItem(i, ItemStack.EMPTY);
+            }
+        }
     }
 
     /** Rebuild temporary modifiers on login, respawn and form changes. */

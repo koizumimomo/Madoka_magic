@@ -1,6 +1,9 @@
 package io.madoka.magic.item;
 
-/** The weapon a transformed player can manifest in an empty main hand. */
+import io.madoka.magic.registry.ModItems;
+import net.minecraft.world.item.ItemStack;
+
+/** The weapon a transformed player receives as a real item on transformation. */
 public enum ContractWeapon {
     BUTTERFLY("butterfly_blade", "butterfly_slash", 4.0D, -2.2D, 10),
     BEE("queen_stinger", "bee_sting", 3.0D, -1.7D, 0),
@@ -27,5 +30,18 @@ public enum ContractWeapon {
             case "atonement" -> THORN;
             default -> null;
         };
+    }
+
+    /** 该物品堆是否为某把契约武器。 */
+    public static ContractWeapon of(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        for (ContractWeapon weapon : values()) {
+            if (ModItems.CONTRACT_WEAPONS.get(weapon).get() == stack.getItem()) {
+                return weapon;
+            }
+        }
+        return null;
     }
 }

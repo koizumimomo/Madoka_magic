@@ -105,6 +105,8 @@ public final class ModItems {
             () -> new CreativeTestItem(CreativeTestItem.Action.RELEASE_CONTRACT));
     public static final RegistryObject<Item> TEST_MAX_PURITY = ITEMS.register("test_max_purity",
             () -> new CreativeTestItem(CreativeTestItem.Action.MAX_PURITY));
+    public static final RegistryObject<Item> TEST_WITCH_PORTAL = ITEMS.register("test_witch_portal",
+            () -> new io.madoka.magic.item.WitchPortalTestItem(new Item.Properties().stacksTo(1)));
 
     private ModItems() {
     }

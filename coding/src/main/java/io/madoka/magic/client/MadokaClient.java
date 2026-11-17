@@ -64,7 +64,6 @@ public final class MadokaClient {
     /** 注册渲染器（祭坛悬浮材料、魔女、结界传送门）。 */
     @SubscribeEvent
     public static void onAddLayers(net.minecraftforge.client.event.EntityRenderersEvent.AddLayers event) {
-        io.madoka.magic.client.renderer.ContractWeaponRenderer.addLayers(event);
         MagicalGirlAccessories.addLayers(event);
     }
 
@@ -141,5 +140,10 @@ public final class MadokaClient {
     /** 打开魔女化后的去留选择。 */
     public static void openWitchChoice() {
         Minecraft.getInstance().setScreen(new WitchChoiceScreen());
+    }
+
+    /** 打开结界入口测试工具的魔女选择界面。 */
+    public static void openWitchPortalTest() {
+        Minecraft.getInstance().setScreen(new WitchPortalTestScreen());
     }
 }

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -97,7 +98,8 @@ public final class FamiliarVisibility {
     public static void onFinalizeSpawn(MobSpawnEvent.FinalizeSpawn event) {
         MobSpawnType type = event.getSpawnType();
         if ((type == MobSpawnType.NATURAL || type == MobSpawnType.PATROL || type == MobSpawnType.SPAWNER
-                || type == MobSpawnType.JOCKEY || type == MobSpawnType.REINFORCEMENT || type == MobSpawnType.TRIGGERED)
+                || type == MobSpawnType.JOCKEY || type == MobSpawnType.REINFORCEMENT || type == MobSpawnType.EVENT
+                || type == MobSpawnType.TRIGGERED)
                 && event.getLevel() instanceof ServerLevel level && suppress(level, (Mob) event.getEntity())) {
             event.setSpawnCancelled(true);
         }
@@ -112,8 +114,14 @@ public final class FamiliarVisibility {
         }
     }
 
+    /**
+     * 无契约者附近时抑制刷怪：眷属以及一切敌对生物（原版怪、刷怪笼、巡逻队、突袭等）。
+     *
+     * <p>设计上普通人不该见到怪物；创造模式刷怪蛋、指令等玩家主动行为不受影响。</p>
+     */
     private static boolean suppress(ServerLevel level, Mob mob) {
-        return MadokaConfig.FAMILIARS_HIDE_UNCONTRACTED.get() && Faction.isFamiliar(mob)
+        return MadokaConfig.FAMILIARS_HIDE_UNCONTRACTED.get()
+                && (Faction.isFamiliar(mob) || mob instanceof Enemy)
                 && !hasContractedPlayerNear(level, mob.getX(), mob.getY(), mob.getZ());
     }
 

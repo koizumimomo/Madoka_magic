@@ -62,12 +62,16 @@ public final class ContractWeaponEvents {
     private ContractWeaponEvents() {}
 
     private static ContractWeapon held(ServerPlayer player) {
-        if (!player.isAlive() || player.isSpectator() || !player.getMainHandItem().isEmpty()) {
+        if (!player.isAlive() || player.isSpectator()) {
+            return null;
+        }
+        ContractWeapon held = ContractWeapon.of(player.getMainHandItem());
+        if (held == null) {
             return null;
         }
         var data = PlayerMadokaData.of(player);
         return data.isContracted() && data.isTransformed() && !data.isWitchPath()
-                ? ContractWeapon.forTheme(data.getThemeId()) : null;
+                && held == ContractWeapon.forTheme(data.getThemeId()) ? held : null;
     }
 
     public static void handle(ServerPlayer player, Input input) {
