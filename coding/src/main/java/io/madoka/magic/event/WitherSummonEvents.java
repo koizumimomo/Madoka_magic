@@ -44,7 +44,12 @@ public final class WitherSummonEvents {
                 level.removeBlock(pos, false);
             }
         }
-        WitchPortalEntity.spawn(level, WitchPortalEntity.KIND_ENTRANCE, WitchTypes.WITHER, null, center.below());
+        // 灵魂沙清理后再取地表高度，避免传送门卡进地里
+        BlockPos ground = new BlockPos(center.getX(),
+                level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING,
+                        center.getX(), center.getZ()),
+                center.getZ());
+        WitchPortalEntity.spawn(level, WitchPortalEntity.KIND_ENTRANCE, WitchTypes.WITHER, null, ground);
         level.playSound(null, center, SoundEvents.WITHER_SPAWN, SoundSource.HOSTILE, 0.8F, 1.0F);
     }
 }

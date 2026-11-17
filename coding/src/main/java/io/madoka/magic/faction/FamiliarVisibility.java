@@ -33,7 +33,12 @@ public final class FamiliarVisibility {
     private FamiliarVisibility() {}
 
     public static boolean canWitchTarget(Entity candidate) {
-        return candidate instanceof Player player && PlayerMadokaData.of(player).isEverContracted();
+        if (!(candidate instanceof Player player)) {
+            return false;
+        }
+        PlayerMadokaData data = PlayerMadokaData.of(player);
+        // 取消契约回到普通人后不再视作"可被魔女针对"：不刷怪、看不见眷属
+        return data.isContracted() || data.isWitchPath() || data.isPendingWitchChoice();
     }
 
     /** Used by vanilla target selection before it chooses the nearest candidate. */

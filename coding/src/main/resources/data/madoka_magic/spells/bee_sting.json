@@ -4,7 +4,7 @@
   "name_key": "spell.madoka_magic.bee_sting",
   "desc_key": "spell.madoka_magic.bee_sting.desc",
   "icon": "madoka_magic:textures/gui/spells/bee_sting.png",
-  "cooldown": 8,
+  "cooldown": 1,
   "mana_cost": 15.0,
   "taint_on_cast": 0.4,
   "unlock_level": 10

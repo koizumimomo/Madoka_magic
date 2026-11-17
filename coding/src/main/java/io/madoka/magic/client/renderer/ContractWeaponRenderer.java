@@ -74,10 +74,17 @@ public final class ContractWeaponRenderer {
 
     @SubscribeEvent
     public static void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !waitForRelease) {
+        if (event.phase != TickEvent.Phase.END) {
             return;
         }
         var client = Minecraft.getInstance();
+        // 折页直发斩击：松开右键即复位，与蓄力流程（waitForRelease）无关
+        if (castLatch && !client.options.keyUse.isDown()) {
+            castLatch = false;
+        }
+        if (!waitForRelease) {
+            return;
+        }
         var player = client.player;
         if (useSlot >= 0 && (client.screen != null || client.getOverlay() != null || !client.isWindowActive()
                 || weapon(player) == null || !player.getOffhandItem().isEmpty() || player.getInventory().selected != useSlot)) {

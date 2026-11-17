@@ -23,11 +23,8 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -126,9 +123,6 @@ public final class WitchFamiliars {
             int z = arena.getZ() + (int) Math.round(Math.sin(angle) * 12.0D);
             level.getChunk(x >> 4, z >> 4);
             int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-            if (mob instanceof Guardian) {
-                y = prepareGuardianPool(level, new BlockPos(x, y, z));
-            }
             var pos = new BlockPos(x, y, z);
             mob.moveTo(x + 0.5D, y, z + 0.5D, 0, 0);
             mob.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
@@ -141,14 +135,6 @@ public final class WitchFamiliars {
             mob.setPersistenceRequired();
             level.addFreshEntity(mob);
         }
-    }
-
-    private static int prepareGuardianPool(ServerLevel level, BlockPos surface) {
-        BlockPos center = surface.below(3);
-        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-3, 0, -3), center.offset(3, 2, 3))) {
-            level.setBlock(pos, Blocks.WATER.defaultBlockState(), Block.UPDATE_CLIENTS);
-        }
-        return center.getY();
     }
 
     private static TagKey<EntityType<?>> pool(String theme) {

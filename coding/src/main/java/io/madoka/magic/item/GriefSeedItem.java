@@ -23,7 +23,7 @@ import java.util.List;
  * 悲叹之种（grief_seed）—— 净化污染值，耐久制。
  *
  * <p>耐久上限 24（注册时写死，见 {@code ModItems.GRIEF_SEED}）。
- * 右键使用：消耗耐久 = min(剩余耐久, 当前污染向上取整)，
+ * 右键使用：每次固定消耗 1 点耐久，
  * 每 1 点耐久净化 {@link MadokaConfig#SEED_TAINT_PER_DURABILITY} 点污染；
  * 耐久耗尽物品消失。</p>
  *
@@ -109,8 +109,8 @@ public class GriefSeedItem extends Item {
         if (remaining <= 0) {
             return InteractionResultHolder.pass(stack);
         }
-        // 消耗耐久 = min(剩余耐久, 当前污染向上取整)，每 1 点耐久净化配置值点污染
-        int cost = Math.min(remaining, (int) Math.ceil(current));
+        // 每次右键固定消耗 1 点耐久，净化配置值点污染；污染不足时清空为止
+        int cost = 1;
         float purified = (float) (cost * MadokaConfig.SEED_TAINT_PER_DURABILITY.get());
         float removed = data.removeTaint(purified);
         if (removed <= 0.0F) {

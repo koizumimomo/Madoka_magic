@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -153,6 +154,40 @@ public final class ContractWeaponEvents {
                 use.attackTarget = event.getTarget().getId();
                 use.attackTick = use.level.getGameTime();
             }
+        }
+    }
+
+    /**
+     * 契约武器左键必横扫：原版横扫要求满蓄力、在地面、未疾跑、未暴击，
+     * 条件不满足时（跳劈、疾跑、连点）由这里补一段横扫，效果与原版一致
+     * （1 点范围伤害 + 横扫粒子/音效），命中主目标时不再重复结算。
+     */
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void sweep(AttackEntityEvent event) {
+        if (event.isCanceled() || !(event.getEntity() instanceof ServerPlayer player)
+                || !(event.getTarget() instanceof LivingEntity target) || held(player) == null) {
+            return;
+        }
+        boolean vanillaWillSweep = player.onGround() && !player.isSprinting() && !player.isPassenger()
+                && !player.isFallFlying() && player.fallDistance <= 0.0F
+                && !player.hasEffect(net.minecraft.world.effect.MobEffects.BLINDNESS)
+                && player.getAttackStrengthScale(0.5F) > 0.9F;
+        if (vanillaWillSweep) {
+            return;
+        }
+        boolean swept = false;
+        for (LivingEntity neighbor : player.level().getEntitiesOfClass(LivingEntity.class,
+                player.getBoundingBox().inflate(1.0D, 0.25D, 1.0D),
+                e -> e != player && e != target && e.isAlive() && !e.isSpectator()
+                        && !(e instanceof net.minecraft.world.entity.player.Player other
+                                && (other.isCreative() || other.isSpectator()))
+                        && !player.isAlliedTo(e))) {
+            neighbor.hurt(player.damageSources().playerAttack(player), 1.0F);
+            swept = true;
+        }
+        if (swept) {
+            player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP,
+                    net.minecraft.sounds.SoundSource.PLAYERS, 0.7F, 1.0F);
         }
     }
 
