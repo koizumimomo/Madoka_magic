@@ -199,6 +199,12 @@ final class SpellWheelScreen extends Screen {
     private void release(double x, double y) {
         int selected = selection(x, y);
         if (selected >= 0 && canCast()) {
+            var player = minecraft.player;
+            // 手持折页施放技能时播放挥剑动画
+            if (player != null && io.madoka.magic.item.ContractWeapon.of(player.getMainHandItem())
+                    == io.madoka.magic.item.ContractWeapon.BUTTERFLY) {
+                player.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
+            }
             MadokaNetwork.CHANNEL.sendToServer(new MadokaNetwork.CastSpell(spells.get(selected).id(), hasShiftDown()));
         }
         onClose();

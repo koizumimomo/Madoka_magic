@@ -231,18 +231,33 @@ public class PortalEvents {
 
     /** 在玩家 8–16 格的随机位置找安全地面（高度图）生成入口，并记账。 */
     private static void spawnEntrance(ServerLevel overworld, ServerPlayer player, String themeId) {
-        double angle = overworld.random.nextDouble() * Math.PI * 2.0D;
-        double dist = 8.0D + overworld.random.nextDouble() * 8.0D;
-        int x = Mth.floor(player.getX() + Math.cos(angle) * dist);
-        int z = Mth.floor(player.getZ() + Math.sin(angle) * dist);
-        int y = overworld.getHeight(Heightmap.Types.MOTION_BLOCKING, x, z);
-        BlockPos pos = new BlockPos(x, y, z);
+        BlockPos pos = randomEntrancePos(overworld, player);
         WitchPortalEntity portal = WitchPortalEntity.spawn(overworld, WitchPortalEntity.KIND_ENTRANCE,
                 themeId, player.getUUID(), pos);
         if (portal != null) {
             MadokaSavedData.get(overworld).setEntrance(player.getUUID(),
                     overworld.dimension().location(), pos);
         }
+    }
+
+    /** 玩家 8–16 格外的随机地面位置（测试工具开门也用它，避免开在脚下）。 */
+    private static BlockPos randomEntrancePos(ServerLevel level, ServerPlayer player) {
+        double angle = level.random.nextDouble() * Math.PI * 2.0D;
+        double dist = 8.0D + level.random.nextDouble() * 8.0D;
+        int x = Mth.floor(player.getX() + Math.cos(angle) * dist);
+        int z = Mth.floor(player.getZ() + Math.sin(angle) * dist);
+        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, x, z);
+        return new BlockPos(x, y, z);
+    }
+
+    /**
+     * 测试工具入口：在玩家 8–16 格外的随机地面开门。
+     *
+     * <p>语义同 {@link #openFixedEntrance}（回收旧入口、记账、音效），
+     * 只是位置不再取玩家脚下。</p>
+     */
+    public static boolean openNearbyEntrance(ServerLevel level, ServerPlayer player, String themeId) {
+        return openFixedEntrance(level, player, randomEntrancePos(level, player), themeId);
     }
 
     /**

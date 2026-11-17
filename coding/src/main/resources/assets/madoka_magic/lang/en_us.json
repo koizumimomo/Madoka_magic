@@ -97,6 +97,7 @@
   "screen.madoka_magic.witch_choice": "Witch",
   "screen.madoka_magic.witch_portal_test": "Barrier Entrance Test · Pick a Witch",
   "screen.madoka_magic.witch_portal_test.confirm": "Spawn Entrance Portal",
+  "screen.madoka_magic.witch_portal_test.cancel": "Cancel",
   "screen.madoka_magic.witch_choice.title": "You became a witch",
   "screen.madoka_magic.witch_choice.desc": "Keep your magical girl identity, or give it up?",
   "screen.madoka_magic.witch_choice.keep": "Keep identity",

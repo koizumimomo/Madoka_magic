@@ -24,6 +24,8 @@ import net.minecraftforge.fml.common.Mod;
 public final class ContractWeaponRenderer {
     private static int useSlot = -1;
     private static boolean waitForRelease;
+    /** 折页右键直发斩击的按住去重。 */
+    private static boolean castLatch;
 
     private ContractWeaponRenderer() {}
 
@@ -54,6 +56,15 @@ public final class ContractWeaponRenderer {
         }
         event.setSwingHand(false);
         event.setCanceled(true);
+        if (weapon(player) == ContractWeapon.BUTTERFLY) {
+            // 折页：右键直接施放「斩击」，可空放，不需要蓄力
+            if (!castLatch) {
+                castLatch = true;
+                send(Input.CAST);
+                player.swing(InteractionHand.MAIN_HAND);
+            }
+            return;
+        }
         if (!waitForRelease) {
             useSlot = player.getInventory().selected;
             waitForRelease = true;
@@ -76,6 +87,7 @@ public final class ContractWeaponRenderer {
             }
         }
         if (!client.options.keyUse.isDown()) {
+            castLatch = false;
             if (useSlot >= 0 && client.getConnection() != null) {
                 send(Input.RELEASE);
                 if (weapon(player) != ContractWeapon.THORN) {
@@ -91,6 +103,7 @@ public final class ContractWeaponRenderer {
     public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
         useSlot = -1;
         waitForRelease = false;
+        castLatch = false;
     }
 
     private static void send(Input input) {

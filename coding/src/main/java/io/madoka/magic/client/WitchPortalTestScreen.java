@@ -2,6 +2,7 @@ package io.madoka.magic.client;
 
 import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.dimension.MadokaDimensions;
+import io.madoka.magic.entity.WitchTypes;
 import io.madoka.magic.item.GriefSeedItem;
 import io.madoka.magic.network.MadokaNetwork;
 import net.minecraft.client.gui.GuiGraphics;
@@ -35,7 +36,12 @@ public class WitchPortalTestScreen extends Screen {
     @Override
     protected void init() {
         themes.clear();
-        themes.addAll(MadokaDimensions.BARRIERS);
+        for (String theme : MadokaDimensions.BARRIERS) {
+            // 胡桃夹子的魔女尚未实装，不开放选择
+            if (!WitchTypes.NUTCRACKER.equals(theme)) {
+                themes.add(theme);
+            }
+        }
         themes.addAll(CataclysmCompat.barrierThemes());
 
         int centerX = this.width / 2;
@@ -58,7 +64,11 @@ public class WitchPortalTestScreen extends Screen {
                             }
                             onClose();
                         })
-                .bounds(centerX - 76, TOP + rowCount() * (BUTTON_HEIGHT + 3) + 6, 152, 20)
+                .bounds(centerX - 76, TOP + rowCount() * (BUTTON_HEIGHT + 3) + 6, 74, 20)
+                .build());
+        addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.witch_portal_test.cancel"),
+                        b -> onClose())
+                .bounds(centerX + 2, TOP + rowCount() * (BUTTON_HEIGHT + 3) + 6, 74, 20)
                 .build());
         refresh();
     }

@@ -40,7 +40,7 @@ public final class MadokaNetwork {
      * <p>消息或实体同步格式变更时递增：客户端/服务端版本不一致时 Forge 会直接拒绝连接，
      * 比"字段错位读出乱数据"安全。</p>
      */
-    private static final String PROTOCOL = "19";
+    private static final String PROTOCOL = "20";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MadokaMagic.MODID, "main"),
@@ -448,7 +448,7 @@ public final class MadokaNetwork {
         }
     }
 
-    /** 客户端 → 服务端：测试工具请求在脚下生成所选魔女的结界入口传送门。 */
+    /** 客户端 → 服务端：测试工具请求在附近（8–16 格外）生成所选魔女的结界入口传送门。 */
     public static class SpawnWitchPortal {
         private final String themeId;
 
@@ -468,8 +468,7 @@ public final class MadokaNetwork {
             ctx.get().enqueueWork(() -> {
                 ServerPlayer sender = ctx.get().getSender();
                 if (sender != null && sender.isCreative()) {
-                    io.madoka.magic.event.PortalEvents.openFixedEntrance(sender.serverLevel(), sender,
-                            sender.blockPosition(), msg.themeId);
+                    io.madoka.magic.event.PortalEvents.openNearbyEntrance(sender.serverLevel(), sender, msg.themeId);
                 }
             });
             ctx.get().setPacketHandled(true);

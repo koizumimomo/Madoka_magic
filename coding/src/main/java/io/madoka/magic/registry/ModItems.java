@@ -4,6 +4,7 @@ import io.madoka.magic.MadokaMagic;
 import io.madoka.magic.entity.WitchTypes;
 import io.madoka.magic.item.ContractItem;
 import io.madoka.magic.item.ContractWeapon;
+import io.madoka.magic.item.ContractWeaponItem;
 import io.madoka.magic.item.CreativeTestItem;
 import io.madoka.magic.item.SoulGemItem;
 import io.madoka.magic.item.GriefSeedItem;
@@ -57,7 +58,8 @@ public final class ModItems {
     private static Map<ContractWeapon, RegistryObject<Item>> registerContractWeapons() {
         var weapons = new EnumMap<ContractWeapon, RegistryObject<Item>>(ContractWeapon.class);
         for (ContractWeapon weapon : ContractWeapon.values()) {
-            weapons.put(weapon, ITEMS.register(weapon.id, () -> new Item(new Item.Properties().stacksTo(1))));
+            weapons.put(weapon, ITEMS.register(weapon.id,
+                    () -> new ContractWeaponItem(new Item.Properties().stacksTo(1))));
         }
         return Collections.unmodifiableMap(weapons);
     }
@@ -67,7 +69,7 @@ public final class ModItems {
     public static final RegistryObject<Item> WISH_ERYNGIUM = ITEMS.register("wish_eryngium", WishMaterialItem::new);
 
     public static final Map<String, RegistryObject<Item>> GRIEF_SEEDS = registerVariants("grief_seed_",
-            List.of("sacrifice", "take", "atonement", "kriemhild_gretchen", "homulilly",
+            List.of("sacrifice", "take", "atonement", "homulilly",
                     "candeloro", "oktavia", "ophelia", "walpurgisnacht", "wither", WitchTypes.GLUTTONY,
                     "netherite_monstrosity", "ignis", "ender_guardian", "the_harbinger", "the_leviathan",
                     "amethyst_crab", "ancient_remnant", "maledictus", "scylla"),

@@ -423,7 +423,7 @@ public final class MadokaConfig {
                 .defineInRange("portal_lifetime_ticks", 2400, 200, Integer.MAX_VALUE);
         PORTAL_TRIGGER_RANGE = builder
                 .comment("触碰传送的判定半径（格，在碰撞箱外扩）")
-                .defineInRange("portal_trigger_range", 1.5D, 0.5D, 8.0D);
+                .defineInRange("portal_trigger_range", 0.6D, 0.2D, 8.0D);
         builder.pop();
 
         builder.push("contract_weapons");

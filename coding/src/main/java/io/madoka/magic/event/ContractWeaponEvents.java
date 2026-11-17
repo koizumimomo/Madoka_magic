@@ -30,7 +30,7 @@ import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber(modid = MadokaMagic.MODID)
 public final class ContractWeaponEvents {
-    public enum Input { START, RELEASE, CANCEL }
+    public enum Input { START, RELEASE, CANCEL, CAST }
 
     private static final UUID WEAPON_MODIFIER = UUID.fromString("be0c82ad-e76d-43c3-9fa1-68f965eb6dd9");
     private static final Map<ServerPlayer, Use> USES = new WeakHashMap<>();
@@ -84,6 +84,19 @@ public final class ContractWeaponEvents {
         if (weapon == null || !player.getOffhandItem().isEmpty() || player.isUsingItem()
                 || player.containerMenu != player.inventoryMenu) {
             USES.remove(player);
+            return;
+        }
+        if (input == Input.CAST) {
+            // 折页：右键直接施放第一个技能（可无目标空放），不需要蓄力
+            USES.remove(player);
+            if (weapon.spell == null) {
+                return;
+            }
+            if (!PlayerMadokaData.of(player).hasSpell(weapon.spell)) {
+                player.displayClientMessage(Component.translatable("message.madoka_magic.weapon.skill_locked"), true);
+                return;
+            }
+            SpellCasting.castFromClient(player, weapon.spell, false);
             return;
         }
         if (input == Input.START) {

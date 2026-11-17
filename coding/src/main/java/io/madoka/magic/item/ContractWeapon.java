@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 
 /** The weapon a transformed player receives as a real item on transformation. */
 public enum ContractWeapon {
-    BUTTERFLY("butterfly_blade", "butterfly_slash", 4.0D, -2.2D, 10),
+    BUTTERFLY("butterfly_blade", "butterfly_slash", 4.0D, -2.2D, 0),
     BEE("queen_stinger", "bee_sting", 3.0D, -1.7D, 0),
     THORN("thorn_greatsword", null, 6.0D, -2.8D, 0);
 

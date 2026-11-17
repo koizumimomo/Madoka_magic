@@ -97,6 +97,7 @@
   "screen.madoka_magic.witch_choice": "魔女化",
   "screen.madoka_magic.witch_portal_test": "结界入口测试 · 选择魔女",
   "screen.madoka_magic.witch_portal_test.confirm": "生成入口传送门",
+  "screen.madoka_magic.witch_portal_test.cancel": "取消",
   "screen.madoka_magic.witch_choice.title": "你变成了魔女",
   "screen.madoka_magic.witch_choice.desc": "保留魔法少女的身份，还是放弃它？",
   "screen.madoka_magic.witch_choice.keep": "保留身份",

@@ -1,10 +1,13 @@
 package io.madoka.magic.config;
 
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.data.MadokaSavedData;
 import io.madoka.magic.dimension.MadokaDimensions;
 import io.madoka.magic.entity.WitchTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -12,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = MadokaMagic.MODID)
 public final class WitchAttributeConfig {
@@ -24,7 +28,7 @@ public final class WitchAttributeConfig {
     static {
         var builder = new ForgeConfigSpec.Builder();
         DEFAULTS = profile(builder, "defaults", "普通魔女的默认属性。", 0, 0,
-                "填 0 沿用 madoka_magic-common.toml 中的 witch.witch_health。", "默认基础护甲。");
+                "填 0 按主人灵魂宝石纯度动态生成（0% → 200 血，每 1% +6 血）。", "默认基础护甲。");
         for (String theme : MadokaDimensions.BARRIERS) {
             register(builder, theme);
         }
@@ -78,11 +82,22 @@ public final class WitchAttributeConfig {
         }
         var profile = PROFILES.getOrDefault(theme, DEFAULTS);
         double health = profile.health().get();
-        if (health == 0.0) {
-            double fallback = DEFAULTS.health().get();
-            health = fallback == 0.0 ? MadokaConfig.WITCH_HEALTH.get() : fallback;
-        }
         double armor = profile.armor().get();
+        if (health == 0.0 && armor < 0.0) {
+            // 未配置：按结界主人（进入结界的玩家的）灵魂宝石纯度动态生成。
+            // 0% 纯度 → 200 血 0 甲；每 1% 纯度 → +6 血 +0.08 甲（100% → 800 血 8 甲）。
+            double purity = ownerPurity(event.getLevel(), witch);
+            health = 200.0D + purity * 6.0D;
+            armor = purity * 0.08D;
+        } else {
+            if (health == 0.0) {
+                double fallback = DEFAULTS.health().get();
+                health = fallback == 0.0 ? MadokaConfig.WITCH_HEALTH.get() : fallback;
+            }
+            if (armor < 0.0) {
+                armor = DEFAULTS.armor().get();
+            }
+        }
         float healthFraction = witch.getHealth() / witch.getMaxHealth();
         var maxHealth = witch.getAttribute(Attributes.MAX_HEALTH);
         double targetHealth = Math.max(1.0, Math.min(1024.0, health));
@@ -90,7 +105,30 @@ public final class WitchAttributeConfig {
             maxHealth.setBaseValue(targetHealth);
             witch.setHealth(healthFraction * witch.getMaxHealth());
         }
-        witch.getAttribute(Attributes.ARMOR).setBaseValue(armor < 0.0 ? DEFAULTS.armor().get() : armor);
+        witch.getAttribute(Attributes.ARMOR).setBaseValue(armor);
+    }
+
+    /** 结界主人的灵魂宝石纯度（0–100）；主人不在线/无法解析时按 0 处理。 */
+    private static double ownerPurity(Level level, LivingEntity witch) {
+        UUID owner = null;
+        var state = witch.getPersistentData();
+        if (state.hasUUID(io.madoka.magic.faction.WitchFamiliars.ENCOUNTER_TAG)) {
+            var run = MadokaSavedData.get((ServerLevel) level)
+                    .getEncounter(state.getUUID(io.madoka.magic.faction.WitchFamiliars.ENCOUNTER_TAG));
+            if (run != null) {
+                owner = run.owner();
+            }
+        }
+        if (owner == null && witch instanceof io.madoka.magic.entity.MadokaWitchEntity named) {
+            owner = named.getOwnerId();
+        }
+        if (owner == null) {
+            return 0.0D;
+        }
+        var player = level.getServer().getPlayerList().getPlayer(owner);
+        return player == null ? 0.0D
+                : net.minecraft.util.Mth.clamp(io.madoka.magic.util.MadokaMath.purity(player), 0.0D,
+                        io.madoka.magic.util.MadokaMath.PURITY_MAX);
     }
 
     private record Stats(ForgeConfigSpec.DoubleValue health, ForgeConfigSpec.DoubleValue armor) {}

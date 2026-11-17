@@ -31,6 +31,7 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.ALTAR_ITEM.get());
                         output.accept(ModItems.TEST_RELEASE_CONTRACT.get());
                         output.accept(ModItems.TEST_MAX_PURITY.get());
+                        output.accept(ModItems.TEST_WITCH_PORTAL.get());
                     })
                     .build());
 
