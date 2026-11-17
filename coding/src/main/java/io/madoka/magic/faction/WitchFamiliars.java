@@ -91,6 +91,12 @@ public final class WitchFamiliars {
             }
             return;
         }
+        if (io.madoka.magic.compat.AlexCavesCompat.isBarrierTheme(barrier)) {
+            if (!io.madoka.magic.compat.AlexCavesCompat.belongsToBarrier(mob, barrier)) {
+                event.setCanceled(true);
+            }
+            return;
+        }
         String boss = WitchTypes.bossTheme(mob);
         String familiar = themeOf(mob);
         boolean companion = mob.getType() == ModEntities.HALF_WITCH.get()

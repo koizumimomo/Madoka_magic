@@ -305,6 +305,7 @@ public class WitchPortalEntity extends Entity {
         BarrierFloor.refreshLegacyArena(dimension, anchor, getThemeId());
         dimension.getChunkAt(anchor);
         boolean compat = CataclysmCompat.isBarrierTheme(getThemeId());
+        boolean caves = io.madoka.magic.compat.AlexCavesCompat.isBarrierTheme(getThemeId());
         int surfaceY = dimension.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, anchor.getX(), anchor.getZ());
         if (compat) {
             CataclysmCompat.prepareArena(dimension, anchor.offset(0, 0, -16), surfaceY, getThemeId());
@@ -314,6 +315,8 @@ public class WitchPortalEntity extends Entity {
         Mob boss;
         if (compat) {
             boss = CataclysmCompat.createBoss(dimension, getThemeId());
+        } else if (caves) {
+            boss = io.madoka.magic.compat.AlexCavesCompat.createBoss(dimension, getThemeId());
         } else if (WitchTypes.WITHER.equals(getThemeId())) {
             boss = EntityType.WITHER.create(dimension);
         } else if (WitchTypes.GLUTTONY.equals(getThemeId())) {
@@ -344,6 +347,8 @@ public class WitchPortalEntity extends Entity {
         }
         if (compat) {
             CataclysmCompat.spawnFamiliars(dimension, anchor, y, getThemeId(), id);
+        } else if (caves) {
+            io.madoka.magic.compat.AlexCavesCompat.spawnFamiliars(dimension, anchor, getThemeId(), id);
         } else {
             WitchFamiliars.spawn(dimension, near, getThemeId(), id);
         }

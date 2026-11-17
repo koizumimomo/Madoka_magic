@@ -33,6 +33,10 @@ public final class WitchAttributeConfig {
             register(builder, theme);
         }
         register(builder, WitchTypes.NIGHT);
+        // Alex 的洞穴三位魔女（外部首领本体也吃这份属性）
+        register(builder, "brunhilde", 500.0, 12.0);
+        register(builder, "sieglinde", 400.0, 8.0);
+        register(builder, "annegret", 300.0, 6.0);
         SPEC = builder.build();
     }
 
@@ -40,7 +44,11 @@ public final class WitchAttributeConfig {
 
     private static void register(ForgeConfigSpec.Builder builder, String theme) {
         boolean wither = WitchTypes.WITHER.equals(theme);
-        PROFILES.put(theme, profile(builder, theme, displayName(theme), wither ? 300 : 0, wither ? 4 : -1,
+        register(builder, theme, wither ? 300.0 : 0.0, wither ? 4.0 : -1.0);
+    }
+
+    private static void register(ForgeConfigSpec.Builder builder, String theme, double health, double armor) {
+        PROFILES.put(theme, profile(builder, theme, displayName(theme), health, armor,
                 "填 0 使用默认生命值。", "填 -1 使用默认护甲，填 0 表示没有护甲。"));
     }
 
@@ -66,6 +74,9 @@ public final class WitchAttributeConfig {
             case WitchTypes.OPHELIA -> "武旦的魔女";
             case WitchTypes.GLUTTONY -> "变形的魔女";
             case WitchTypes.NIGHT -> "魔女之夜";
+            case "brunhilde" -> "蛮勇的魔女";
+            case "sieglinde" -> "悔恨的魔女";
+            case "annegret" -> "甘美的魔女";
             default -> theme;
         };
     }

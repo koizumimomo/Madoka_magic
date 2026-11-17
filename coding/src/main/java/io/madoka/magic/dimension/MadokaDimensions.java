@@ -48,7 +48,12 @@ public final class MadokaDimensions {
     }
 
     public static boolean hasBarrier(String themeId) {
-        return BARRIERS.contains(themeId) || CataclysmCompat.isBarrierTheme(themeId) && CataclysmCompat.isPresent();
+        if (BARRIERS.contains(themeId)) {
+            return true;
+        }
+        return CataclysmCompat.isBarrierTheme(themeId) && CataclysmCompat.isPresent()
+                || io.madoka.magic.compat.AlexCavesCompat.isBarrierTheme(themeId)
+                        && io.madoka.magic.compat.AlexCavesCompat.isPresent();
     }
 
     public static String barrierTheme(ResourceKey<Level> dimension) {
@@ -59,6 +64,13 @@ public final class MadokaDimensions {
         }
         if (CataclysmCompat.isPresent()) {
             for (String theme : CataclysmCompat.barrierThemes()) {
+                if (dimension.equals(witchLevel(theme))) {
+                    return theme;
+                }
+            }
+        }
+        if (io.madoka.magic.compat.AlexCavesCompat.isPresent()) {
+            for (String theme : io.madoka.magic.compat.AlexCavesCompat.barrierThemes()) {
                 if (dimension.equals(witchLevel(theme))) {
                     return theme;
                 }

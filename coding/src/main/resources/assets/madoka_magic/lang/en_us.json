@@ -291,5 +291,11 @@
   "witch.madoka_magic.maledictus.name": "The Curse Witch",
   "witch.madoka_magic.maledictus.runes": "MORRIGAN",
   "witch.madoka_magic.scylla.name": "The Siren Witch",
-  "witch.madoka_magic.scylla.runes": "SCYLLA"
+  "witch.madoka_magic.scylla.runes": "SCYLLA",
+  "witch.madoka_magic.brunhilde.name": "The Ferocity Witch",
+  "witch.madoka_magic.brunhilde.runes": "BRUNHILDE",
+  "witch.madoka_magic.sieglinde.name": "The Remorse Witch",
+  "witch.madoka_magic.sieglinde.runes": "SIEGLINDE",
+  "witch.madoka_magic.annegret.name": "The Sweetness Witch",
+  "witch.madoka_magic.annegret.runes": "ANNEGRET"
 }

@@ -82,5 +82,17 @@
   "scylla": {
     "crown": "#a9ffd6", "primary": "#38b383", "secondary": "#1d3f38",
     "motif": "drop", "accent": "thorn", "motion": "ripple", "boss_crest": "drop"
+  },
+  "brunhilde": {
+    "crown": "#ffd27a", "primary": "#e8a33d", "secondary": "#5c3317",
+    "motif": "ember", "accent": "star", "motion": "fling", "boss_crest": "shard"
+  },
+  "sieglinde": {
+    "crown": "#9fd8e8", "primary": "#3f8b96", "secondary": "#152a33",
+    "motif": "shard", "accent": "fleck", "motion": "gather", "boss_crest": "shard"
+  },
+  "annegret": {
+    "crown": "#ffd1e8", "primary": "#f78fb8", "secondary": "#8a4a68",
+    "motif": "drop", "accent": "star", "motion": "ripple", "boss_crest": "drop"
   }
 }

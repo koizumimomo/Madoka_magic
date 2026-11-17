@@ -43,6 +43,7 @@ public class WitchPortalTestScreen extends Screen {
             }
         }
         themes.addAll(CataclysmCompat.barrierThemes());
+        themes.addAll(io.madoka.magic.compat.AlexCavesCompat.barrierThemes());
 
         int centerX = this.width / 2;
         int gridWidth = COLUMNS * BUTTON_WIDTH + 8;

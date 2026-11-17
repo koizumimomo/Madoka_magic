@@ -25,6 +25,10 @@ public final class WitchTypes {
         if (!compat.isEmpty()) {
             return compat;
         }
+        compat = io.madoka.magic.compat.AlexCavesCompat.barrierTheme(entity);
+        if (!compat.isEmpty()) {
+            return compat;
+        }
         if (entity instanceof WitherBoss) {
             return WITHER;
         }
