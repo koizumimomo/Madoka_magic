@@ -16,7 +16,10 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 /**
  * 契约。
@@ -73,6 +76,11 @@ public class ContractItem extends Item {
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(stack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+        ItemLore.contract(stack, tooltip);
     }
 
     @Override

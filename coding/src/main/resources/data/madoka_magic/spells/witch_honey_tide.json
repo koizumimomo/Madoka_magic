@@ -3,7 +3,7 @@
   "active": true,
   "name_key": "spell.madoka_magic.witch_honey_tide",
   "desc_key": "spell.madoka_magic.witch_honey_tide.desc",
-  "icon": "madoka_magic:textures/gui/spells/honey.png",
+  "icon": "madoka_magic:textures/gui/spells/witch_honey_tide.png",
   "cooldown": 12,
   "mana_cost": 17,
   "unlock_level": 25,

@@ -10,11 +10,7 @@
         },
         {
           "block": "minecraft:pink_terracotta",
-          "height": 2
-        },
-        {
-          "block": "minecraft:cake",
-          "height": 1
+          "height": 3
         }
       ],
       "biome": "madoka_magic:witch_barrier",

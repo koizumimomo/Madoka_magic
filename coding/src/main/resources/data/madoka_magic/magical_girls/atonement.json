@@ -10,7 +10,7 @@
   "mana_max": 120,
   "tone": "pressed",
   "damage_dealt": 1.0,
-  "damage_taken": 1.0,
+  "damage_taken": 0.85,
   "taint_rate": 1.0,
   "mana_gain": 1.0,
   "contract_material": "madoka_magic:wish_eryngium",

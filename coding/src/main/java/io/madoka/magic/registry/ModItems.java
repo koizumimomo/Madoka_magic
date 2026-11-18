@@ -84,7 +84,7 @@ public final class ModItems {
         return Collections.unmodifiableMap(variants);
     }
 
-    /** 魔女之吻：进入某位魔女专属维度的入口。 */
+    /** 首次击败对应种类魔女的收藏纪念品。 */
     public static final RegistryObject<Item> WITCH_KISS =
             ITEMS.register("witch_kiss", () -> new io.madoka.magic.item.WitchKissItem(new Item.Properties().stacksTo(16)));
 
@@ -102,6 +102,9 @@ public final class ModItems {
 
     public static final RegistryObject<Item> ALTAR_ITEM = ITEMS.register("altar",
             () -> new BlockItem(ModBlocks.ALTAR.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DISPLAY_RING = ITEMS.register("display_ring",
+            () -> new BlockItem(ModBlocks.DISPLAY_RING.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> TEST_RELEASE_CONTRACT = ITEMS.register("test_release_contract",
             () -> new CreativeTestItem(CreativeTestItem.Action.RELEASE_CONTRACT));

@@ -47,7 +47,8 @@ public final class MadokaAttributes {
     /** 因果值：击杀魔女与眷属获得，影响少量（20%）数值，成神门槛 500。 */
     public static final RegistryObject<Attribute> MAGIC_CAUSALITY = ATTRIBUTES.register(
             "magic_causality",
-            () -> new RangedAttribute("attribute.madoka_magic.magic_causality", 0.0D, 0.0D, 100000.0D).setSyncable(true));
+            () -> new RangedAttribute("attribute.madoka_magic.magic_causality", 0.0D, 0.0D,
+                    io.madoka.magic.util.MadokaMath.CAUSALITY_CAP).setSyncable(true));
 
     /** 魔法强度：变身后所有攻击强度的额外加成。 */
     public static final RegistryObject<Attribute> MAGIC_POWER = ATTRIBUTES.register(

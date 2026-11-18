@@ -40,7 +40,7 @@ public final class MadokaNetwork {
      * <p>消息或实体同步格式变更时递增：客户端/服务端版本不一致时 Forge 会直接拒绝连接，
      * 比"字段错位读出乱数据"安全。</p>
      */
-    private static final String PROTOCOL = "20";
+    private static final String PROTOCOL = "21";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MadokaMagic.MODID, "main"),
@@ -77,10 +77,15 @@ public final class MadokaNetwork {
                 WeaponInput::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, NightArrival.class, (msg, buffer) -> {}, buffer -> new NightArrival(),
                 NightArrival::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(id, RitualCraftFx.class, RitualCraftFx::encode, RitualCraftFx::decode,
+        CHANNEL.registerMessage(id++, RitualCraftFx.class, RitualCraftFx::encode, RitualCraftFx::decode,
                 RitualCraftFx::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, SpawnWitchPortal.class, SpawnWitchPortal::encode, SpawnWitchPortal::decode,
                 SpawnWitchPortal::handle);
+        CHANNEL.registerMessage(id++, ProgressionState.class, ProgressionState::encode, ProgressionState::decode,
+                ProgressionState::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id, ProgressionState.LearnTalent.class, ProgressionState.LearnTalent::encode,
+                ProgressionState.LearnTalent::decode, ProgressionState.LearnTalent::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public record NightArrival() {
@@ -133,7 +138,7 @@ public final class MadokaNetwork {
                 data.getWitchDirection(),
                 data.getWitchDistance(),
                 attributeValue(player, MadokaAttributes.MAGIC_CAUSALITY.get()),
-                attributeValue(player, MadokaAttributes.MAGIC_POWER.get()),
+                MadokaMath.power(player),
                 data.getBlossomPhase().ordinal(),
                 data.getBlossomPhase() == PlayerMadokaData.BlossomPhase.BLOOM
                         ? io.madoka.magic.spell.BlossomState.getDamageMultiplier(data, player.level().getGameTime())
@@ -146,6 +151,7 @@ public final class MadokaNetwork {
                 MadokaMath.progression(player),
                 data.getDefeatedWitches());
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), packet);
+        ProgressionState.send(serverPlayer);
     }
 
     private static double attributeValue(Player player, net.minecraft.world.entity.ai.attributes.Attribute attribute) {

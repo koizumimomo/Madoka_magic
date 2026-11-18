@@ -86,6 +86,7 @@ public class GriefSeedItem extends Item {
             tooltip.add(Component.translatable("item.madoka_magic.grief_seed.player_source", name)
                     .withStyle(ChatFormatting.GRAY));
         }
+        ItemLore.seed(stack, level, tooltip);
     }
 
     public static Component witchName(String witch) {

@@ -75,6 +75,7 @@ public final class SpellCasting {
 
     /** 玩家 → 技能 → 冷却结束的游戏时间（tick；不用墙钟，卡顿/暂停时不会失真）。 */
     private static final Map<UUID, Map<String, Long>> COOLDOWNS = new HashMap<>();
+    private static final Map<UUID, Map<String, Integer>> COOLDOWN_LENGTHS = new HashMap<>();
 
     /**
      * 玩家当前是否按住了 Shift 施法。
@@ -202,7 +203,7 @@ public final class SpellCasting {
             data.spendMana(cost);
         } else {
             // 污染用小数累加（0.3 这类小增量用 int 会被抹成 0）
-            float taint = taintCost(player, def);
+            float taint = def.taintOnCast() * MadokaMath.taintRate(player);
             data.addTaint(taint);
             player.level().playSound(null, player.blockPosition(),
                     SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS, 0.6F, 0.6F);
@@ -222,7 +223,8 @@ public final class SpellCasting {
     }
 
     public static float taintCost(ServerPlayer player, SpellDefinition definition) {
-        return definition.taintOnCast() * MadokaMath.taintRate(player);
+        return definition.taintOnCast() * MadokaMath.taintRate(player)
+                * (float) Math.max(0, 1.0D - io.madoka.magic.data.PassiveTree.bonus(player, "taint"));
     }
 
     public static int effectiveCooldownTicks(ServerPlayer player, SpellDefinition definition) {
@@ -230,7 +232,8 @@ public final class SpellCasting {
         if (base == 0) {
             return 0;
         }
-        double reduction = Math.min(MadokaMath.power(player), MadokaConfig.SPELL_MAX_COOLDOWN_REDUCTION.get());
+        double reduction = Math.min(Math.max(0, MadokaMath.power(player))
+                + io.madoka.magic.data.PassiveTree.bonus(player, "cooldown"), MadokaConfig.SPELL_MAX_COOLDOWN_REDUCTION.get());
         return Math.max(1, (int) Math.round(base * (1.0D - reduction)));
     }
 
@@ -254,11 +257,29 @@ public final class SpellCasting {
     private static void setCooldown(ServerPlayer player, String spellId, int ticks) {
         Map<String, Long> map = COOLDOWNS.computeIfAbsent(player.getUUID(), k -> new HashMap<>());
         map.put(spellId, player.level().getGameTime() + ticks);
+        COOLDOWN_LENGTHS.computeIfAbsent(player.getUUID(), key -> new HashMap<>()).put(spellId, ticks);
+    }
+
+    public static net.minecraft.nbt.CompoundTag cooldownSnapshot(ServerPlayer player) {
+        var snapshot = new net.minecraft.nbt.CompoundTag();
+        var data = PlayerMadokaData.of(player);
+        var theme = data.getTheme();
+        if (theme == null) return snapshot;
+        for (String id : theme.getSkills(data.isWitchPath())) {
+            long remaining = remainingCooldownTicks(player, id);
+            if (remaining <= 0 || !data.hasSpell(id)) continue;
+            var value = new net.minecraft.nbt.CompoundTag();
+            value.putLong("remaining", remaining);
+            value.putInt("total", COOLDOWN_LENGTHS.getOrDefault(player.getUUID(), Map.of()).getOrDefault(id, (int) remaining));
+            snapshot.put(id, value);
+        }
+        return snapshot;
     }
 
     /** 玩家死亡时清空冷却。 */
     public static void clearCooldowns(UUID uuid) {
         COOLDOWNS.remove(uuid);
+        COOLDOWN_LENGTHS.remove(uuid);
         SHIFT_HELD.remove(uuid);
     }
 }

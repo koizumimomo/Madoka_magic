@@ -52,6 +52,10 @@ public final class WitchFamiliars {
     }
 
     public static String themeOf(Mob mob) {
+        String external = io.madoka.magic.compat.AlexCavesCompat.familiarTheme(mob);
+        if (!external.isEmpty()) return external;
+        external = CataclysmCompat.familiarTheme(mob);
+        if (!external.isEmpty()) return external;
         if (mob instanceof DessertFamiliarEntity) {
             return "candeloro";
         }

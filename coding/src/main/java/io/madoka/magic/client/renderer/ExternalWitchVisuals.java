@@ -53,6 +53,11 @@ public final class ExternalWitchVisuals {
         var style = RitualVisualStyle.forTheme(barrier);
         var sprites = new RitualSprites(event.getPoseStack(), event.getMultiBufferSource(), camera);
         WitchAura.crown(sprites, style, 0.0D, height + 0.16D * scale, 0.0D, ticks, 1.2D * scale, 0.94D);
-        WitchAura.orbit(sprites, style, ticks, height);
+        if (style.orbit() == null) {
+            WitchAura.orbit(sprites, style, ticks, height);
+        } else {
+            ExternalWitchParticles.render(event.getPoseStack(), event.getMultiBufferSource(), camera, style,
+                    ticks + (entity.getId() & 31), entity.getBbWidth(), height);
+        }
     }
 }

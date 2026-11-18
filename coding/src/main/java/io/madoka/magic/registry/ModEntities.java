@@ -17,6 +17,8 @@ import io.madoka.magic.entity.MermaidNoteEntity;
 import io.madoka.magic.entity.MourningSkullOrbitEntity;
 import io.madoka.magic.entity.CandeloroCutleryEntity;
 import io.madoka.magic.entity.DessertFamiliarEntity;
+import io.madoka.magic.entity.ChocolateBlockEntity;
+import io.madoka.magic.entity.FrostingChessboardEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -117,6 +119,18 @@ public final class ModEntities {
                     .of(CandeloroCutleryEntity::new, MobCategory.MISC)
                     .sized(0.32F, 0.32F).clientTrackingRange(8).updateInterval(2).noSave().noSummon()
                     .build("madoka_magic:candeloro_cutlery"));
+
+    public static final RegistryObject<EntityType<FrostingChessboardEntity>> FROSTING_CHESSBOARD =
+            ENTITIES.register("frosting_chessboard", () -> EntityType.Builder
+                    .of(FrostingChessboardEntity::new, MobCategory.MISC)
+                    .sized(1.0F, 0.25F).clientTrackingRange(10).updateInterval(20).noSave().noSummon()
+                    .build("madoka_magic:frosting_chessboard"));
+
+    public static final RegistryObject<EntityType<ChocolateBlockEntity>> ANNEGRET_CHOCOLATE =
+            ENTITIES.register("annegret_chocolate", () -> EntityType.Builder
+                    .of(ChocolateBlockEntity::new, MobCategory.MISC)
+                    .sized(1.0F, 1.0F).clientTrackingRange(8).updateInterval(1).noSave().noSummon()
+                    .build("madoka_magic:annegret_chocolate"));
 
     public static final RegistryObject<EntityType<AtonementMinions.MourningZombie>> MOURNING_ZOMBIE =
             ENTITIES.register("mourning_zombie", () -> EntityType.Builder

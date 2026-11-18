@@ -185,6 +185,44 @@ function pixels(width, height, draw, background = null) {
 }
 
 const rendered = Object.entries(icons).map(([name, draw]) => [name, pixels(side,side,draw)]);
+const witchSources = {
+    witch_black_wings: 'butterfly_slash',
+    witch_cocoon_burst: 'tulip_burst',
+    witch_venom: 'bee_sting',
+    witch_honey_tide: 'honey',
+    witch_tear_rain: 'pollen',
+    witch_thorn_echo: 'thorn_embrace',
+};
+const witchRamp = [
+    [0, [18, 12, 25]], [0.24, [43, 24, 57]], [0.48, [92, 47, 119]],
+    [0.71, [154, 82, 192]], [1, [227, 177, 250]],
+];
+
+function violetBlack(pixels) {
+    const output = pixels.slice();
+    for (let i = 0; i < pixels.length; i += 4) {
+        if (!pixels[i + 3]) continue;
+        const luminance = Math.min(1, (pixels[i] * 0.2126 + pixels[i + 1] * 0.7152 + pixels[i + 2] * 0.0722) / 255);
+        const upper = witchRamp.findIndex(([threshold]) => threshold >= luminance);
+        const [lo, dark] = witchRamp[Math.max(0, upper - 1)];
+        const [hi, light] = witchRamp[Math.max(1, upper)];
+        const weight = (luminance - lo) / (hi - lo);
+        for (let channel = 0; channel < 3; channel++) {
+            output[i + channel] = Math.round(dark[channel] + (light[channel] - dark[channel]) * weight);
+        }
+    }
+    return output;
+}
+
+const sourceIcons = new Map(rendered);
+mkdirSync(join(gui, 'spells'), { recursive: true });
+for (const [spell, source] of Object.entries(witchSources)) {
+    const original = sourceIcons.get(source);
+    if (!original) throw new Error('Missing spell icon: ' + source);
+    writeFileSync(join(gui, 'spells', spell + '.png'), encodePNG(side, side, violetBlack(original)));
+}
+if (process.argv[3] === '--witch-only') process.exit(0);
+
 const wheelSize = 192;
 const center = wheelSize/2;
 const ringColors = ['#251c35','#342645','#523b60','#796084','#c5a5c7','#efd9e6'].map(hex);
@@ -202,7 +240,6 @@ const wheel = pixels(wheelSize,wheelSize,p => {
     }
 });
 
-mkdirSync(join(gui,'spells'),{recursive:true});
 for (const [name, rgba] of rendered) writeFileSync(join(gui,'spells',name+'.png'),encodePNG(side,side,rgba));
 writeFileSync(join(gui,'spell_wheel.png'),encodePNG(wheelSize,wheelSize,wheel));
 

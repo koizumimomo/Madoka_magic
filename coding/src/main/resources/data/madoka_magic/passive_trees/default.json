@@ -1,0 +1,615 @@
+{
+  "causality_per_point": 10,
+  "nodes": [
+    {
+      "id": "soul_spark",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.soul_spark",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": 0,
+      "y": 78,
+      "requires": {}
+    },
+    {
+      "id": "quick_cast",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -38,
+      "y": 54,
+      "requires": {
+        "soul_spark": 1
+      }
+    },
+    {
+      "id": "quick_cast_2",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -58.57142857142857,
+      "y": 43.714285714285715,
+      "requires": {
+        "quick_cast": 1
+      }
+    },
+    {
+      "id": "quick_cast_3",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -78.85714285714286,
+      "y": 31.999999999999996,
+      "requires": {
+        "quick_cast_2": 1
+      }
+    },
+    {
+      "id": "quick_cast_4",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -98.78571428571429,
+      "y": 18.5,
+      "requires": {
+        "quick_cast_3": 1
+      }
+    },
+    {
+      "id": "quick_cast_5",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -114.71428571428572,
+      "y": 3.285714285714281,
+      "requires": {
+        "quick_cast_4": 1
+      }
+    },
+    {
+      "id": "quick_cast_6",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -128.64285714285714,
+      "y": -12.785714285714288,
+      "requires": {
+        "quick_cast_5": 1
+      }
+    },
+    {
+      "id": "quick_cast_7",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -139.57142857142858,
+      "y": -30.142857142857146,
+      "requires": {
+        "quick_cast_6": 1
+      }
+    },
+    {
+      "id": "quick_cast_8",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -145.5,
+      "y": -48.5,
+      "requires": {
+        "quick_cast_7": 1
+      }
+    },
+    {
+      "id": "quick_cast_9",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -148.14285714285714,
+      "y": -67.00000000000001,
+      "requires": {
+        "quick_cast_8": 1
+      }
+    },
+    {
+      "id": "quick_cast_10",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -144.28571428571428,
+      "y": -85,
+      "requires": {
+        "quick_cast_9": 1
+      }
+    },
+    {
+      "id": "quick_cast_11",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -136.57142857142856,
+      "y": -102.57142857142858,
+      "requires": {
+        "quick_cast_10": 1
+      }
+    },
+    {
+      "id": "quick_cast_12",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -126.35714285714286,
+      "y": -119.64285714285714,
+      "requires": {
+        "quick_cast_11": 1
+      }
+    },
+    {
+      "id": "quick_cast_13",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -111.57142857142857,
+      "y": -134.42857142857144,
+      "requires": {
+        "quick_cast_12": 1
+      }
+    },
+    {
+      "id": "quick_cast_14",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -94.64285714285712,
+      "y": -147.07142857142858,
+      "requires": {
+        "quick_cast_13": 1
+      }
+    },
+    {
+      "id": "quick_cast_15",
+      "effect": "cooldown",
+      "name_key": "talent.madoka_magic.quick_cast",
+      "max_rank": 1,
+      "per_rank": 0.01,
+      "x": -76,
+      "y": -158,
+      "requires": {
+        "quick_cast_14": 1
+      }
+    },
+    {
+      "id": "spell_power",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": 46,
+      "requires": {
+        "soul_spark": 1
+      }
+    },
+    {
+      "id": "spell_power_2",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": 30.57142857142857,
+      "requires": {
+        "spell_power": 1
+      }
+    },
+    {
+      "id": "spell_power_3",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": 15.14285714285714,
+      "requires": {
+        "spell_power_2": 1
+      }
+    },
+    {
+      "id": "spell_power_4",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -0.2857142857142865,
+      "requires": {
+        "spell_power_3": 1
+      }
+    },
+    {
+      "id": "spell_power_5",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -15.714285714285719,
+      "requires": {
+        "spell_power_4": 1
+      }
+    },
+    {
+      "id": "spell_power_6",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -31.142857142857146,
+      "requires": {
+        "spell_power_5": 1
+      }
+    },
+    {
+      "id": "spell_power_7",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -46.57142857142858,
+      "requires": {
+        "spell_power_6": 1
+      }
+    },
+    {
+      "id": "spell_power_8",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -62,
+      "requires": {
+        "spell_power_7": 1
+      }
+    },
+    {
+      "id": "spell_power_9",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -77.42857142857144,
+      "requires": {
+        "spell_power_8": 1
+      }
+    },
+    {
+      "id": "spell_power_10",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -92.85714285714285,
+      "requires": {
+        "spell_power_9": 1
+      }
+    },
+    {
+      "id": "spell_power_11",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -108.28571428571429,
+      "requires": {
+        "spell_power_10": 1
+      }
+    },
+    {
+      "id": "spell_power_12",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -123.71428571428571,
+      "requires": {
+        "spell_power_11": 1
+      }
+    },
+    {
+      "id": "spell_power_13",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -139.14285714285714,
+      "requires": {
+        "spell_power_12": 1
+      }
+    },
+    {
+      "id": "spell_power_14",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -154.57142857142858,
+      "requires": {
+        "spell_power_13": 1
+      }
+    },
+    {
+      "id": "spell_power_15",
+      "effect": "power",
+      "name_key": "talent.madoka_magic.spell_power",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 0,
+      "y": -170,
+      "requires": {
+        "spell_power_14": 1
+      }
+    },
+    {
+      "id": "clear_soul",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 38,
+      "y": 54,
+      "requires": {
+        "soul_spark": 1
+      }
+    },
+    {
+      "id": "clear_soul_2",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 58.57142857142857,
+      "y": 43.714285714285715,
+      "requires": {
+        "clear_soul": 1
+      }
+    },
+    {
+      "id": "clear_soul_3",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 78.85714285714286,
+      "y": 31.999999999999996,
+      "requires": {
+        "clear_soul_2": 1
+      }
+    },
+    {
+      "id": "clear_soul_4",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 98.78571428571429,
+      "y": 18.5,
+      "requires": {
+        "clear_soul_3": 1
+      }
+    },
+    {
+      "id": "clear_soul_5",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 114.71428571428572,
+      "y": 3.285714285714281,
+      "requires": {
+        "clear_soul_4": 1
+      }
+    },
+    {
+      "id": "clear_soul_6",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 128.64285714285714,
+      "y": -12.785714285714288,
+      "requires": {
+        "clear_soul_5": 1
+      }
+    },
+    {
+      "id": "clear_soul_7",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 139.57142857142858,
+      "y": -30.142857142857146,
+      "requires": {
+        "clear_soul_6": 1
+      }
+    },
+    {
+      "id": "clear_soul_8",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 145.5,
+      "y": -48.5,
+      "requires": {
+        "clear_soul_7": 1
+      }
+    },
+    {
+      "id": "clear_soul_9",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 148.14285714285714,
+      "y": -67.00000000000001,
+      "requires": {
+        "clear_soul_8": 1
+      }
+    },
+    {
+      "id": "clear_soul_10",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 144.28571428571428,
+      "y": -85,
+      "requires": {
+        "clear_soul_9": 1
+      }
+    },
+    {
+      "id": "clear_soul_11",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 136.57142857142856,
+      "y": -102.57142857142858,
+      "requires": {
+        "clear_soul_10": 1
+      }
+    },
+    {
+      "id": "clear_soul_12",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 126.35714285714286,
+      "y": -119.64285714285714,
+      "requires": {
+        "clear_soul_11": 1
+      }
+    },
+    {
+      "id": "clear_soul_13",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 111.57142857142857,
+      "y": -134.42857142857144,
+      "requires": {
+        "clear_soul_12": 1
+      }
+    },
+    {
+      "id": "clear_soul_14",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 94.64285714285712,
+      "y": -147.07142857142858,
+      "requires": {
+        "clear_soul_13": 1
+      }
+    },
+    {
+      "id": "clear_soul_15",
+      "effect": "taint",
+      "name_key": "talent.madoka_magic.clear_soul",
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "x": 76,
+      "y": -158,
+      "requires": {
+        "clear_soul_14": 1
+      }
+    },
+    {
+      "id": "nature_refinement",
+      "effect": "signature_passive",
+      "passive": "signature",
+      "theme": "",
+      "x": -69,
+      "y": -45,
+      "requires": {
+        "quick_cast_5": 1,
+        "spell_power_5": 1
+      },
+      "max_rank": 1,
+      "per_rank": 0.05,
+      "name_key": "talent.madoka_magic.nature_refinement"
+    },
+    {
+      "id": "deep_obsession",
+      "effect": "obsession",
+      "passive": "obsession",
+      "theme": "",
+      "x": 69,
+      "y": -79,
+      "requires": {
+        "spell_power_10": 1,
+        "clear_soul_10": 1
+      },
+      "max_rank": 1,
+      "per_rank": 0.05,
+      "name_key": "talent.madoka_magic.deep_obsession"
+    },
+    {
+      "id": "last_ember",
+      "effect": "ember",
+      "passive": "ember",
+      "theme": "",
+      "x": 0,
+      "y": 100,
+      "requires": {
+        "quick_cast_15": 1,
+        "clear_soul_15": 1
+      },
+      "max_rank": 1,
+      "per_rank": 0.05,
+      "name_key": "talent.madoka_magic.last_ember"
+    },
+    {
+      "id": "causal_resonance",
+      "effect": "passive_mastery",
+      "passive": "all",
+      "x": 0,
+      "y": -215,
+      "requires": {
+        "nature_refinement": 1,
+        "deep_obsession": 1,
+        "last_ember": 1
+      },
+      "max_rank": 1,
+      "per_rank": 0.02,
+      "name_key": "talent.madoka_magic.causal_resonance"
+    }
+  ]
+}

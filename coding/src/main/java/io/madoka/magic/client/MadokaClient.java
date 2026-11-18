@@ -4,6 +4,8 @@ import io.madoka.magic.MadokaMagic;
 import io.madoka.magic.client.particle.DevotionParticle;
 import io.madoka.magic.client.renderer.BlackBeeRenderer;
 import io.madoka.magic.client.renderer.AtonementRenderers;
+import io.madoka.magic.client.renderer.AnnegretMaskLayer;
+import io.madoka.magic.client.renderer.AnnegretRenderers;
 import io.madoka.magic.client.renderer.GluttonyWitchRenderer;
 import io.madoka.magic.client.renderer.MadokaWitchRenderer;
 import io.madoka.magic.client.renderer.MagicalGirlAccessories;
@@ -16,10 +18,14 @@ import io.madoka.magic.client.renderer.MermaidNoteRenderer;
 import io.madoka.magic.client.renderer.CandeloroCombatRenderers;
 import io.madoka.magic.client.renderer.NightGearRenderer;
 import io.madoka.magic.client.renderer.WitherWitchRenderer;
+import io.madoka.magic.client.renderer.TooltipDecorations;
 import io.madoka.magic.item.ContractItem;
 import io.madoka.magic.item.GriefSeedItem;
+import io.madoka.magic.item.WitchKissItem;
 import io.madoka.magic.network.MadokaNetwork;
 import io.madoka.magic.registry.ModItems;
+import io.madoka.magic.registry.ModBlockEntities;
+import io.madoka.magic.registry.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -59,12 +65,15 @@ public final class MadokaClient {
     @SubscribeEvent
     public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
         MadokaWitchRenderer.registerVisualReload(event);
+        event.registerReloadListener(
+                (net.minecraft.server.packs.resources.ResourceManagerReloadListener) TooltipDecorations::reload);
     }
 
     /** 注册渲染器（祭坛悬浮材料、魔女、结界传送门）。 */
     @SubscribeEvent
     public static void onAddLayers(net.minecraftforge.client.event.EntityRenderersEvent.AddLayers event) {
         MagicalGirlAccessories.addLayers(event);
+        AnnegretMaskLayer.register(event);
     }
 
     @SubscribeEvent
@@ -83,6 +92,7 @@ public final class MadokaClient {
         event.registerBlockEntityRenderer(
                 io.madoka.magic.registry.ModBlockEntities.ALTAR.get(),
                 context -> new AltarBlockEntityRenderer());
+        event.registerBlockEntityRenderer(ModBlockEntities.DISPLAY_RING.get(), DisplayRingRenderer::new);
         event.registerEntityRenderer(
                 io.madoka.magic.registry.ModEntities.WITCH.get(),
                 MadokaWitchRenderer::new);
@@ -97,6 +107,8 @@ public final class MadokaClient {
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.MOURNING_SKULL_ORBIT.get(), MourningSkullOrbitRenderer::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.DESSERT_FAMILIAR.get(), CandeloroCombatRenderers.Dessert::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.CANDELORO_CUTLERY.get(), CandeloroCombatRenderers.Cutlery::new);
+        event.registerEntityRenderer(ModEntities.FROSTING_CHESSBOARD.get(), AnnegretRenderers.Chessboard::new);
+        event.registerEntityRenderer(ModEntities.ANNEGRET_CHOCOLATE.get(), AnnegretRenderers.Chocolate::new);
         event.registerEntityRenderer(EntityType.WITHER, WitherWitchRenderer::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.MOURNING_ZOMBIE.get(), AtonementRenderers.MourningZombie::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.MOURNING_SKELETON.get(), AtonementRenderers.MourningSkeleton::new);
@@ -127,6 +139,9 @@ public final class MadokaClient {
             ItemProperties.register(ModItems.GRIEF_SEED.get(),
                     ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "witch_rune"),
                     (stack, level, entity, seed) -> seeds.indexOf(GriefSeedItem.getOwner(stack)) + 1);
+            ItemProperties.register(ModItems.WITCH_KISS.get(),
+                    ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "kiss_seal"),
+                    (stack, level, entity, seed) -> WitchKissItem.modelIndex(stack));
         });
     }
 

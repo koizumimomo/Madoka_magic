@@ -68,21 +68,24 @@ public record SpellPreview(float mana, float taint, int unlock, int cooldownTick
             case "madoka_magic:honey", "madoka_magic:illusion", "madoka_magic:dandelion_drift"
                     -> List.of(line("none"));
             case "madoka_magic:devotion_wing" -> List.of(line("butterfly_mark", ButterflyMark.MAX_LAYERS,
-                    ButterflyMark.DURATION_TICKS / 20, number(ButterflyMark.DAMAGE_BONUS_PER_LAYER * 100)));
+                    ButterflyMark.DURATION_TICKS / 20, number(ButterflyMark.DAMAGE_BONUS_PER_LAYER * 100
+                            * (1 + io.madoka.magic.data.PassiveTree.bonus(player, "devotion_wing")))));
             case "madoka_magic:obsession" -> List.of(line("obsession",
                     number((MadokaPassives.obsessionMultiplier(data, now) - 1.0D) * 100)));
             case "madoka_magic:ember" -> List.of(line("ember", number((MadokaPassives.emberMultiplier(data) - 1.0D) * 100)));
             case "madoka_magic:sin_mark" -> List.of(line("guilt", number(GuiltMark.totalFor(player))));
             case "madoka_magic:selfish_eye" -> {
                 var stats = data.getSelfishEye();
-                yield List.of(line("steal", number(spell.parameter("steal_ratio") * 100),
+                yield List.of(line("steal", number(Math.min(1, spell.parameter("steal_ratio")
+                                * (1 + io.madoka.magic.data.PassiveTree.bonus(player, "selfish_eye"))) * 100),
                                 number(spell.parameter("retention_ratio") * 100), number(spell.parameter("combat_timeout_seconds"))),
                         line("stolen", number(stats.attack()), number(stats.health()), number(stats.mana())));
             }
             default -> List.<Component>of();
         };
         Component alternateCost = (MadokaSpellEffects.TYPE_PREFIX + "wither").equals(spell.type())
-                ? line("taint", number(data.isHalfWitch() ? 0 : MadokaSpellEffects.WITHER_TAINT_COST)) : Component.empty();
+                ? line("taint", number(data.isHalfWitch() ? 0 : MadokaSpellEffects.WITHER_TAINT_COST
+                        * Math.max(0, 1.0D - io.madoka.magic.data.PassiveTree.bonus(player, "taint")))) : Component.empty();
         return new SpellPreview(spell.manaCost(), SpellCasting.taintCost(player, spell), spell.unlockLevel(),
                 SpellCasting.effectiveCooldownTicks(player, spell), details, alternateCost, mechanics(player, spell, outgoing));
     }
@@ -98,7 +101,8 @@ public record SpellPreview(float mana, float taint, int unlock, int cooldownTick
                     line("witch_poison", param(spell, "poison_seconds")));
             case "madoka_magic:tulip_burst" -> List.of(line("radius", distance(MadokaSpellEffects.TULIP_RADIUS)));
             case "madoka_magic:pollen" -> {
-                double oneMark = 1.0D + ButterflyMark.DAMAGE_BONUS_PER_LAYER;
+                double oneMark = 1.0D + ButterflyMark.DAMAGE_BONUS_PER_LAYER
+                        * (1 + io.madoka.magic.data.PassiveTree.bonus(player, "devotion_wing"));
                 yield List.of(line("radius", distance(MadokaSpellEffects.POLLEN_RANGE)), line("pollen_one",
                         amount(player, MadokaSpellEffects.POLLEN_INITIAL_DAMAGE * oneMark, outgoing),
                         amount(player, MadokaSpellEffects.POLLEN_TICK_DAMAGE * oneMark, outgoing)));

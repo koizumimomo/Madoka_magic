@@ -81,7 +81,17 @@ public final class ButterflyMark {
 
     /** 标记带来的伤害加成倍率（1.0 = 无加成）。 */
     public static float getDamageMultiplier(LivingEntity target, long gameTime) {
-        return 1.0F + getLayers(target, gameTime) * DAMAGE_BONUS_PER_LAYER;
+        double bonus = 0;
+        String casterId = target.getPersistentData().getCompound(KEY).getString("caster");
+        if (target.level() instanceof net.minecraft.server.level.ServerLevel level && !casterId.isEmpty()) {
+            try {
+                var caster = level.getServer().getPlayerList().getPlayer(UUID.fromString(casterId));
+                if (caster != null) bonus = io.madoka.magic.data.PassiveTree.bonus(caster, "devotion_wing");
+            } catch (IllegalArgumentException ignored) {
+                // Older saved marks may have an invalid source UUID.
+            }
+        }
+        return 1.0F + getLayers(target, gameTime) * DAMAGE_BONUS_PER_LAYER * (float) (1 + bonus);
     }
 
     /** 清空标记（目标死亡或被重置时）。 */

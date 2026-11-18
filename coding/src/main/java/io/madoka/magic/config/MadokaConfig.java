@@ -41,6 +41,8 @@ public final class MadokaConfig {
     public static final ForgeConfigSpec.IntValue FAMILIAR_KILLS_PER_PURITY;
     /** 击杀普通怪物获得的因果值。 */
     public static final ForgeConfigSpec.DoubleValue CAUSALITY_PER_MOB;
+    public static final ForgeConfigSpec.DoubleValue CAUSALITY_GAIN_MULTIPLIER;
+    public static final ForgeConfigSpec.DoubleValue SLIME_CAUSALITY_MULTIPLIER;
     /** 击杀魔女获得的灵魂宝石纯度（%）。 */
     public static final ForgeConfigSpec.DoubleValue PURITY_PER_WITCH;
     /** 每秒回复的魔力值。 */
@@ -157,6 +159,12 @@ public final class MadokaConfig {
     public static final ForgeConfigSpec.IntValue CANDELORO_TEA_DURATION;
     public static final ForgeConfigSpec.IntValue CANDELORO_TEA_INTERVAL;
     public static final ForgeConfigSpec.DoubleValue CANDELORO_TEA_DAMAGE;
+    public static final ForgeConfigSpec.IntValue ANNEGRET_CHESS_REST;
+    public static final ForgeConfigSpec.DoubleValue ANNEGRET_CHESS_DAMAGE;
+    public static final ForgeConfigSpec.DoubleValue ANNEGRET_CHOCOLATE_HEALTH;
+    public static final ForgeConfigSpec.DoubleValue ANNEGRET_CHOCOLATE_RADIUS;
+    public static final ForgeConfigSpec.DoubleValue ANNEGRET_CHOCOLATE_DAMAGE;
+    public static final ForgeConfigSpec.DoubleValue ANNEGRET_CHOCOLATE_HEAL;
     public static final ForgeConfigSpec.IntValue NIGHT_SPAWN_INTERVAL;
     public static final ForgeConfigSpec.IntValue NIGHT_ATTACK_REST;
     public static final ForgeConfigSpec.IntValue NIGHT_GEAR_COUNT;
@@ -230,6 +238,10 @@ public final class MadokaConfig {
         CAUSALITY_PER_MOB = builder
                 .comment("击杀普通怪物获得的因果值")
                 .defineInRange("causality_per_mob", 1.0D, 0.0D, 1000.0D);
+        CAUSALITY_GAIN_MULTIPLIER = builder.comment("普通使魔的因果获取倍率。默认普通击杀获得 0.25 因果，每 40 只约 1 技能点。")
+                .defineInRange("causality_gain_multiplier", 0.25D, 0.0D, 10.0D);
+        SLIME_CAUSALITY_MULTIPLIER = builder.comment("中大型史莱姆额外乘此倍率，最小型史莱姆不提供因果，避免分裂刷点。")
+                .defineInRange("slime_causality_multiplier", 0.25D, 0.0D, 1.0D);
         PURITY_PER_WITCH = builder
                 .comment("击杀魔女获得的灵魂宝石纯度（%）")
                 .defineInRange("purity_per_witch", 5.0D, 0.0D, 100.0D);
@@ -375,6 +387,15 @@ public final class MadokaConfig {
         CANDELORO_TEA_DURATION = builder.defineInRange("tea_duration_ticks", 100, 20, 300);
         CANDELORO_TEA_INTERVAL = builder.defineInRange("tea_pulse_ticks", 20, 10, 100);
         CANDELORO_TEA_DAMAGE = builder.defineInRange("tea_pulse_damage", 3.0D, 1.0D, 40.0D);
+        builder.pop();
+        builder.push("annegret");
+        ANNEGRET_CHESS_REST = builder.defineInRange("chessboard_rest_ticks", 165, 40, 1200);
+        ANNEGRET_CHESS_DAMAGE = builder.defineInRange("chessboard_damage", 7.0D, 0.0D, 60.0D);
+        ANNEGRET_CHOCOLATE_HEALTH = builder.defineInRange("chocolate_health", 10.0D, 1.0D, 100.0D);
+        ANNEGRET_CHOCOLATE_RADIUS = builder.defineInRange("chocolate_blast_radius", 3.0D, 1.0D, 6.0D);
+        ANNEGRET_CHOCOLATE_DAMAGE = builder.defineInRange("chocolate_blast_damage", 9.0D, 0.0D, 60.0D);
+        ANNEGRET_CHOCOLATE_HEAL = builder.comment("Fraction of maximum health restored by eating the chocolate.")
+                .defineInRange("chocolate_heal_fraction", 0.03D, 0.0D, 1.0D);
         builder.pop();
         builder.push("walpurgisnacht");
         NIGHT_SPAWN_INTERVAL = builder.comment("主世界自然登场间隔（游戏刻）。设为 0 可关闭自然登场。")

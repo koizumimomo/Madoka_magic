@@ -3,7 +3,7 @@
   "active": true,
   "name_key": "spell.madoka_magic.witch_thorn_echo",
   "desc_key": "spell.madoka_magic.witch_thorn_echo.desc",
-  "icon": "madoka_magic:textures/gui/spells/thorn_embrace.png",
+  "icon": "madoka_magic:textures/gui/spells/witch_thorn_echo.png",
   "cooldown": 12,
   "mana_cost": 16,
   "unlock_level": 25,

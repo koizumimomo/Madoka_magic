@@ -69,6 +69,8 @@ public class PlayerMadokaData {
     private float witchDirection = Float.NaN;
     private float witchDistance = -1.0F;
     private final Set<String> unlockedSpells = new LinkedHashSet<>();
+    private int earnedTalentPoints;
+    private final java.util.Map<String, Integer> talentRanks = new java.util.LinkedHashMap<>();
     private final Set<String> defeatedWitches = new LinkedHashSet<>();
     private final List<ItemStack> pendingWitchRewards = new ArrayList<>();
 
@@ -181,6 +183,10 @@ public class PlayerMadokaData {
     /** 序列化成 NBT（复制数据用，例如死亡重生）。 */
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
+        tag.putInt("earnedTalentPoints", earnedTalentPoints);
+        CompoundTag talents = new CompoundTag();
+        talentRanks.forEach(talents::putInt);
+        tag.put("talents", talents);
         if (!pendingWitchRewards.isEmpty()) {
             var rewards = new ListTag();
             pendingWitchRewards.forEach(stack -> rewards.add(stack.save(new CompoundTag())));
@@ -240,6 +246,13 @@ public class PlayerMadokaData {
     }
 
     public void load(CompoundTag tag) {
+        earnedTalentPoints = Math.max(0, Math.min(1_000_000, tag.getInt("earnedTalentPoints")));
+        talentRanks.clear();
+        CompoundTag talents = tag.getCompound("talents");
+        for (String id : talents.getAllKeys()) {
+            int rank = Math.max(0, Math.min(100, talents.getInt(id)));
+            if (rank > 0) talentRanks.put(id, rank);
+        }
         pendingWitchRewards.clear();
         var rewards = tag.getList("witchRewards", Tag.TAG_COMPOUND);
         for (int i = 0; i < rewards.size(); i++) {
@@ -302,6 +315,28 @@ public class PlayerMadokaData {
         }
     }
 
+    public boolean awardTalentPoints(int total) {
+        if (total <= earnedTalentPoints) return false;
+        earnedTalentPoints = total;
+        return true;
+    }
+
+    public int getTalentPoints() {
+        return Math.max(0, earnedTalentPoints - talentRanks.values().stream().mapToInt(Integer::intValue).sum());
+    }
+
+    public int getEarnedTalentPoints() {
+        return earnedTalentPoints;
+    }
+
+    public int getTalentRank(String id) {
+        return talentRanks.getOrDefault(id, 0);
+    }
+
+    public void learnTalent(String id) {
+        if (getTalentPoints() > 0) talentRanks.merge(id, 1, Integer::sum);
+    }
+
     // ---------------------------------------------------------------- 污染值
 
     public float getTaint() {
@@ -313,6 +348,7 @@ public class PlayerMadokaData {
         if (amount <= 0.0F || witchPath || isHalfWitch()) {
             return 0.0F;
         }
+        amount *= (float) Math.max(0, 1.0D - PassiveTree.bonus(this, "taint"));
         float before = taint;
         taint = Math.min(TAINT_MAX, taint + amount);
         return taint - before;

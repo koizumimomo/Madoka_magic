@@ -82,7 +82,8 @@ public final class MadokaMath {
 
     /** 魔法强度（0.15 = +15%）。 */
     public static double power(LivingEntity entity) {
-        return attribute(entity, MadokaAttributes.MAGIC_POWER.get());
+        return attribute(entity, MadokaAttributes.MAGIC_POWER.get())
+                + (entity instanceof Player player ? io.madoka.magic.data.PassiveTree.bonus(player, "power") : 0);
     }
 
     /** 等级：纯度百分比直接向下取整（纯度本身就是 0–100 的百分比）。 */

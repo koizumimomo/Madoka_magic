@@ -248,7 +248,7 @@ public class PlayerEvents {
                 PlayerTransformation.inheritWitchPower(killer, witch);
             }
         } else {
-            // 使魔/普通怪：每杀满 FAMILIAR_KILLS_PER_PURITY 只，纯度 +1%；因果照常 +CAUSALITY_PER_MOB
+            // Pure progression counts kills; causality additionally applies the configured gain and slime multipliers.
             int kills = data.getFamiliarKillCount() + 1;
             if (kills >= MadokaConfig.FAMILIAR_KILLS_PER_PURITY.get()) {
                 kills = 0;
@@ -257,7 +257,11 @@ public class PlayerEvents {
             data.setFamiliarKillCount(kills);
             var causalityAttr = killer.getAttribute(MadokaAttributes.MAGIC_CAUSALITY.get());
             if (causalityAttr != null) {
-                causalityAttr.setBaseValue(causalityAttr.getBaseValue() + MadokaConfig.CAUSALITY_PER_MOB.get());
+                double gain = MadokaConfig.CAUSALITY_PER_MOB.get() * MadokaConfig.CAUSALITY_GAIN_MULTIPLIER.get();
+                if (dead instanceof net.minecraft.world.entity.monster.Slime slime) {
+                    gain *= slime.getSize() <= 1 ? 0 : MadokaConfig.SLIME_CAUSALITY_MULTIPLIER.get();
+                }
+                causalityAttr.setBaseValue(Math.min(MadokaMath.CAUSALITY_CAP, causalityAttr.getBaseValue() + gain));
             }
         }
 

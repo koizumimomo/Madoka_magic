@@ -204,6 +204,7 @@ public final class ClientMadokaState {
 
     /** 退出世界/换服务器时清空，避免旧状态残留到下一次登录。 */
     public static void reset() {
+        ClientProgression.reset();
         SkillDetails.reset();
         taint = 0.0F;
         level = 1;

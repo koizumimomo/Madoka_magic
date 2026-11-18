@@ -3,7 +3,7 @@
   "active": true,
   "name_key": "spell.madoka_magic.witch_black_wings",
   "desc_key": "spell.madoka_magic.witch_black_wings.desc",
-  "icon": "madoka_magic:textures/gui/spells/butterfly_slash.png",
+  "icon": "madoka_magic:textures/gui/spells/witch_black_wings.png",
   "cooldown": 5,
   "mana_cost": 10,
   "unlock_level": 10,

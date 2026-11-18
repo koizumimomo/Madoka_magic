@@ -11,8 +11,9 @@ public record RitualItemAppearance(String theme, boolean witch) {
         if (stack.isEmpty()) {
             return null;
         }
-        boolean witch = stack.getItem() instanceof GriefSeedItem;
-        String theme = witch ? GriefSeedItem.getOwner(stack)
+        boolean witch = stack.getItem() instanceof GriefSeedItem || stack.getItem() instanceof WitchKissItem;
+        String theme = stack.getItem() instanceof WitchKissItem ? WitchKissItem.getThemeId(stack)
+                : witch ? GriefSeedItem.getOwner(stack)
                 : stack.getItem() instanceof ContractItem ? ContractItem.getThemeId(stack) : "";
         return theme.isEmpty() ? null : new RitualItemAppearance(theme, witch);
     }

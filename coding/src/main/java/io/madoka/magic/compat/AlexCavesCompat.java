@@ -9,10 +9,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -26,8 +28,7 @@ import java.util.UUID;
  *   <li>{@code licowitch} 甘草女巫 → <b>安娜格蕾特</b>（甘美的魔女）</li>
  * </ul>
  *
- * <p>入口与凋零一致：首领在非结界维度自然生成时被拦截，
- * 原地生成对应的结界入口传送门（见 {@code AlexCavesSpawnEvents}）。</p>
+ * <p>首领本体限于对应结界，洞穴中的入口由 {@code AlexCavesSpawnEvents} 按玩家位置生成。</p>
  */
 public final class AlexCavesCompat {
 
@@ -55,7 +56,8 @@ public final class AlexCavesCompat {
                     new Familiar("gammaroach", 1)),
             "annegret", List.of(new Familiar("gummy_bear", 1), new Familiar("candicorn", 1),
                     new Familiar("gingerbread_man", 2), new Familiar("caramel_cube", 2),
-                    new Familiar("gumbeeper", 1), new Familiar("sweetish_fish", 1)));
+                    new Familiar("gumbeeper", 1), new Familiar("sweetish_fish", 1),
+                    new Familiar("caniac", 0)));
 
     private AlexCavesCompat() {
     }
@@ -64,13 +66,25 @@ public final class AlexCavesCompat {
         return net.minecraftforge.fml.ModList.get().isLoaded(MODID);
     }
 
+    public static Optional<Block> block(String path) {
+        return BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath(MODID, path));
+    }
+
+    public static Optional<EntityType<?>> licowitchType() {
+        return BuiltInRegistries.ENTITY_TYPE.getOptional(ResourceLocation.fromNamespaceAndPath(MODID, "licowitch"));
+    }
+
     public static boolean isBarrierTheme(String theme) {
         return theme != null && BARRIER_BOSSES.containsKey(theme);
     }
 
     /** 已安装洞穴模组时可用作结界入口的主题；未安装返回空表。 */
     public static List<String> barrierThemes() {
-        return isPresent() ? List.copyOf(BARRIER_BOSSES.keySet()) : List.of();
+        return isPresent() ? knownBarrierThemes() : List.of();
+    }
+
+    public static List<String> knownBarrierThemes() {
+        return List.copyOf(BARRIER_BOSSES.keySet());
     }
 
     /** 该实体对应的结界主题；不是洞穴首领返回空串。 */
@@ -108,7 +122,19 @@ public final class AlexCavesCompat {
         }
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         return id != null && MODID.equals(id.getNamespace())
-                && theme.equals(themeForEntityPath(id.getPath()));
+                && (theme.equals(themeForEntityPath(id.getPath())) || familiarMatches(theme, id.getPath()));
+    }
+
+    private static boolean familiarMatches(String theme, String path) {
+        return FAMILIARS.getOrDefault(theme, List.of()).stream().anyMatch(familiar -> familiar.entityPath().equals(path));
+    }
+
+    public static String familiarTheme(Entity entity) {
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        if (!MODID.equals(id.getNamespace())) return "";
+        String barrier = io.madoka.magic.dimension.MadokaDimensions.barrierTheme(entity.level().dimension());
+        if (familiarMatches(barrier, id.getPath())) return barrier;
+        return FAMILIARS.keySet().stream().sorted().filter(theme -> familiarMatches(theme, id.getPath())).findFirst().orElse("");
     }
 
     /**

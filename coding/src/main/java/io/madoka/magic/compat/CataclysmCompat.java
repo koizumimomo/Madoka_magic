@@ -127,7 +127,11 @@ public final class CataclysmCompat {
 
     /** 已安装灾变时可用作结界入口的主题；未安装返回空表。 */
     public static List<String> barrierThemes() {
-        return isPresent() ? List.copyOf(BARRIER_BOSSES.keySet()) : List.of();
+        return isPresent() ? knownBarrierThemes() : List.of();
+    }
+
+    public static List<String> knownBarrierThemes() {
+        return List.copyOf(BARRIER_BOSSES.keySet());
     }
 
     /** 该实体对应的结界主题；不是灾变首领返回空串。 */
@@ -142,6 +146,14 @@ public final class CataclysmCompat {
     /** 实体注册名（不含命名空间）→ 主题；给血条识别 {@code entity.cataclysm.*} 用。 */
     public static String themeForEntityPath(String path) {
         return path == null ? "" : ENTITY_THEMES.getOrDefault(path, "");
+    }
+
+    public static String familiarTheme(Entity entity) {
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        if (!MODID.equals(id.getNamespace())) return "";
+        return FAMILIARS.entrySet().stream().filter(entry -> entry.getValue().stream()
+                        .anyMatch(familiar -> familiar.entityPath().equals(id.getPath())))
+                .map(Map.Entry::getKey).findFirst().orElse("");
     }
 
     /** 在指定维度实例化对应首领；灾变缺失或主题未知时返回 null。 */

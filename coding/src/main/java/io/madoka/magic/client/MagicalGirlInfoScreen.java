@@ -76,13 +76,16 @@ public final class MagicalGirlInfoScreen extends Screen {
         right = left + panelWidth;
         bottom = top + panelHeight;
         divider = left + panelWidth * 2 / 5;
-        int buttonWidth = (panelWidth - 2 * PADDING - 8) / 3;
+        int buttonWidth = (panelWidth - 2 * PADDING - 12) / 4;
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.active"),
                         button -> minecraft.setScreen(new MagicalGirlSkillsScreen(this, true)))
                 .bounds(left + PADDING, bottom - 27, buttonWidth, 18).build());
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.passive"),
                         button -> minecraft.setScreen(new MagicalGirlSkillsScreen(this, false)))
                 .bounds(left + PADDING + buttonWidth + 4, bottom - 27, buttonWidth, 18).build());
+        addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.talents.title"),
+                        button -> minecraft.setScreen(new PassiveTreeScreen(this)))
+                .bounds(left + PADDING + (buttonWidth + 4) * 2, bottom - 27, buttonWidth, 18).build());
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.back"), button -> onClose())
                 .bounds(right - PADDING - buttonWidth, bottom - 27, buttonWidth, 18).build());
     }

@@ -69,6 +69,9 @@ public class MadokaMagic {
 
         // 技能效果实现（技能元数据在 data/madoka_magic/spells/*.json）
         io.madoka.magic.spell.MadokaSpellEffects.bootstrap();
+        io.madoka.magic.data.PassiveTree.bootstrap();
+        MinecraftForge.EVENT_BUS.addListener((net.minecraftforge.event.AddReloadListenerEvent event) ->
+                event.addListener(new io.madoka.magic.data.PassiveTree.Loader()));
 
         // 网络
         MadokaNetwork.register();

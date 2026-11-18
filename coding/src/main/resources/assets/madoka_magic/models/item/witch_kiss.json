@@ -1,6 +1,146 @@
 {
-    "textures":  {
-                     "layer0":  "madoka_magic:item/witch_kiss"
-                 },
-    "parent":  "minecraft:item/generated"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "madoka_magic:item/witch_kiss"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 1
+      },
+      "model": "madoka_magic:item/witch_kiss/amethyst_crab"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 2
+      },
+      "model": "madoka_magic:item/witch_kiss/ancient_remnant"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 3
+      },
+      "model": "madoka_magic:item/witch_kiss/annegret"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 4
+      },
+      "model": "madoka_magic:item/witch_kiss/atonement"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 5
+      },
+      "model": "madoka_magic:item/witch_kiss/brunhilde"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 6
+      },
+      "model": "madoka_magic:item/witch_kiss/candeloro"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 7
+      },
+      "model": "madoka_magic:item/witch_kiss/ender_guardian"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 8
+      },
+      "model": "madoka_magic:item/witch_kiss/gluttony"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 9
+      },
+      "model": "madoka_magic:item/witch_kiss/homulilly"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 10
+      },
+      "model": "madoka_magic:item/witch_kiss/ignis"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 11
+      },
+      "model": "madoka_magic:item/witch_kiss/kriemhild_gretchen"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 12
+      },
+      "model": "madoka_magic:item/witch_kiss/maledictus"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 13
+      },
+      "model": "madoka_magic:item/witch_kiss/netherite_monstrosity"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 14
+      },
+      "model": "madoka_magic:item/witch_kiss/oktavia"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 15
+      },
+      "model": "madoka_magic:item/witch_kiss/ophelia"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 16
+      },
+      "model": "madoka_magic:item/witch_kiss/sacrifice"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 17
+      },
+      "model": "madoka_magic:item/witch_kiss/scylla"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 18
+      },
+      "model": "madoka_magic:item/witch_kiss/sieglinde"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 19
+      },
+      "model": "madoka_magic:item/witch_kiss/take"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 20
+      },
+      "model": "madoka_magic:item/witch_kiss/the_harbinger"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 21
+      },
+      "model": "madoka_magic:item/witch_kiss/the_leviathan"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 22
+      },
+      "model": "madoka_magic:item/witch_kiss/walpurgisnacht"
+    },
+    {
+      "predicate": {
+        "madoka_magic:kiss_seal": 23
+      },
+      "model": "madoka_magic:item/witch_kiss/wither"
+    }
+  ]
 }

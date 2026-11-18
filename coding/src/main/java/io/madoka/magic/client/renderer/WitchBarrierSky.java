@@ -33,6 +33,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = MadokaMagic.MODID, value = Dist.CLIENT)
 public final class WitchBarrierSky {
     private static final ResourceKey<Level> MERMAID_DIMENSION = MadokaDimensions.witchLevel(WitchTypes.MERMAID);
+    private static final ResourceKey<Level> ABYSS_DIMENSION = MadokaDimensions.witchLevel("the_leviathan");
     private static final Map<ResourceKey<Level>, Sky> SKIES = Map.ofEntries(
             sky("sacrifice", 0x5a493d, 0x543319, 0x372619),
             sky("take", 0x58362a, 0x4d2b1c, 0x2b1712),
@@ -43,7 +44,19 @@ public final class WitchBarrierSky {
             sky("candeloro", 0x66422f, 0x6c3724, 0x4e2b21),
             sky(WitchTypes.MERMAID, 0x375f61, 0x112931, 0x071016),
             sky(WitchTypes.OPHELIA, 0x421f23, 0x3c1d20, 0x271417),
-            sky(WitchTypes.GLUTTONY, 0x3c4327, 0x2c321e, 0x202618));
+            sky(WitchTypes.GLUTTONY, 0x3c4327, 0x2c321e, 0x202618),
+            sky("brunhilde", 0x684437, 0x492f2e, 0x241b25),
+            sky("sieglinde", 0x77705a, 0x5c594c, 0x393a37),
+            sky("annegret", 0x745059, 0x543344, 0x302333),
+            sky("netherite_monstrosity", 0x654536, 0x4d302a, 0x261d24),
+            sky("ignis", 0x79412f, 0x572b2d, 0x2b1925),
+            sky("the_leviathan", 0x372940, 0x281a38, 0x151222),
+            sky("amethyst_crab", 0x65516e, 0x4b385c, 0x251d34),
+            sky("ancient_remnant", 0x666468, 0x485765, 0x303e50),
+            sky("scylla", 0x2d505b, 0x1b3545, 0x112333),
+            sky("ender_guardian", 0x4f5d52, 0x34473f, 0x1e302d),
+            sky("the_harbinger", 0x62505e, 0x443849, 0x292535),
+            sky("maledictus", 0x46545a, 0x2c3c46, 0x192a35));
     private static final ResourceLocation STAFF = ResourceLocation.fromNamespaceAndPath(
             MadokaMagic.MODID, "textures/environment/oktavia_staff.png");
     private static final float RADIUS = 32.0F;
@@ -116,7 +129,10 @@ public final class WitchBarrierSky {
 
     private static Sky visibleSky(Camera camera) {
         var level = Minecraft.getInstance().level;
-        if (level == null || camera.getFluidInCamera() != FogType.NONE
+        if (level == null) return null;
+        FogType fluid = camera.getFluidInCamera();
+        boolean aquaticBarrier = fluid == FogType.WATER && ABYSS_DIMENSION.equals(level.dimension());
+        if (fluid != FogType.NONE && !aquaticBarrier
                 || camera.getEntity() instanceof LivingEntity viewer
                 && (viewer.hasEffect(MobEffects.BLINDNESS) || viewer.hasEffect(MobEffects.DARKNESS))) {
             return null;

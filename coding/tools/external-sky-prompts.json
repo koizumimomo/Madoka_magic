@@ -1,0 +1,103 @@
+{
+  "provider": "built-in image_gen",
+  "style_direction": "坷拉琪方向的暗色手工剪纸与旧纸拼贴；原作魔女结界的超现实空间感",
+  "shared_prompt": "Use case: stylized-concept.\nAsset type: final in-game panoramic sky texture for a Minecraft magical-girl witch barrier, a wide flat panorama to wrap around the horizon, not a screenshot and not a cubemap cross.\nStyle/medium: an original sinister folk-theatre paper collage in the visual direction of Collage/Kulilay Reng/Taiwanese folk-gothic album art and Puella Magi Madoka Magica's surreal witch labyrinths: hand-cut uneven paper silhouettes, old engraved print fragments, fibrous stained paper, layered screenprinted colors, restrained hand-inked lines, a few ornamental curves. Clearly handmade mixed-media collage, with large readable masses, eerie fairytale atmosphere.\nComposition: landscape 2:1, ideally 2048x1024. An enveloping empty environment with no central character. Important motifs in the middle 60% and lower third, with smaller motifs drifting above; topmost 12% is a calm textured color field. Distant imagery rather than foreground props. Consistent gentle brightness at both horizontal edges; continuous sky mood. Fill the whole canvas. Keep the environment dark enough that combat telegraphs remain legible.\nConstraints: no lettering, no captions, no logos, no border, no watermark, no UI, no identifiable characters, no literal photographs, no Minecraft blocks or pixel-art filter, no bright white background. Opaque full background.",
+  "skies": [
+    {
+      "theme": "brunhilde",
+      "name": "蛮勇",
+      "horizon": "684437",
+      "mid": "492f2e",
+      "zenith": "241b25",
+      "scene": "A sky near a violently active volcano. Across the lower third, serrated charcoal volcano cutouts and a few molten fissures glow muted cinnabar orange; above them dense smoky ash bands, scattered red paper ember flecks and aged ochre volcanic dust. The sky is mostly ash and warm dark grey, the lava glow is localized. Strong volcanic landscape identity, not an endless wall of flames."
+    },
+    {
+      "theme": "sieglinde",
+      "name": "悔恨",
+      "horizon": "77705a",
+      "mid": "5c594c",
+      "zenith": "393a37",
+      "scene": "An oppressive yellow-grey sky made of old ochre paper and ash-grey clouds. Large jagged dark rifts tear open the sky like cracked plaster or paper pulled apart, exposing charcoal depth with a few dim dusty golden edges. Uneven branching fissures span the middle sky. Cracked, desolate and mournful, with no volcano, no fire, and no blue sky."
+    },
+    {
+      "theme": "annegret",
+      "name": "甘美",
+      "horizon": "745059",
+      "mid": "543344",
+      "zenith": "302333",
+      "scene": "A surreal sky filled with many cut-paper desserts: layered cake slices, tiny frosted whole cakes, cream rosettes, pastries and icing ribbons, floating at different distances against dusty berry-pink, cocoa and dark plum paper clouds. Cakes cluster along the lower third and drift across the middle sky. Pale frosting is aged cream instead of brilliant white; fruit red accents. A strange overabundant dessert banquet turned into a night sky, whimsical and faintly sinister, never photoreal food photography."
+    },
+    {
+      "theme": "netherite_monstrosity",
+      "name": "锻造",
+      "horizon": "654536",
+      "mid": "4d302a",
+      "zenith": "261d24",
+      "scene": "A sky of forge fire and immense furnace heat, using layers of blackened iron-paper shapes and short dense copper-orange flames rising from the lower sky. Scattered glowing iron filings and small ember sparks float through sooty smoke. Dim molten rivulets and hammered-metal engraving textures along the horizon suggest a colossal forge without drawing a literal indoor room. Deep charcoal and rusty brown dominate, ember orange and dull gold only at the heat sources. Material, heavy and industrial, distinct from a natural volcano and distinct from tall sweeping wildfire."
+    },
+    {
+      "theme": "ignis",
+      "name": "燃烧",
+      "horizon": "79412f",
+      "mid": "572b2d",
+      "zenith": "2b1925",
+      "scene": "An entire horizon consumed by curling ceremonial fire. Tall overlapping red, deep orange and burgundy cut-paper tongues of flame sweep upward through the middle sky, with fragile golden flame tips and charcoal ash clouds. A few ribbons of flame curl in the air, lit from below. The scene feels like a burning paper stage, organic and flowing; no volcano silhouette, no furnace machinery. Keep large dark gaps between flames and the upper sky dark to preserve readability."
+    },
+    {
+      "theme": "the_leviathan",
+      "name": "深渊",
+      "horizon": "372940",
+      "mid": "281a38",
+      "zenith": "151222",
+      "scene": "A purple-black abyssal sky, enormous suspended layers of torn violet-black paper and very dark indigo mist receding into unseen depth. Uneven dark chasms and sparse muted lilac vein-like glows suggest something immeasurably deep. Sparse drifting scrap-like specks, no visible surface, no large sea creatures. An abstract oppressive abyss with broad quiet shadow masses, not a bright galaxy, not an underwater reef."
+    },
+    {
+      "theme": "amethyst_crab",
+      "name": "紫晶",
+      "horizon": "65516e",
+      "mid": "4b385c",
+      "zenith": "251d34",
+      "scene": "Many overlapping layers of amethyst crystals fill the sky like a suspended mineral cathedral. Angular hand-cut violet crystal shards and translucent lavender paper facets build depth from the lower horizon to the middle sky, with inked geological engraving textures and only small dull pale-purple glints. Dense but readable silhouette groups; the uppermost sky opens into a dark muted plum paper field. Purple quartz rather than ice; no buildings, no characters and no brilliant white crystal bloom."
+    },
+    {
+      "theme": "ancient_remnant",
+      "name": "遗迹",
+      "horizon": "666468",
+      "mid": "485765",
+      "zenith": "303e50",
+      "scene": "Lower half: a distant panorama of varied shattered ruins assembled from old engraved stone-paper fragments: broken arches, collapsed walls, isolated eroded columns and rubble, in dusty grey and muted stone brown. Upper half: spacious grey-blue overcast sky with weathered paper clouds. Ruin silhouettes stay in the lower half, allowing the top half to read as open sky. Quiet abandoned civilization, archaeological and melancholy, no city lights, no intact modern skyline."
+    },
+    {
+      "theme": "scylla",
+      "name": "海妖",
+      "horizon": "2d505b",
+      "mid": "1b3545",
+      "zenith": "112333",
+      "scene": "A deep ocean sky seen as if submerged far below the surface, dark teal and navy layered paper currents filling the entire background. Faint distant shafts of cold cyan light are diffused through the upper water; lower layers show ambiguous wavering underwater silhouettes and torn translucent sea-paper veils, with tiny sparse drifting bubbles or specks. Enormous quiet dark water and a strong deep-sea feeling, distinct from a purple void. No water surface horizon, no sun disk, no giant creature or submarine."
+    },
+    {
+      "theme": "ender_guardian",
+      "name": "守护",
+      "horizon": "4f5d52",
+      "mid": "34473f",
+      "zenith": "1e302d",
+      "scene": "The Sealed Sanctuary. A dark green-grey sky containing enormous sealed stone doors and broken sanctuary columns floating at different distances. Layers of heavy chains drape across the middle sky and wrap around the great doors, like an unreachable fortress keeping something locked away. Torn dark sage paper, engraved weathered stone and tarnished grey-gold chain links, a few dim cold green seams. Monumental, protective and ominous, quiet sky gaps in the upper third. No literal indoor ceiling, no figures, no text."
+    },
+    {
+      "theme": "the_harbinger",
+      "name": "预兆",
+      "horizon": "62505e",
+      "mid": "443849",
+      "zenith": "292535",
+      "scene": "Disordered Celestial Omens. A grey-purple sky filled with a dark red eclipse, fractured astronomical orbit circles and broken star tracks, all assembled from old engraved astronomical chart fragments and torn translucent paper. One off-center dusky eclipse ring, many incomplete orbital arcs that do not form writing, a few tiny dull brass star points. Atmospheric cosmic warning rather than a bright galaxy. Large quiet grey-plum sky masses and sparse deep crimson accents, subtle tarnished brass linework. No letters, numbers, zodiac text, clock digits or readable inscriptions."
+    },
+    {
+      "theme": "maledictus",
+      "name": "咒罚",
+      "horizon": "46545a",
+      "mid": "2c3c46",
+      "zenith": "192a35",
+      "scene": "Black-Feather Judgment. A blue-black and dark teal storm sky, scattered drifting black paper feathers with engraved barbs, several broken balance scales and crescent scythe-blade silhouettes suspended at different distances in the middle sky. Objects appear as abandoned emblems of judgment, not weapons held by a character. Old iron-grey and dim oxidized silver, torn black paper storm bands, a few subdued cold cyan threads. Distant, sparse and solemn rather than a busy inventory of props. No figures, no gore, no writing, no bright lightning strokes."
+    }
+  ]
+}

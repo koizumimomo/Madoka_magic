@@ -2,6 +2,7 @@ package io.madoka.magic.registry;
 
 import io.madoka.magic.MadokaMagic;
 import io.madoka.magic.block.AltarBlock;
+import io.madoka.magic.block.DisplayRingBlock;
 import io.madoka.magic.block.WildflowerBlock;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Block;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +27,10 @@ public final class ModBlocks {
     /** 契约祭坛：放入材料，最后用纸右键完成仪式。 */
     public static final RegistryObject<Block> ALTAR = BLOCKS.register("altar",
             () -> new AltarBlock(BlockBehaviour.Properties.copy(Blocks.STONE).strength(3.0F).noOcclusion().sound(SoundType.WOOD)));
+
+    public static final RegistryObject<Block> DISPLAY_RING = BLOCKS.register("display_ring",
+            () -> new DisplayRingBlock(BlockBehaviour.Properties.copy(Blocks.AMETHYST_BLOCK)
+                    .strength(2.0F).noOcclusion().pushReaction(PushReaction.BLOCK)));
 
     public record BarrierFloor(RegistryObject<Block> block, Block previous) {}
 

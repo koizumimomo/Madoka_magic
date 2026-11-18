@@ -3,6 +3,8 @@ package io.madoka.magic.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.madoka.magic.MadokaMagic;
 import io.madoka.magic.client.renderer.RitualItemParticles;
+import io.madoka.magic.client.renderer.TooltipDecorations;
+import io.madoka.magic.item.ContractItem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
@@ -27,6 +29,8 @@ public final class ItemTooltipBorder {
     private static final int BOTTOM_COLOR = 0xFFA57390;
     private static final int TOP_OVERHANG = 8;
     private static final int BOTTOM_OVERHANG = 6;
+    private static final int CONTRACT_VERTICAL_OVERHANG = 12;
+    private static final int CONTRACT_RIGHT_OVERHANG = 13;
     private static final int CORNER_SIZE = 8;
     private static final int ATLAS_CENTER = 24;
 
@@ -39,20 +43,24 @@ public final class ItemTooltipBorder {
         }
         Size size = measure(event);
         int mouseOffset = TooltipRenderUtil.MOUSE_OFFSET;
-        int minY = mouseOffset + TooltipRenderUtil.PADDING_TOP + TOP_OVERHANG;
-        int maxY = event.getScreenHeight() - size.height() + mouseOffset - TooltipRenderUtil.PADDING_BOTTOM - BOTTOM_OVERHANG;
+        boolean contract = event.getItemStack().getItem() instanceof ContractItem;
+        int topOverhang = contract ? CONTRACT_VERTICAL_OVERHANG : TOP_OVERHANG;
+        int minY = mouseOffset + TooltipRenderUtil.PADDING_TOP + topOverhang;
+        int bottomOverhang = contract ? CONTRACT_VERTICAL_OVERHANG : BOTTOM_OVERHANG;
+        int maxY = event.getScreenHeight() - size.height() + mouseOffset - TooltipRenderUtil.PADDING_BOTTOM - bottomOverhang;
         if (minY <= maxY) {
             event.setY(Mth.clamp(event.getY(), minY, maxY));
         }
 
         int contentRight = event.getX() + mouseOffset + size.width();
-        int rightLimit = event.getScreenWidth() - TooltipRenderUtil.PADDING_RIGHT - 3;
+        int rightLimit = event.getScreenWidth() - TooltipRenderUtil.PADDING_RIGHT - (contract ? CONTRACT_RIGHT_OVERHANG : 3);
         if (contentRight > rightLimit && contentRight <= event.getScreenWidth()) {
             event.setX(event.getX() - (contentRight - rightLimit));
         } else if (contentRight > event.getScreenWidth()) {
             int leftMargin = TooltipRenderUtil.PADDING_LEFT + 3;
             if (size.width() + leftMargin <= rightLimit) {
                 event.setX(Math.max(event.getX(), size.width() + mouseOffset + leftMargin));
+                if (contract) event.setX(Math.min(event.getX(), rightLimit + mouseOffset));
             }
         }
     }
@@ -67,6 +75,14 @@ public final class ItemTooltipBorder {
         GuiGraphics graphics = event.getGraphics();
         int x = event.getX();
         int y = event.getY();
+        int left = x - TooltipRenderUtil.PADDING_LEFT;
+        int right = x + size.width() + TooltipRenderUtil.PADDING_RIGHT - 1;
+        int top = y - TooltipRenderUtil.PADDING_TOP;
+        int bottom = y + size.height() + TooltipRenderUtil.PADDING_BOTTOM - 1;
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        TooltipDecorations.ribbons(graphics, event.getItemStack(), left, top, right, bottom, BACKGROUND_Z - 1);
         // Draw the decorated background here, before vanilla renders the text and item components.
         TooltipRenderUtil.renderTooltipBackground(graphics, x, y, size.width(), size.height(), BACKGROUND_Z,
                 event.getBackgroundStart(), event.getBackgroundEnd(), TOP_COLOR, BOTTOM_COLOR);
@@ -75,21 +91,23 @@ public final class ItemTooltipBorder {
         event.setBorderStart(0);
         event.setBorderEnd(0);
 
-        int left = x - TooltipRenderUtil.PADDING_LEFT;
-        int right = x + size.width() + TooltipRenderUtil.PADDING_RIGHT - 1;
-        int top = y - TooltipRenderUtil.PADDING_TOP;
-        int bottom = y + size.height() + TooltipRenderUtil.PADDING_BOTTOM - 1;
-
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RitualItemParticles.tooltip(graphics, event.getItemStack(), left, top, right, bottom, BACKGROUND_Z + 1);
-        blit(graphics, left - 3, top - 3, 0, 0, CORNER_SIZE, CORNER_SIZE);
-        blit(graphics, right - 4, top - 3, 8, 0, CORNER_SIZE, CORNER_SIZE);
-        blit(graphics, left - 3, bottom - 4, 16, 0, CORNER_SIZE, CORNER_SIZE);
-        blit(graphics, right - 4, bottom - 4, 24, 0, CORNER_SIZE, CORNER_SIZE);
-        drawCenter(graphics, left, right, top - TOP_OVERHANG, 8, 21, 11);
-        drawCenter(graphics, left, right, bottom - 1, 20, 15, 8);
-        RenderSystem.disableBlend();
+        RenderSystem.depthMask(false);
+        try {
+            TooltipDecorations.interior(graphics, event.getItemStack(), left, top, right, bottom, BACKGROUND_Z + 1);
+            RitualItemParticles.tooltip(graphics, event.getItemStack(), left, top, right, bottom, BACKGROUND_Z + 1);
+            blit(graphics, left - 3, top - 3, 0, 0, CORNER_SIZE, CORNER_SIZE);
+            blit(graphics, right - 4, top - 3, 8, 0, CORNER_SIZE, CORNER_SIZE);
+            blit(graphics, left - 3, bottom - 4, 16, 0, CORNER_SIZE, CORNER_SIZE);
+            blit(graphics, right - 4, bottom - 4, 24, 0, CORNER_SIZE, CORNER_SIZE);
+            drawCenter(graphics, left, right, top - TOP_OVERHANG, 8, 21, 11);
+            drawCenter(graphics, left, right, bottom - 1, 20, 15, 8);
+            TooltipDecorations.quill(graphics, event.getItemStack(), right, bottom, BACKGROUND_Z + 2);
+        } finally {
+            RenderSystem.depthMask(true);
+            RenderSystem.disableBlend();
+        }
     }
 
     private static void drawCenter(GuiGraphics graphics, int left, int right, int y, int v, int radius, int height) {

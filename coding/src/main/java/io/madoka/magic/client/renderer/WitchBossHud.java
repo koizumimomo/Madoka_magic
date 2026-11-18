@@ -34,6 +34,17 @@ public final class WitchBossHud {
     @SubscribeEvent
     public static void render(CustomizeGuiOverlayEvent.BossEventProgress event) {
         Component title = event.getBossEvent().getName();
+        if (title.getContents() instanceof TranslatableContents translated
+                && translated.getKey().startsWith("entity.alexscaves.")) {
+            var level = Minecraft.getInstance().level;
+            String source = io.madoka.magic.compat.AlexCavesCompat.themeForEntityPath(
+                    translated.getKey().substring("entity.alexscaves.".length()));
+            if (level != null && !source.isEmpty() && source.equals(MadokaDimensions.barrierTheme(level.dimension()))) {
+                event.setCanceled(true);
+                event.setIncrement(0);
+                return;
+            }
+        }
         String theme = themeOf(title);
         if (theme.isEmpty()) {
             return;
@@ -48,10 +59,12 @@ public final class WitchBossHud {
         int left = center - width / 2;
         int y = event.getY() + 5;
 
-        boolean witchNamed = WitchTypes.WITHER.equals(theme) || CataclysmCompat.isBarrierTheme(theme);
+        boolean witchNamed = WitchTypes.WITHER.equals(theme) || CataclysmCompat.isBarrierTheme(theme)
+                || io.madoka.magic.compat.AlexCavesCompat.isBarrierTheme(theme);
         Component displayName = witchNamed ? GriefSeedItem.witchName(theme) : title;
         graphics.drawCenteredString(font, displayName, center, event.getY() - 10, 0xfff8f1ff);
-        drawBar(graphics, left, y, width, event.getBossEvent().getProgress(), style);
+        drawBar(graphics, left, y, width, event.getBossEvent().getProgress(), style,
+                CataclysmCompat.isBarrierTheme(theme) || io.madoka.magic.compat.AlexCavesCompat.isBarrierTheme(theme) ? theme : "");
 
         String runesKey = NAME_PREFIX + theme + ".runes";
         if (Language.getInstance().has(runesKey)) {
@@ -86,7 +99,7 @@ public final class WitchBossHud {
     }
 
     private static void drawBar(GuiGraphics graphics, int left, int y, int width, float progress,
-                                RitualVisualStyle style) {
+                                RitualVisualStyle style, String externalTheme) {
         int right = left + width;
         int trackLeft = left + ORNAMENT_SIZE;
         int trackRight = right - ORNAMENT_SIZE;
@@ -104,10 +117,10 @@ public final class WitchBossHud {
         }
         drawOrnament(graphics, left, y - 3, style.motif(), style.crown(), frame);
         drawOrnament(graphics, right - ORNAMENT_SIZE, y - 3, style.accent(), style.crown(), frame);
-        drawCenter(graphics, left + width / 2, y, style, frame);
+        drawCenter(graphics, left + width / 2, y, style, frame, externalTheme);
     }
 
-    private static void drawCenter(GuiGraphics graphics, int center, int y, RitualVisualStyle style, int frame) {
+    private static void drawCenter(GuiGraphics graphics, int center, int y, RitualVisualStyle style, int frame, String externalTheme) {
         int rim = opaque(shade(style.crown(), 0.64F));
         int light = opaque(shade(style.crown(), 0.90F));
 
@@ -133,7 +146,14 @@ public final class WitchBossHud {
         graphics.fill(center - 4, y + 7, center + 4, y + 15, frame);
         graphics.fill(center - 2, y + 14, center + 2, y + 17, rim);
         graphics.fill(center - 5, y + 6, center + 5, y + 12, 0xff211a29);
-        drawSprite(graphics, center - 7, y + 3, 14, style.bossCrest(), style.crown());
+        if (externalTheme.isEmpty()) {
+            drawSprite(graphics, center - 7, y + 3, 14, style.bossCrest(), style.crown());
+        } else {
+            RenderSystem.enableBlend();
+            graphics.blit(ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "textures/gui/bossbars/" + externalTheme + ".png"),
+                    center - 8, y - 1, 17, 19, 83, 3, 17, 19, 182, 36);
+            RenderSystem.disableBlend();
+        }
     }
 
     private static void mirroredFill(GuiGraphics graphics, int center, int from, int to, int top, int bottom, int color) {

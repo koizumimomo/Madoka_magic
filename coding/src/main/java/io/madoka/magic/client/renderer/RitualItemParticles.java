@@ -20,6 +20,8 @@ public final class RitualItemParticles {
     private static final Atlas TEA = new Atlas(CandeloroVisuals.ORBIT_ATLAS, CandeloroVisuals.MOTIFS, 1, 32);
     private static final Atlas EMBER = new Atlas(MadokaWitchRenderer.WITHER_EMBER_ATLAS, 1, 1, 16);
     private static final Atlas MORPH = new Atlas(GluttonyWitchRenderer.MORPH_ATLAS, 6, 6, 32);
+    private static final Atlas EXTERNAL = new Atlas(ExternalWitchParticles.ATLAS, ExternalWitchParticles.COLUMNS,
+            ExternalWitchParticles.ROWS, ExternalWitchParticles.SIDE);
 
     private record Atlas(ResourceLocation texture, int columns, int rows, int side, RenderType layer) {
         private Atlas(ResourceLocation texture, int columns, int rows, int side) {
@@ -34,7 +36,7 @@ public final class RitualItemParticles {
 
     RitualItemParticles(RitualItemAppearance appearance) {
         style = RitualVisualStyle.forPlayer(appearance.theme(), appearance.witch());
-        atlas = appearance.witch() ? switch (appearance.theme()) {
+        atlas = appearance.witch() && style.orbit() != null ? EXTERNAL : appearance.witch() ? switch (appearance.theme()) {
             case "atonement" -> FRAME;
             case "candeloro" -> TEA;
             case WitchTypes.WITHER -> EMBER;
@@ -55,6 +57,9 @@ public final class RitualItemParticles {
     }
 
     private Mote mote(int index, double ticks) {
+        if (atlas == EXTERNAL) {
+            return new Mote(ExternalWitchParticles.tile(style.orbit(), index, ticks), 0xffffff);
+        }
         if (atlas == MORPH) {
             return new Mote(GluttonyWitchRenderer.morphFrame(ticks, index), 0xffffff);
         }

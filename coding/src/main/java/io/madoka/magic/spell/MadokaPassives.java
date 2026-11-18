@@ -71,12 +71,14 @@ public final class MadokaPassives {
         if (lastKill < 0L || gameTime - lastKill > OBSESSION_DURATION_TICKS) {
             return 1.0F;
         }
-        return 1.0F + data.getObsessionStacks() * OBSESSION_BONUS_PER_STACK;
+        return 1.0F + data.getObsessionStacks() * OBSESSION_BONUS_PER_STACK
+                * (float) (1.0D + io.madoka.magic.data.PassiveTree.bonus(data, "obsession"));
     }
 
     /** 余晖的当前伤害加成倍率（1.0 = 无加成）。 */
     public static float emberMultiplier(PlayerMadokaData data) {
-        return 1.0F + (data.getTaint() / 10.0F) * EMBER_BONUS_PER_10_TAINT;
+        return 1.0F + (data.getTaint() / 10.0F) * EMBER_BONUS_PER_10_TAINT
+                * (float) (1.0D + io.madoka.magic.data.PassiveTree.bonus(data, "ember"));
     }
 
     /** 每秒清理过期的执念层数。 */

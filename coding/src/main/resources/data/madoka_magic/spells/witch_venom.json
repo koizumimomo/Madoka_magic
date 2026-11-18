@@ -3,7 +3,7 @@
   "active": true,
   "name_key": "spell.madoka_magic.witch_venom",
   "desc_key": "spell.madoka_magic.witch_venom.desc",
-  "icon": "madoka_magic:textures/gui/spells/bee_sting.png",
+  "icon": "madoka_magic:textures/gui/spells/witch_venom.png",
   "cooldown": 5,
   "mana_cost": 9,
   "unlock_level": 10,

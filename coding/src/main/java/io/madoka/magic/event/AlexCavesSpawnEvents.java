@@ -46,7 +46,8 @@ public final class AlexCavesSpawnEvents {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onBossSpawn(EntityJoinLevelEvent event) {
         if (!AlexCavesCompat.isPresent() || event.getLevel().isClientSide()
-                || !MadokaDimensions.barrierTheme(event.getLevel().dimension()).isEmpty()) {
+                || event.getLevel().dimension().equals(MadokaDimensions.witchLevel(
+                        AlexCavesCompat.barrierTheme(event.getEntity())))) {
             return;
         }
         if (!AlexCavesCompat.barrierTheme(event.getEntity()).isEmpty()) {

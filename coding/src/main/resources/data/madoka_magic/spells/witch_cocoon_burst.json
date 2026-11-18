@@ -3,7 +3,7 @@
   "active": true,
   "name_key": "spell.madoka_magic.witch_cocoon_burst",
   "desc_key": "spell.madoka_magic.witch_cocoon_burst.desc",
-  "icon": "madoka_magic:textures/gui/spells/tulip_burst.png",
+  "icon": "madoka_magic:textures/gui/spells/witch_cocoon_burst.png",
   "cooldown": 11,
   "mana_cost": 18,
   "unlock_level": 25,

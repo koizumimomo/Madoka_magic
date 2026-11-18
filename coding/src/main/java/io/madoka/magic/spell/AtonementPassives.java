@@ -33,7 +33,8 @@ public final class AtonementPassives {
                 return;
             }
             long gameTime = victim.level().getGameTime();
-            GuiltMark.record(attacker, victim.getUUID(), amount, gameTime);
+            GuiltMark.record(attacker, victim.getUUID(), amount
+                    * (float) (1.0D + io.madoka.magic.data.PassiveTree.bonus(victim, "sin_mark")), gameTime);
 
             if (victim.level() instanceof ServerLevel level) {
                 float guilt = GuiltMark.getAmount(attacker, victim.getUUID());

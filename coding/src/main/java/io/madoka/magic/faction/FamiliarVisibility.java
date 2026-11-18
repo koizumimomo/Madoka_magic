@@ -101,12 +101,17 @@ public final class FamiliarVisibility {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onFinalizeSpawn(MobSpawnEvent.FinalizeSpawn event) {
-        MobSpawnType type = event.getSpawnType();
-        if ((type == MobSpawnType.NATURAL || type == MobSpawnType.PATROL || type == MobSpawnType.SPAWNER
-                || type == MobSpawnType.JOCKEY || type == MobSpawnType.REINFORCEMENT || type == MobSpawnType.EVENT
-                || type == MobSpawnType.TRIGGERED)
-                && event.getLevel() instanceof ServerLevel level && suppress(level, (Mob) event.getEntity())) {
+        ServerLevel level = event.getLevel().getLevel();
+        if (suppress(level, event.getEntity())) {
             event.setSpawnCancelled(true);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onEntityJoin(net.minecraftforge.event.entity.EntityJoinLevelEvent event) {
+        if (!event.loadedFromDisk() && event.getLevel() instanceof ServerLevel level
+                && event.getEntity() instanceof Mob mob && suppress(level, mob)) {
+            event.setCanceled(true);
         }
     }
 
@@ -122,7 +127,7 @@ public final class FamiliarVisibility {
     /**
      * 无契约者附近时抑制刷怪：眷属以及一切敌对生物（原版怪、刷怪笼、巡逻队、突袭等）。
      *
-     * <p>设计上普通人不该见到怪物；创造模式刷怪蛋、指令等玩家主动行为不受影响。</p>
+     * <p>直接加入世界的新实体也受此规则约束，已存盘实体沿用追踪隐藏规则。</p>
      */
     private static boolean suppress(ServerLevel level, Mob mob) {
         return MadokaConfig.FAMILIARS_HIDE_UNCONTRACTED.get()

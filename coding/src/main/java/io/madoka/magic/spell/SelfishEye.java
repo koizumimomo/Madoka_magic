@@ -104,7 +104,8 @@ public final class SelfishEye {
 
     private static void steal(ServerPlayer player, LivingDamageEvent event, Combat combat) {
         LivingEntity target = event.getEntity();
-        double ratio = Math.min(1.0D, combat.definition.parameter("steal_ratio"));
+        double ratio = Math.min(1.0D, combat.definition.parameter("steal_ratio")
+                * (1.0D + io.madoka.magic.data.PassiveTree.bonus(player, "selfish_eye")));
         double attack = stealAttack(target, combat, ratio);
         float health = (float) (target.getHealth() * ratio);
         double mana = stealMana(target, ratio);
