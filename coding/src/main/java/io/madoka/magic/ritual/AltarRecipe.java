@@ -58,6 +58,11 @@ public record AltarRecipe(ResourceLocation id, List<Ingredient> inputs, Ingredie
                 materials.add(stack);
             }
         }
+        // 悲叹之种一旦用来净化就掉耐久，只有满耐久的种子还封着完整的诅咒，才能炼咒具。
+        if (materials.stream().anyMatch(stack ->
+                stack.getItem() instanceof io.madoka.magic.item.GriefSeedItem && stack.getDamageValue() > 0)) {
+            return false;
+        }
         return materials.size() == inputs.size() && RecipeMatcher.findMatches(materials, inputs) != null;
     }
 

@@ -39,6 +39,9 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.TEST_RELEASE_CONTRACT.get());
                         output.accept(ModItems.TEST_MAX_PURITY.get());
                         output.accept(ModItems.TEST_WITCH_PORTAL.get());
+                        output.accept(ModItems.TEST_WITCH_FORM.get());
+                        output.accept(ModItems.TEST_RAISE_TAINT.get());
+                        ModItems.CURSE_WEAPONS.values().forEach(item -> output.accept(item.get()));
                     })
                     .build());
 

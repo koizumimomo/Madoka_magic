@@ -1,0 +1,15 @@
+{
+  "type": "madoka_magic:altar_ritual",
+  "ingredients": [
+    {
+      "item": "madoka_magic:grief_seed_sacrifice"
+    }
+  ],
+  "catalyst": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "life_cost": 0.15,
+  "result": {
+    "item": "madoka_magic:curse_weapon_sacrifice"
+  }
+}

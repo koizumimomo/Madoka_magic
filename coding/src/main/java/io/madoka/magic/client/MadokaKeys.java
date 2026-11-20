@@ -28,6 +28,11 @@ public final class MadokaKeys {
             "key.madoka_magic.toggle_transformation", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_H, "key.categories.madoka_magic");
 
+    /** J 键：打开 HUD 布局编辑。 */
+    public static final KeyMapping HUD_EDIT = new KeyMapping(
+            "key.madoka_magic.edit_hud", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_J, "key.categories.madoka_magic");
+
     private MadokaKeys() {
     }
 }

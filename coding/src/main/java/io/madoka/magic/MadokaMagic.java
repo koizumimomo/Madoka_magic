@@ -103,7 +103,13 @@ public class MadokaMagic {
     public static class Setup {
         @SubscribeEvent
         public static void commonSetup(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
-            event.enqueueWork(ModBlocks::registerPottedFlowers);
+            event.enqueueWork(() -> {
+                ModBlocks.registerPottedFlowers();
+                // Curios 可选：没装就跳过，免得 CuriosSlotRegistration 类加载失败。
+                if (net.minecraftforge.fml.ModList.get().isLoaded("curios")) {
+                    io.madoka.magic.compat.CuriosSlotRegistration.register();
+                }
+            });
         }
     }
 }

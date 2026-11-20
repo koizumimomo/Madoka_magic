@@ -53,6 +53,25 @@ public final class ModItems {
             List.of("sacrifice", "take", "atonement"),
             theme -> new ContractItem(new Item.Properties().stacksTo(1), theme));
 
+    /** Curios 是可选前置：没装就跳过咒具注册，避免 ICurioItem 类加载失败。 */
+    private static final boolean CURIOS_LOADED = net.minecraftforge.fml.ModList.get().isLoaded("curios");
+
+    public static final Map<String, RegistryObject<Item>> CURSE_WEAPONS = registerCurseWeapons();
+
+    private static Map<String, RegistryObject<Item>> registerCurseWeapons() {
+        if (!CURIOS_LOADED) {
+            return Collections.emptyMap();
+        }
+        Map<String, RegistryObject<Item>> curses = new LinkedHashMap<>();
+        curses.put("sacrifice", ITEMS.register("curse_weapon_sacrifice",
+                () -> new io.madoka.magic.item.CurseWeaponItem("sacrifice", 4.0D, 0.0D, 0.0D)));
+        curses.put("take", ITEMS.register("curse_weapon_take",
+                () -> new io.madoka.magic.item.CurseWeaponItem("take", 0.0D, 0.06D, 0.0D)));
+        curses.put("atonement", ITEMS.register("curse_weapon_atonement",
+                () -> new io.madoka.magic.item.CurseWeaponItem("atonement", 0.0D, 0.0D, 3.0D)));
+        return Collections.unmodifiableMap(curses);
+    }
+
     public static final Map<ContractWeapon, RegistryObject<Item>> CONTRACT_WEAPONS = registerContractWeapons();
 
     private static Map<ContractWeapon, RegistryObject<Item>> registerContractWeapons() {
@@ -112,6 +131,10 @@ public final class ModItems {
             () -> new CreativeTestItem(CreativeTestItem.Action.MAX_PURITY));
     public static final RegistryObject<Item> TEST_WITCH_PORTAL = ITEMS.register("test_witch_portal",
             () -> new io.madoka.magic.item.WitchPortalTestItem(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> TEST_WITCH_FORM = ITEMS.register("test_witch_form",
+            () -> new io.madoka.magic.item.WitchFormTestItem());
+    public static final RegistryObject<Item> TEST_RAISE_TAINT = ITEMS.register("test_raise_taint",
+            () -> new io.madoka.magic.item.TaintTestItem());
 
     private ModItems() {
     }

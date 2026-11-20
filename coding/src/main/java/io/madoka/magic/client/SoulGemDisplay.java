@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-final class SoulGemDisplay {
+public final class SoulGemDisplay {
     private static final int TILE = 32;
     private static final int GLASS_TOP = 7;
     private static final int GLASS_BOTTOM = 24;
@@ -22,7 +22,7 @@ final class SoulGemDisplay {
 
     private SoulGemDisplay() {}
 
-    static void render(GuiGraphics graphics, int x, int y, int size) {
+    public static void render(GuiGraphics graphics, int x, int y, int size) {
         boolean contracted = ClientMadokaState.isContracted();
         if (contracted && ClientMadokaState.isWitchPath()) {
             var pose = graphics.pose();

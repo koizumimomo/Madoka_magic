@@ -1,6 +1,7 @@
 package io.madoka.magic.client;
 
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.client.hud.HudEditScreen;
 import io.madoka.magic.client.particle.DevotionParticle;
 import io.madoka.magic.client.renderer.BlackBeeRenderer;
 import io.madoka.magic.client.renderer.AtonementRenderers;
@@ -55,6 +56,7 @@ public final class MadokaClient {
         event.register(MadokaKeys.OPEN_WHEEL);
         event.register(MadokaKeys.OPEN_BARRIER);
         event.register(MadokaKeys.TOGGLE_TRANSFORMATION);
+        event.register(MadokaKeys.HUD_EDIT);
     }
 
     @SubscribeEvent

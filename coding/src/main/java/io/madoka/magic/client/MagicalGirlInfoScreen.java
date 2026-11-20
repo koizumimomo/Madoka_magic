@@ -84,7 +84,7 @@ public final class MagicalGirlInfoScreen extends Screen {
                         button -> minecraft.setScreen(new MagicalGirlSkillsScreen(this, false)))
                 .bounds(left + PADDING + buttonWidth + 4, bottom - 27, buttonWidth, 18).build());
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.talents.title"),
-                        button -> minecraft.setScreen(new PassiveTreeScreen(this)))
+                        button -> openTalents())
                 .bounds(left + PADDING + (buttonWidth + 4) * 2, bottom - 27, buttonWidth, 18).build());
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.back"), button -> onClose())
                 .bounds(right - PADDING - buttonWidth, bottom - 27, buttonWidth, 18).build());
@@ -99,6 +99,18 @@ public final class MagicalGirlInfoScreen extends Screen {
         renderSoulGem(graphics);
         renderStatistics(graphics);
         super.render(graphics, mouseX, mouseY, partialTick);
+    }
+
+    /** 魔女没有天赋树可点，入口在这里拦下来并给出提示。 */
+    private void openTalents() {
+        if (ClientMadokaState.isWitchPath()) {
+            if (minecraft != null && minecraft.player != null) {
+                minecraft.player.displayClientMessage(
+                        Component.translatable("screen.madoka_magic.talents.witch_locked"), true);
+            }
+            return;
+        }
+        minecraft.setScreen(new PassiveTreeScreen(this));
     }
 
     private void renderSoulGem(GuiGraphics graphics) {

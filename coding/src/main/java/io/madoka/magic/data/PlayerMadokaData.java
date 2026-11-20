@@ -73,6 +73,8 @@ public class PlayerMadokaData {
     private final java.util.Map<String, Integer> talentRanks = new java.util.LinkedHashMap<>();
     private final Set<String> defeatedWitches = new LinkedHashSet<>();
     private final List<ItemStack> pendingWitchRewards = new ArrayList<>();
+    /** 传送门冷却池：最近打过的魔女主题 → 还需击败的其他魔女数。 */
+    private final java.util.Map<String, Integer> portalCooldowns = new java.util.LinkedHashMap<>();
 
     // ---- 战斗状态（花期的判定依据） ----
     /** 最后一次受到来自生物的伤害时的游戏时间；-1 表示从未进入战斗。 */
@@ -242,6 +244,16 @@ public class PlayerMadokaData {
         ListTag witches = new ListTag();
         defeatedWitches.forEach(id -> witches.add(StringTag.valueOf(id)));
         tag.put("defeatedWitches", witches);
+        if (!portalCooldowns.isEmpty()) {
+            ListTag cooldowns = new ListTag();
+            portalCooldowns.forEach((id, left) -> {
+                CompoundTag entry = new CompoundTag();
+                entry.putString("theme", id);
+                entry.putInt("left", left);
+                cooldowns.add(entry);
+            });
+            tag.put("portalCooldowns", cooldowns);
+        }
         return tag;
     }
 
@@ -304,6 +316,16 @@ public class PlayerMadokaData {
         ListTag witches = tag.getList("defeatedWitches", Tag.TAG_STRING);
         for (int i = 0; i < witches.size(); i++) {
             recordDefeatedWitch(witches.getString(i));
+        }
+        portalCooldowns.clear();
+        ListTag cooldowns = tag.getList("portalCooldowns", Tag.TAG_COMPOUND);
+        for (int i = 0; i < cooldowns.size(); i++) {
+            CompoundTag entry = cooldowns.getCompound(i);
+            String id = entry.getString("theme");
+            int left = entry.getInt("left");
+            if (!id.isEmpty() && left > 0) {
+                portalCooldowns.put(id, Math.min(left, 2));
+            }
         }
     }
 
@@ -508,7 +530,9 @@ public class PlayerMadokaData {
 
     public void setDespair(double value) {
         if (Double.isFinite(value)) {
-            despair = Math.max(0.0D, Math.min(100.0D, value));
+            // 绝望没有上限：魔女靠它继续成长，不再受 100 的封顶。
+            // 负数保留「未初始化」的含义（魔女化之前 / 切回魔法少女）。
+            despair = value < 0.0D ? -1.0D : value;
         }
     }
 
@@ -732,6 +756,39 @@ public class PlayerMadokaData {
 
     public boolean recordDefeatedWitch(String themeId) {
         return !themeId.isBlank() && defeatedWitches.add(themeId);
+    }
+
+    /**
+     * 最近打过的魔女进入传送门冷却池。
+     * <p>再击败两只别的魔女才会回到随机入口的候选池，避免刚打完又刷到同一只。</p>
+     */
+    public void coolWitchPortal(String themeId) {
+        if (themeId == null || themeId.isBlank()) {
+            return;
+        }
+        portalCooldowns.put(themeId, 2);
+    }
+
+    /** 每击杀一只魔女，其他主题的冷却计数减一。 */
+    public void advanceWitchPortalCooldowns(String killedTheme) {
+        var iterator = portalCooldowns.entrySet().iterator();
+        while (iterator.hasNext()) {
+            var entry = iterator.next();
+            if (entry.getKey().equals(killedTheme)) {
+                continue;
+            }
+            int left = entry.getValue() - 1;
+            if (left <= 0) {
+                iterator.remove();
+            } else {
+                entry.setValue(left);
+            }
+        }
+    }
+
+    /** 该主题是否还在传送门冷却池里。 */
+    public boolean isWitchPortalCooling(String themeId) {
+        return portalCooldowns.containsKey(themeId);
     }
 
     public void queueWitchReward(ItemStack stack) {

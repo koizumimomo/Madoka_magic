@@ -88,7 +88,12 @@ public final class MadokaMath {
 
     /** 等级：纯度百分比直接向下取整（纯度本身就是 0–100 的百分比）。 */
     public static int levelOf(LivingEntity entity) {
-        return levelOfPurity(progression(entity));
+        double progression = progression(entity);
+        if (entity instanceof Player player && PlayerMadokaData.of(player).isWitchPath()) {
+            // 魔女没有天赋树，成长全靠绝望：等级不封顶，技能解锁与成长步数跟着无限涨。
+            return Math.max(0, (int) Math.floor(progression));
+        }
+        return levelOfPurity(progression);
     }
 
     public static int levelOfPurity(double purity) {

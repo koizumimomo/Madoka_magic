@@ -197,7 +197,11 @@ public class PortalEvents {
                 continue;
             }
             var themes = MadokaDimensions.NATURAL_BARRIERS;
-            spawnEntrance(overworld, player, themes.get(overworld.random.nextInt(themes.size())));
+            var available = themes.stream().filter(theme -> !data.isWitchPortalCooling(theme)).toList();
+            if (available.isEmpty()) {
+                available = themes;
+            }
+            spawnEntrance(overworld, player, available.get(overworld.random.nextInt(available.size())));
         }
     }
 

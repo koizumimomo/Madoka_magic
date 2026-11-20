@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "madoka_magic:curse_weapon_sacrifice",
+    "madoka_magic:curse_weapon_take",
+    "madoka_magic:curse_weapon_atonement"
+  ]
+}

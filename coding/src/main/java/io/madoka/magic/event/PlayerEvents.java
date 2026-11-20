@@ -4,6 +4,7 @@ import io.madoka.magic.config.MadokaConfig;
 import io.madoka.magic.data.MagicalGirl;
 import io.madoka.magic.data.PlayerMadokaData;
 import io.madoka.magic.data.PlayerTransformation;
+import io.madoka.magic.dimension.MadokaDimensions;
 import io.madoka.magic.entity.MadokaWitchEntity;
 import io.madoka.magic.entity.WitchTypes;
 import io.madoka.magic.faction.Faction;
@@ -16,6 +17,7 @@ import io.madoka.magic.spell.BlossomState;
 import io.madoka.magic.spell.MadokaPassives;
 import io.madoka.magic.spell.SpellRegistry;
 import io.madoka.magic.util.MadokaMath;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -198,9 +200,45 @@ public class PlayerEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onWitchLoot(LivingDropsEvent event) {
-        if (!WitchTypes.bossTheme(event.getEntity()).isEmpty()) {
-            event.getDrops().removeIf(drop -> drop.getItem().getItem() instanceof GriefSeedItem);
+        if (WitchTypes.bossTheme(event.getEntity()).isEmpty()) {
+            return;
         }
+        event.getDrops().removeIf(drop -> drop.getItem().getItem() instanceof GriefSeedItem);
+        deliverBarrierDrops(event);
+    }
+
+    /**
+     * 结界里击杀首领时，原版掉落直接进击杀者背包。
+     *
+     * <p>首领一死出口门就生成，玩家经常来不及捡就被门送回主世界；
+     * 这些掉落不再落地，直接发到击杀者身上（背包满时留在待发放队列）。</p>
+     */
+    private static void deliverBarrierDrops(LivingDropsEvent event) {
+        if (!(event.getEntity().level() instanceof ServerLevel level)
+                || MadokaDimensions.barrierTheme(level.dimension()).isEmpty()) {
+            return;
+        }
+        ServerPlayer killer = WitchTypes.finalAttacker(event.getSource());
+        if (killer == null || killer.level() != level) {
+            return;
+        }
+        PlayerMadokaData data = PlayerMadokaData.of(killer);
+        boolean moved = false;
+        for (var drop : List.copyOf(event.getDrops())) {
+            if (drop.getItem().getItem() instanceof GriefSeedItem) {
+                continue;
+            }
+            data.queueWitchReward(drop.getItem().copy());
+            event.getDrops().remove(drop);
+            moved = true;
+        }
+        if (!moved) {
+            return;
+        }
+        if (!killer.isAlive() || !data.deliverWitchRewards(killer)) {
+            killer.displayClientMessage(Component.translatable("message.madoka_magic.witch_rewards_pending"), true);
+        }
+        data.save(killer);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -224,6 +262,9 @@ public class PlayerEvents {
                 return;
             }
             state.putBoolean("madoka_rewarded", true);
+            // 打过的魔女进冷却池，近期不再顺手刷到同一只。
+            data.advanceWitchPortalCooldowns(boss);
+            data.coolWitchPortal(boss);
             data.queueWitchReward(GriefSeedItem.fromWitch(boss));
             newWitch = data.recordDefeatedWitch(boss);
             if (newWitch) {

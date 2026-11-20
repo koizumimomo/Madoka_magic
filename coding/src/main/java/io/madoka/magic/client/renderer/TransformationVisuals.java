@@ -200,7 +200,7 @@ public final class TransformationVisuals {
             double ticks = player.tickCount + (double) partialTick + player.getId() % 180;
             pose.pushPose();
             pose.translate(center.x - eye.x, center.y - eye.y, center.z - eye.z);
-            if (halfWitch) {
+            if (halfWitch || witch) {
                 var sprites = new RitualSprites(pose, buffers, camera, HalfWitchVisuals.LAYER);
                 HalfWitchVisuals.orbit(sprites, theme, player.getBbHeight(), ticks, firstPerson);
                 drewHalf = true;

@@ -76,7 +76,8 @@ public final class PassiveTree {
     }
 
     public static boolean canLearn(PlayerMadokaData data, Node node) {
-        return data.isContracted() && node.matches(data) && data.getTalentPoints() > 0
+        // 魔女没有天赋树可点：无上限绝望就是她们的成长路线。
+        return data.isContracted() && !data.isWitchPath() && node.matches(data) && data.getTalentPoints() > 0
                 && data.getTalentRank(node.id) < node.maxRank
                 && node.requires.entrySet().stream().allMatch(entry -> data.getTalentRank(entry.getKey()) >= entry.getValue());
     }

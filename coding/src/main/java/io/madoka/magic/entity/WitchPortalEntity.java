@@ -205,16 +205,31 @@ public class WitchPortalEntity extends Entity {
             return;
         }
         if (this.tickCount % 5 == 0) {
-            double range = MadokaConfig.PORTAL_TRIGGER_RANGE.get();
+            AABB trigger = triggerVolume();
             List<ServerPlayer> players = level().getEntitiesOfClass(ServerPlayer.class,
-                    getBoundingBox().inflate(range), player -> player.isAlive() && !player.isSpectator());
+                    trigger.inflate(0.6D), player -> player.isAlive() && !player.isSpectator());
             for (ServerPlayer player : players) {
+                if (!player.getBoundingBox().intersects(trigger)) {
+                    continue;
+                }
                 tryTeleport(player);
                 if (isRemoved()) {
                     break;
                 }
             }
         }
+    }
+
+    /**
+     * 只认门口那一层薄薄的竖直平面。
+     * <p>以前用 1.5×2.5 的实体碰撞箱再外扩触发半径，玩家离门还有一格多就会被吸进去；
+     * 现在按门的宽度和极薄深度做盒，玩家身体真的碰到门面才触发。</p>
+     */
+    private AABB triggerVolume() {
+        double halfWidth = getBbWidth() * 0.5D;
+        double depth = Math.max(0.08D, MadokaConfig.PORTAL_TRIGGER_RANGE.get() * 0.25D);
+        return new AABB(getX() - halfWidth, getY() - 0.2D, getZ() - depth,
+                getX() + halfWidth, getY() + getBbHeight(), getZ() + depth);
     }
 
     // ---------------------------------------------------------------- 传送

@@ -109,8 +109,12 @@ public final class FamiliarVisibility {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onEntityJoin(net.minecraftforge.event.entity.EntityJoinLevelEvent event) {
-        if (!event.loadedFromDisk() && event.getLevel() instanceof ServerLevel level
-                && event.getEntity() instanceof Mob mob && suppress(level, mob)) {
+        if (event.loadedFromDisk() || !(event.getLevel() instanceof ServerLevel level)
+                || !(event.getEntity() instanceof Mob mob)
+                || mob.getPersistentData().hasUUID(WitchFamiliars.ENCOUNTER_TAG)) {
+            return;
+        }
+        if (suppress(level, mob)) {
             event.setCanceled(true);
         }
     }
