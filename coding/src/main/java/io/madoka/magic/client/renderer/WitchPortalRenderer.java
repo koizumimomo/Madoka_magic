@@ -11,14 +11,15 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-/** Plays the PixelFX entrance and exit loops on an upright sprite at the portal's feet. */
+/** Plays the PixelFX void-orb swirl loop, tinted per witch theme. */
 public final class WitchPortalRenderer extends EntityRenderer<WitchPortalEntity> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
-            MadokaMagic.MODID, "textures/particle/witch_portals.png");
+            MadokaMagic.MODID, "textures/particle/witch_portal_swirl.png");
     private static final RenderType LAYER = RenderType.entityTranslucentEmissive(TEXTURE);
-    private static final int FRAMES_PER_PORTAL = 16;
+    private static final int FRAMES = 16;
     private static final int COLUMNS = 4;
-    private static final int ROWS = 8;
+    private static final int ROWS = 4;
+    private static final int EXIT_TINT = 0x9fe8d8;
 
     public WitchPortalRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -29,17 +30,18 @@ public final class WitchPortalRenderer extends EntityRenderer<WitchPortalEntity>
                        MultiBufferSource buffers, int packedLight) {
         var camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         double time = portal.tickCount + (double) partialTick + (portal.getId() & 15);
-        int frame = Mth.floor(time * 0.58D) % FRAMES_PER_PORTAL;
-        if (!portal.isEntrance()) {
-            frame += FRAMES_PER_PORTAL;
-        }
+        boolean entrance = portal.isEntrance();
+        int tick = Mth.floor(time * 0.85D) % FRAMES;
+        // 出口反向播，和入口区分开。
+        int frame = entrance ? tick : (FRAMES - 1 - tick);
+        var style = RitualVisualStyle.forTheme(portal.getThemeId());
+        int tint = entrance ? style.crown() : EXIT_TINT;
         var sprites = new RitualSprites(pose, buffers, camera, LAYER);
         double height = portal.getBbHeight();
         sprites.drawTile(frame, COLUMNS, ROWS, 96, 128, 0, height * 0.5D, 0,
-                portal.getBbWidth() * 0.73D, height * 0.55D, 0, 0xffffff, 1.0D);
+                portal.getBbWidth() * 0.73D, height * 0.55D, 0, tint, 1.0D);
 
         // A few theme-colored sparks identify the encounter independently of the entrance/exit color.
-        var style = RitualVisualStyle.forTheme(portal.getThemeId());
         var sparks = new RitualSprites(pose, buffers, camera);
         for (int i = 0; i < 4; i++) {
             double phase = (time / 46.0D + i * 0.25D) % 1.0D;
