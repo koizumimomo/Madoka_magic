@@ -18,10 +18,14 @@ final class ItemLore {
         flavor(tooltip, "contract", theme, ".second");
         tooltip.add(Component.translatable("tooltip.madoka_magic.contract.use").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("tooltip.madoka_magic.contract.identity").withStyle(ChatFormatting.DARK_AQUA));
+        String owner = ContractItem.getOwnerName(stack);
+        if (!owner.isEmpty()) {
+            tooltip.add(Component.translatable("tooltip.madoka_magic.contract.owner", owner)
+                    .withStyle(ChatFormatting.GRAY));
+        }
     }
 
     static void seed(ItemStack stack, Level level, List<Component> tooltip) {
-        flavor(tooltip, "grief_seed", GriefSeedItem.getOwner(stack), "");
         double purification = RitualTooltipValues.seedPurification(level);
         String amount = BigDecimal.valueOf(purification).stripTrailingZeros().toPlainString();
         tooltip.add((purification > 0 ? Component.translatable("tooltip.madoka_magic.grief_seed.use", amount)
@@ -34,7 +38,6 @@ final class ItemLore {
     }
 
     static void kiss(ItemStack stack, List<Component> tooltip) {
-        flavor(tooltip, "witch_kiss", WitchKissItem.getThemeId(stack), "");
         tooltip.add(Component.translatable("tooltip.madoka_magic.witch_kiss.obtain").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("tooltip.madoka_magic.witch_kiss.collection").withStyle(ChatFormatting.DARK_AQUA));
     }

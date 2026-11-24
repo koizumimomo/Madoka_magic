@@ -30,6 +30,18 @@ public final class WishMaterialItem extends Item {
                 && wish.hasUUID("player") && wish.contains("name", Tag.TAG_STRING);
     }
 
+    /** 许愿者的 UUID；没有许愿记录时返回 null。 */
+    public static java.util.UUID ownerId(ItemStack stack) {
+        var wish = stack.getTagElement(WISH);
+        return wish != null && wish.hasUUID("player") ? wish.getUUID("player") : null;
+    }
+
+    /** 许愿者的名字；没有许愿记录时返回空串。 */
+    public static String ownerName(ItemStack stack) {
+        var wish = stack.getTagElement(WISH);
+        return wish == null ? "" : wish.getString("name");
+    }
+
     @Override
     public boolean isFoil(ItemStack stack) {
         return true;

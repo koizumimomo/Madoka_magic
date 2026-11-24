@@ -44,6 +44,7 @@ public class MadokaWitchRenderer extends GeoEntityRenderer<MadokaWitchEntity> {
 
     public static void registerVisualReload(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener((ResourceManagerReloadListener) RitualVisualStyle::reload);
+        event.registerReloadListener((ResourceManagerReloadListener) WitchPortalRenderer::reload);
     }
 
     @Override

@@ -1,8 +1,6 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "top": "madoka_magic:block/barrier_floor/kriemhild_gretchen_0",
-    "side": "minecraft:block/pink_terracotta",
-    "bottom": "minecraft:block/pink_terracotta"
+    "all": "madoka_magic:block/barrier_floor/kriemhild_gretchen_0"
   }
 }

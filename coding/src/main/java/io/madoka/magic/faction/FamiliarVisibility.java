@@ -43,9 +43,22 @@ public final class FamiliarVisibility {
 
     /** Used by vanilla target selection before it chooses the nearest candidate. */
     public static boolean ignoresTarget(Entity source, Entity target) {
-        return target instanceof ServerPlayer player && source instanceof Mob mob
-                && (!canWitchTarget(player) && Faction.isFamiliar(mob)
-                        || AtonementMinions.isMinion(mob) && !WitchFamiliars.isEncounterVisitor(mob, player));
+        if (!(target instanceof ServerPlayer player) || !(source instanceof Mob mob)) {
+            return false;
+        }
+        // 魔女形态玩家与所有敌对生物同阵营，怪物不再攻击它们；
+        // 半魔女化仍是魔法少女阵营，照常被攻击。
+        if (source instanceof Enemy && isWitchForm(player)) {
+            return true;
+        }
+        return !canWitchTarget(player) && Faction.isFamiliar(mob)
+                || AtonementMinions.isMinion(mob) && !WitchFamiliars.isEncounterVisitor(mob, player);
+    }
+
+    /** 处于魔女形态的玩家（半魔女化不算）。 */
+    public static boolean isWitchForm(Player player) {
+        PlayerMadokaData data = PlayerMadokaData.of(player);
+        return data.isWitchPath() && data.isTransformed();
     }
 
     /** Used by the server tracker, so ordinary viewers never receive the entity. */
@@ -164,6 +177,14 @@ public final class FamiliarVisibility {
         var memory = mob.getBrain().getMemoryInternal(MemoryModuleType.ATTACK_TARGET);
         if (memory != null && ignoresTarget(mob, memory.orElse(null))) {
             mob.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
+        }
+        // 猪灵/监守者等用 ANGRY_AT 记仇，形态切换后要一并清掉，否则会绕开目标选择继续追打。
+        var angry = mob.getBrain().getMemoryInternal(MemoryModuleType.ANGRY_AT);
+        if (angry != null && angry.isPresent() && mob.getServer() != null) {
+            ServerPlayer angryAt = mob.getServer().getPlayerList().getPlayer(angry.get());
+            if (angryAt != null && isWitchForm(angryAt)) {
+                mob.getBrain().eraseMemory(MemoryModuleType.ANGRY_AT);
+            }
         }
     }
 

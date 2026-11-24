@@ -1,0 +1,30 @@
+{
+  "type": "madoka_magic:altar_ritual",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "curios"
+    }
+  ],
+  "ingredients": [
+    [
+      {
+        "item": "madoka_magic:grief_seed_maledictus"
+      },
+      {
+        "type": "forge:partial_nbt",
+        "item": "madoka_magic:grief_seed",
+        "nbt": {
+          "theme": "maledictus"
+        }
+      }
+    ]
+  ],
+  "catalyst": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "life_cost": 0.15,
+  "result": {
+    "item": "madoka_magic:curse_weapon_maledictus"
+  }
+}

@@ -10,7 +10,7 @@
   "mana_max": 140,
   "tone": "decisive",
   "damage_dealt": 1.1,
-  "damage_taken": 1.1,
+  "damage_taken": 1.25,
   "taint_rate": 1.2,
   "mana_gain": 1.05,
   "contract_material": "madoka_magic:wish_black_tulip",

@@ -12,7 +12,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -48,7 +47,7 @@ public final class MadokaSpellEffects {
     static final double BEE_STING_RANGE = 6.0D;
     static final double PROMISE_RANGE = 6.0D;
     static final double TULIP_DAMAGE = 5.0D;
-    static final double BEE_STING_DAMAGE = 2.0D;
+    static final double BEE_STING_DAMAGE = 1.2D;
 
     /** 凋零：范围半径与基础伤害。 */
     public static final double WITHER_RADIUS = 4.0D;
@@ -90,6 +89,7 @@ public final class MadokaSpellEffects {
         SpellEffects.registerPassive(TYPE_PREFIX + "obsession", MadokaPassives.OBSESSION);
         SpellEffects.registerPassive(TYPE_PREFIX + "ember", MadokaPassives.EMBER);
         SpellEffects.registerPassive(TYPE_PREFIX + "sin_mark", AtonementPassives.SIN_MARK);
+        SpellEffects.registerPassive(TYPE_PREFIX + "atonement_repay", AtonementPassives.REPAY);
     }
 
     // ------------------------------------------------------------ 献身系 · 主动技能
@@ -349,20 +349,20 @@ public final class MadokaSpellEffects {
 
     // ------------------------------------------------------------ 其它系的主动技能
 
-    /** 蜂刺：伤害 + 中毒。 */
+    /** 蜂刺：伤害 + 中毒；无目标也可空放（与蝶翼斩同规则）。 */
     private static int beeSting(ServerPlayer caster) {
         ServerLevel level = caster.serverLevel();
-        LivingEntity target = SpellCasting.aimedMob(caster, BEE_STING_RANGE,
-                entity -> entity instanceof Enemy || Faction.isFamiliar(entity));
-        if (target == null) {
-            return SpellCasting.RESULT_NO_TARGET;
+        LivingEntity target = SpellCasting.aimedMob(caster, BEE_STING_RANGE, entity -> true);
+        if (target != null) {
+            target.hurt(level.damageSources().playerAttack(caster),
+                    (float) MadokaMath.finalDamage(caster, BEE_STING_DAMAGE));
+            target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
+        } else {
+            TakeVisuals.sting(caster, caster.getEyePosition()
+                    .add(caster.getLookAngle().scale(SpellCasting.range(BEE_STING_RANGE))));
         }
-        target.hurt(level.damageSources().playerAttack(caster),
-                (float) MadokaMath.finalDamage(caster, BEE_STING_DAMAGE));
-        target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
         level.playSound(null, caster.blockPosition(), SoundEvents.SPIDER_AMBIENT,
                 SoundSource.PLAYERS, 0.6F, 1.8F);
-        TakeVisuals.sting(caster, target);
         return SpellCasting.RESULT_SUCCESS;
     }
 

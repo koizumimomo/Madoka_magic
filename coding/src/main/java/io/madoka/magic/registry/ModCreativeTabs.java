@@ -36,12 +36,13 @@ public final class ModCreativeTabs {
                         // 祭坛
                         output.accept(ModItems.ALTAR_ITEM.get());
                         output.accept(ModItems.DISPLAY_RING.get());
+                        ModItems.CURSE_WEAPONS.values().forEach(item -> output.accept(item.get()));
+                        // 测试工具（统一放在标签页最下面）
                         output.accept(ModItems.TEST_RELEASE_CONTRACT.get());
                         output.accept(ModItems.TEST_MAX_PURITY.get());
                         output.accept(ModItems.TEST_WITCH_PORTAL.get());
                         output.accept(ModItems.TEST_WITCH_FORM.get());
                         output.accept(ModItems.TEST_RAISE_TAINT.get());
-                        ModItems.CURSE_WEAPONS.values().forEach(item -> output.accept(item.get()));
                     })
                     .build());
 

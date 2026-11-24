@@ -20,10 +20,27 @@ public final class ModParticles {
     }
 
     public static void register(IEventBus bus) {
-        // Initialize the enum before attaching its deferred registrations.
+        // Initialize the enums before attaching their deferred registrations.
         Devotion.values();
         Take.values();
+        Witch.values();
+        CircleStreak.values();
         TYPES.register(bus);
+    }
+
+    /** 变身法阵的上升光点：对应颜色的单像素短线条，每系一枚。 */
+    public enum CircleStreak {
+        DEVOTION("circle_streak_devotion"), ATONEMENT("circle_streak_atonement"), TAKE("circle_streak_take");
+
+        private final RegistryObject<SimpleParticleType> particle;
+
+        CircleStreak(String id) {
+            particle = TYPES.register(id, () -> new SimpleParticleType(false));
+        }
+
+        public SimpleParticleType get() {
+            return particle.get();
+        }
     }
 
     public enum Devotion {
@@ -56,6 +73,22 @@ public final class ModParticles {
         private final RegistryObject<SimpleParticleType> particle;
 
         Take(String id) {
+            particle = TYPES.register(id, () -> new SimpleParticleType(false));
+        }
+
+        public SimpleParticleType get() {
+            return particle.get();
+        }
+    }
+
+    /** 魔女途径技能的紫黑色粒子。 */
+    public enum Witch {
+        SLASH("witch_slash"), MOTE("witch_mote"), MARK("witch_mark"),
+        VENOM("witch_venom"), PULSE("witch_pulse"), TEAR("witch_tear");
+
+        private final RegistryObject<SimpleParticleType> particle;
+
+        Witch(String id) {
             particle = TYPES.register(id, () -> new SimpleParticleType(false));
         }
 

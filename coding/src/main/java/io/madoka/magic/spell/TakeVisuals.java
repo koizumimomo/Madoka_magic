@@ -33,9 +33,13 @@ final class TakeVisuals {
     }
 
     static void sting(ServerPlayer caster, LivingEntity target) {
+        sting(caster, target.getBoundingBox().getCenter());
+    }
+
+    /** 无目标空放：射线打向指定点。 */
+    static void sting(ServerPlayer caster, Vec3 center) {
         var level = caster.serverLevel();
         var start = caster.getEyePosition().add(caster.getLookAngle().scale(0.55D));
-        var center = target.getBoundingBox().getCenter();
         beam(level, start, center);
         burst(level, center, 6, 0.34D);
     }

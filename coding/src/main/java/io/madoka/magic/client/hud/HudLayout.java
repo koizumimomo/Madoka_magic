@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Files;
@@ -27,6 +28,8 @@ public final class HudLayout {
     static {
         register(new HudElements.SoulGem());
         register(new HudElements.Cooldowns());
+        register(new HudElements.CurseStacks());
+        register(new HudElements.CurseDebt());
         load();
     }
 
@@ -52,9 +55,7 @@ public final class HudLayout {
             if (placement == null || !placement.visible() || !element.visible()) {
                 continue;
             }
-            int x = placement.anchor().x(screenWidth, element.width(), placement.offsetX());
-            int y = placement.anchor().y(screenHeight, element.height(), placement.offsetY());
-            element.render(graphics, x, y);
+            renderElement(graphics, element, placement, screenWidth, screenHeight, false);
         }
     }
 
@@ -66,10 +67,14 @@ public final class HudLayout {
             if (placement == null) {
                 continue;
             }
-            int x = placement.anchor().x(screenWidth, element.width(), placement.offsetX());
-            int y = placement.anchor().y(screenHeight, element.height(), placement.offsetY());
-            graphics.renderOutline(x - 2, y - 2, element.width() + 4, element.height() + 4, 0xFFFFFFFF);
-            graphics.drawString(font, element.id(), x, y - 10, 0xFF9FE0A0, false);
+            var bounds = bounds(element, placement, screenWidth, screenHeight);
+            renderElement(graphics, element, placement, screenWidth, screenHeight, true);
+            graphics.renderOutline(bounds.x - 2, bounds.y - 2, bounds.width + 4, bounds.height + 4,
+                    placement.visible() ? 0xffeeeeee : 0xff826e88);
+            Component label = Component.translatable("hud.madoka_magic." + element.id());
+            if (!placement.visible()) label = Component.translatable("screen.madoka_magic.hud_edit.hidden", label);
+            graphics.drawString(font, label, bounds.x, Math.max(1, bounds.y - 10),
+                    placement.visible() ? 0xff9fe0a0 : 0xffaa8fae, false);
         }
     }
 
@@ -80,10 +85,9 @@ public final class HudLayout {
             if (placement == null) {
                 continue;
             }
-            int x = placement.anchor().x(screenWidth, element.width(), placement.offsetX());
-            int y = placement.anchor().y(screenHeight, element.height(), placement.offsetY());
-            if (mouseX >= x - 3 && mouseX <= x + element.width() + 3
-                    && mouseY >= y - 3 && mouseY <= y + element.height() + 3) {
+            var bounds = bounds(element, placement, screenWidth, screenHeight);
+            if (mouseX >= bounds.x - 3 && mouseX <= bounds.x + bounds.width + 3
+                    && mouseY >= bounds.y - 3 && mouseY <= bounds.y + bounds.height + 3) {
                 return element.id();
             }
         }
@@ -103,6 +107,49 @@ public final class HudLayout {
             PLACEMENTS.put(element.id(), new HudPlacement(element.defaultAnchor(),
                     element.defaultOffsetX(), element.defaultOffsetY(), 1.0F, true));
         }
+    }
+
+    private record Bounds(int x, int y, int width, int height) {}
+
+    private static Bounds bounds(HudElement element, HudPlacement placement, int screenWidth, int screenHeight) {
+        float scale = scale(placement);
+        int width = (int) Math.ceil(element.width() * scale);
+        int height = (int) Math.ceil(element.height() * scale);
+        var anchor = placement.anchor() == null ? element.defaultAnchor() : placement.anchor();
+        int x = net.minecraft.util.Mth.clamp(anchor.x(screenWidth, width, placement.offsetX()), 0, Math.max(0, screenWidth - width));
+        int y = net.minecraft.util.Mth.clamp(anchor.y(screenHeight, height, placement.offsetY()), 0, Math.max(0, screenHeight - height));
+        return new Bounds(x, y, width, height);
+    }
+
+    private static float scale(HudPlacement placement) {
+        return Float.isFinite(placement.scale()) ? net.minecraft.util.Mth.clamp(placement.scale(), 0.5f, 3f) : 1;
+    }
+
+    private static void renderElement(GuiGraphics graphics, HudElement element, HudPlacement placement,
+                                      int screenWidth, int screenHeight, boolean preview) {
+        var bounds = bounds(element, placement, screenWidth, screenHeight);
+        var pose = graphics.pose();
+        pose.pushPose();
+        pose.translate(bounds.x, bounds.y, 0);
+        pose.scale(scale(placement), scale(placement), 1);
+        pose.translate(-bounds.x, -bounds.y, 0);
+        try {
+            if (preview) element.renderPreview(graphics, bounds.x, bounds.y);
+            else element.render(graphics, bounds.x, bounds.y);
+        } finally {
+            pose.popPose();
+        }
+    }
+
+    public static void resize(String id, float delta) {
+        var placement = PLACEMENTS.get(id);
+        if (placement != null) PLACEMENTS.put(id, placement.withScale(
+                net.minecraft.util.Mth.clamp(scale(placement) + delta, 0.5f, 3f)));
+    }
+
+    public static void toggle(String id) {
+        var placement = PLACEMENTS.get(id);
+        if (placement != null) PLACEMENTS.put(id, placement.withVisible(!placement.visible()));
     }
 
     public static void load() {

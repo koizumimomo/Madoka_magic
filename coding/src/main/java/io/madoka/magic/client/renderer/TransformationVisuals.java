@@ -80,18 +80,6 @@ public final class TransformationVisuals {
         return form != null && !form.state().witch() ? form.state().theme() : "";
     }
 
-    static String accessoryTheme(AbstractClientPlayer player) {
-        var form = trackedForm(player);
-        if (form != null && form.state().halfWitch()) {
-            return "";
-        }
-        if (player == Minecraft.getInstance().player) {
-            return ClientMadokaState.isContracted() && ClientMadokaState.isTransformed() && !ClientMadokaState.isWitchPath()
-                    ? ClientMadokaState.getThemeId() : "";
-        }
-        return form != null && !form.state().witch() ? form.state().theme() : "";
-    }
-
     private static Form trackedForm(AbstractClientPlayer player) {
         var form = FORMS.get(player.getUUID());
         return form != null && form.level() == player.level() && form.state().entityId() == player.getId() ? form : null;

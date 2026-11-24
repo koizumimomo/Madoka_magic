@@ -5,6 +5,7 @@ import io.madoka.magic.entity.MourningWitchCombat;
 import io.madoka.magic.registry.ModParticles;
 import io.madoka.magic.registry.ModParticles.Devotion;
 import io.madoka.magic.registry.ModParticles.Take;
+import io.madoka.magic.registry.ModParticles.Witch;
 import net.minecraft.client.Camera;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -69,6 +70,25 @@ public final class DevotionParticle extends TextureSheetParticle {
         register(event, Take.HONEY.get(), new Style(12, 0.20F, -0.015F, 0.11F, Surface.BILLBOARD), false);
         register(event, Take.SEED.get(), new Style(6, 0.22F), false);
         register(event, Take.ILLUSION.get(), new Style(12, 0.28F, -0.012F, 0.07F, Surface.BILLBOARD), false);
+        // 法阵上升光点：单像素短线条，微小 spin 只是让 tick 里的淡出生效
+        for (ModParticles.CircleStreak effect : ModParticles.CircleStreak.values()) {
+            register(event, effect.get(), new Style(16, 0.40F, 0, 0.0001F, Surface.BILLBOARD), false);
+        }
+        for (Witch effect : Witch.values()) {
+            Style style = switch (effect) {
+                case SLASH -> new Style(13, 2.55F);
+                case MOTE -> new Style(16, 0.55F, -0.012F, 0.018F, Surface.BILLBOARD);
+                case MARK -> new Style(12, 0.35F);
+                case VENOM -> new Style(12, 0.20F, -0.015F, 0.11F, Surface.BILLBOARD);
+                case PULSE -> new Style(9, 0.37F);
+                case TEAR -> new Style(22, 0.15F, 2.6F, 0.0F, Surface.BILLBOARD);
+            };
+            boolean scaled = switch (effect) {
+                case SLASH, MARK, PULSE -> true;
+                default -> false;
+            };
+            register(event, effect.get(), style, scaled);
+        }
         register(event, ModParticles.MOURNING_FOOTPRINT.get(),
                 new Style(MourningWitchCombat.FOOTPRINT_WARNING_TICKS, 1.0F, 0, 0, Surface.GROUND), true);
         register(event, ModParticles.MOURNING_ROSE.get(), new Style(18, 0.82F), false);

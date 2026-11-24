@@ -44,7 +44,12 @@ public record ProgressionState(CompoundTag state) {
             nodes.add(value);
         }
         tag.put("nodes", nodes);
-        tag.put("cooldowns", SpellCasting.cooldownSnapshot(player));
+        var cooldowns = SpellCasting.cooldownSnapshot(player);
+        io.madoka.magic.spell.OriginalCurseEffects.addCooldowns(player,cooldowns);
+        tag.put("cooldowns",cooldowns);
+        tag.put("curseStacks", io.madoka.magic.data.CurseStackState.snapshot(player));
+        tag.put("curseDebt", io.madoka.magic.data.CurseDebtState.snapshot(player));
+        tag.put("originalCurseDefs", io.madoka.magic.data.OriginalCurseDefinitions.snapshot());
         MadokaNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ProgressionState(tag));
     }
 

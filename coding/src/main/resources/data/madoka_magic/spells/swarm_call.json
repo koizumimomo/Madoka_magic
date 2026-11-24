@@ -13,7 +13,7 @@
     "max_bees": 6,
     "duration_seconds": 12,
     "range": 9,
-    "sting_damage": 2.5,
+    "sting_damage": 1.5,
     "sting_interval_seconds": 1.25
   }
 }

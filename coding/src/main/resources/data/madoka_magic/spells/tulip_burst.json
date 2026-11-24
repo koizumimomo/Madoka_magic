@@ -5,7 +5,7 @@
   "desc_key": "spell.madoka_magic.tulip_burst.desc",
   "icon": "madoka_magic:textures/gui/spells/tulip_burst.png",
   "cooldown": 10,
-  "mana_cost": 20.0,
+  "mana_cost": 35.0,
   "taint_on_cast": 0.3,
   "unlock_level": 30
 }

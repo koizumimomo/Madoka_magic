@@ -46,4 +46,23 @@ public final class AtonementPassives {
             }
         }
     };
+
+    /** 「赎偿」每次造成伤害回复魔力的比例。 */
+    public static final double MANA_PER_DAMAGE = 0.05D;
+
+    /** 赎偿：造成伤害时，按实际伤害的 5% 缓慢回复魔力（普攻与技能都算）。 */
+    public static final SpellEffects.PassiveEffect REPAY = new SpellEffects.PassiveEffect() {
+        @Override
+        public void onDealDamage(ServerPlayer caster, LivingEntity target, float amount) {
+            if (amount <= 0.0F) {
+                return;
+            }
+            io.madoka.magic.data.PlayerMadokaData data = io.madoka.magic.data.PlayerMadokaData.of(caster);
+            double room = io.madoka.magic.util.MadokaMath.manaMax(caster) - data.getMana();
+            if (room <= 0.0D) {
+                return;
+            }
+            data.restoreMana(Math.min(room, amount * MANA_PER_DAMAGE));
+        }
+    };
 }

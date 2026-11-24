@@ -1,0 +1,6 @@
+{
+  "kind": "honey",
+  "matching_multiplier": 1.2,
+  "attributes": {"attack": 0, "power": 0.06, "armor": 0},
+  "parameters": {"heal_fraction": [0.08, 0.12, 0.16], "overflow_mana_ratio": 1.0}
+}

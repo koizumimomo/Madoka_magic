@@ -46,8 +46,9 @@ public final class SpellEffects {
          *
          * @param caster 造成伤害的玩家
          * @param target 被击中的目标
+         * @param amount 实际结算的伤害量
          */
-        default void onDealDamage(ServerPlayer caster, LivingEntity target) {
+        default void onDealDamage(ServerPlayer caster, LivingEntity target, float amount) {
         }
 
         /**

@@ -21,6 +21,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -160,7 +162,13 @@ public final class PlayerTransformation {
         modifier(player, Attributes.MAX_HEALTH, witch != null ? witch.health() : active ? MadokaConfig.FORM_HEALTH_BONUS.get() : 0);
         modifier(player, Attributes.ATTACK_DAMAGE, witch != null ? witch.attack() : active ? MadokaConfig.FORM_ATTACK_BONUS.get() : 0);
         modifier(player, Attributes.ARMOR, witch != null ? witch.armor() : active ? MadokaConfig.FORM_ARMOR_BONUS.get() : 0);
-        modifier(player, Attributes.MOVEMENT_SPEED, witch != null ? witch.speed() : 0);
+        modifier(player, Attributes.MOVEMENT_SPEED, witch != null
+                ? Math.max(witch.speed(), MadokaConfig.FORM_SPEED_BONUS.get())
+                : active ? MadokaConfig.FORM_SPEED_BONUS.get() : 0);
+        // 变身玩家（魔法少女与魔女形态）常驻跳跃提升 III：用隐藏药水保证两端物理一致
+        if (active) {
+            player.addEffect(new MobEffectInstance(MobEffects.JUMP, 60, 2, true, false, false));
+        }
         var mana = player.getAttribute(MadokaAttributes.MAGIC_MANA.get());
         if (mana != null) {
             // Old versions persisted the theme capacity as a base value.

@@ -4,6 +4,7 @@ import io.madoka.magic.compat.CataclysmCompat;
 import io.madoka.magic.config.MadokaConfig;
 import io.madoka.magic.data.MadokaSavedData;
 import io.madoka.magic.dimension.BarrierFloor;
+import io.madoka.magic.dimension.BarrierScenes;
 import io.madoka.magic.dimension.MadokaDimensions;
 import io.madoka.magic.event.PortalEvents;
 import io.madoka.magic.faction.WitchFamiliars;
@@ -277,7 +278,8 @@ public class WitchPortalEntity extends Entity {
         }
         var previousDim = player.level().dimension().location();
         Vec3 previousPos = player.position();
-        BlockPos start = encounter.arena().offset(0, 0, -16);
+        BarrierScenes.apply(target, encounter.arena(), getThemeId());
+        BlockPos start = BarrierScenes.spawnPoint(getThemeId(), encounter.arena());
         target.getChunkAt(start);
         int y = target.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, start.getX(), start.getZ());
         player.teleportTo(target, start.getX() + 0.5D, y, start.getZ() + 0.5D, 0.0F, 0.0F);
@@ -318,6 +320,7 @@ public class WitchPortalEntity extends Entity {
     private boolean spawnEncounter(ServerLevel dimension, MadokaSavedData.Encounter encounter, UUID id) {
         BlockPos anchor = encounter.arena();
         BarrierFloor.refreshLegacyArena(dimension, anchor, getThemeId());
+        BarrierScenes.apply(dimension, anchor, getThemeId());
         dimension.getChunkAt(anchor);
         boolean compat = CataclysmCompat.isBarrierTheme(getThemeId());
         boolean caves = io.madoka.magic.compat.AlexCavesCompat.isBarrierTheme(getThemeId());

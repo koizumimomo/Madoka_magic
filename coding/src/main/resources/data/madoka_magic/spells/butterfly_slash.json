@@ -5,7 +5,7 @@
   "desc_key": "spell.madoka_magic.butterfly_slash.desc",
   "icon": "madoka_magic:textures/gui/spells/butterfly_slash.png",
   "cooldown": 4,
-  "mana_cost": 6.0,
+  "mana_cost": 10.5,
   "taint_on_cast": 0.3,
   "unlock_level": 10,
   "parameters": {

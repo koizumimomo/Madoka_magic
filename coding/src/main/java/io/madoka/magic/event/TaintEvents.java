@@ -64,6 +64,7 @@ public class TaintEvents {
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
+        if (io.madoka.magic.spell.OriginalCurseEffects.isSettlement(event.getSource())) return;
         if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) || event.getSource().is(WitchCombat.FAMILIAR_LINK)) {
             return;
         }
@@ -144,6 +145,7 @@ public class TaintEvents {
      */
     @SubscribeEvent
     public void onPlayerHurt(LivingDamageEvent event) {
+        if (io.madoka.magic.spell.OriginalCurseEffects.isSettlement(event.getSource())) return;
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
@@ -186,6 +188,7 @@ public class TaintEvents {
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerDealDamage(LivingDamageEvent event) {
+        if (io.madoka.magic.spell.OriginalCurseEffects.isSettlement(event.getSource())) return;
         if (event.getAmount() <= 0.0F || event.getSource().is(WitchCombat.FAMILIAR_LINK)
                 || !(event.getSource().getEntity() instanceof ServerPlayer attacker)) {
             return;
@@ -197,7 +200,7 @@ public class TaintEvents {
         for (var def : SpellRegistry.passivesOf(attackerData)) {
             var passive = io.madoka.magic.spell.SpellEffects.passive(def.type());
             if (passive != null) {
-                passive.onDealDamage(attacker, event.getEntity());
+                passive.onDealDamage(attacker, event.getEntity(), event.getAmount());
             }
         }
     }

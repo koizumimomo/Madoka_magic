@@ -3,6 +3,7 @@ package io.madoka.magic.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.madoka.magic.registry.MadokaAttributes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -23,7 +24,7 @@ import java.util.UUID;
  *
  * <p>和净化共用同一颗种子：净化会掉耐久，满耐久才保留完整的诅咒，才能炼成咒具。</p>
  */
-public final class CurseWeaponItem extends Item implements ICurioItem {
+public final class CurseWeaponItem extends Item implements ICurioItem, CurseRelic {
 
     /** Curios 槽位 id，与 {@code data/madoka_magic/curios/slots/curse.json} 对应。 */
     public static final String SLOT = "curse";
@@ -56,11 +57,19 @@ public final class CurseWeaponItem extends Item implements ICurioItem {
             return ImmutableMultimap.of();
         }
         var builder = ImmutableMultimap.<Attribute, AttributeModifier>builder();
-        add(builder, uuid, Attributes.ATTACK_DAMAGE, "attack", attack);
-        add(builder, uuid, Attributes.ARMOR, "armor", armor);
+        // 创造物品栏构建搜索索引等场景 entity 为 null，按客户端处理。
+        var entity = slot.entity();
+        boolean clientSide = entity == null || entity.level().isClientSide;
+        var profile = clientSide ? io.madoka.magic.data.OriginalCurseDefinitions.client(theme)
+                : io.madoka.magic.data.OriginalCurseDefinitions.get(theme);
+        double effectiveAttack = profile == null ? attack : profile.attribute("attack");
+        double effectiveArmor = profile == null ? armor : profile.attribute("armor");
+        double effectivePower = profile == null ? power : profile.attribute("power");
+        add(builder, uuid, Attributes.ATTACK_DAMAGE, "attack", effectiveAttack);
+        add(builder, uuid, Attributes.ARMOR, "armor", effectiveArmor);
         var magic = MadokaAttributes.MAGIC_POWER.get();
-        if (magic != null && power != 0.0D) {
-            builder.put(magic, new AttributeModifier(uuid, "curse_power", power,
+        if (magic != null && effectivePower != 0.0D) {
+            builder.put(magic, new AttributeModifier(uuid, "curse_power", effectivePower,
                     AttributeModifier.Operation.ADDITION));
         }
         return builder.build();
@@ -76,7 +85,26 @@ public final class CurseWeaponItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.madoka_magic.curse.slot"));
-        tooltip.add(Component.translatable("tooltip.madoka_magic.curse.pristine"));
+        tooltip.add(Component.translatable("tooltip.madoka_magic.curse.slot")
+                .withStyle(ChatFormatting.DARK_BLUE));
+        tooltip.add(Component.translatable("tooltip.madoka_magic.curse.pristine")
+                .withStyle(ChatFormatting.AQUA, ChatFormatting.STRIKETHROUGH));
+        int rank = CurseRelic.level(stack);
+        tooltip.add(Component.translatable("tooltip.madoka_magic.curse.level", rank)
+                .withStyle(ChatFormatting.GOLD));
+        var definition = level != null && !level.isClientSide ? io.madoka.magic.data.OriginalCurseDefinitions.get(theme)
+                : io.madoka.magic.data.OriginalCurseDefinitions.client(theme);
+        if (definition != null) {
+            tooltip.add(Component.translatable("tooltip.madoka_magic.curse.effect." + definition.kind(),
+                switch(definition.kind()) {
+                    case "butterfly" -> Math.round(definition.value("echo_ratio",rank)*100);
+                    case "honey" -> Math.round(definition.value("heal_fraction",rank)*100);
+                    default -> Math.round(definition.value("delay_ticks",rank)/20);
+                }).withStyle(ChatFormatting.BLUE));
+            tooltip.add(Component.translatable("tooltip.madoka_magic.curse.matching",Math.round((definition.matching()-1)*100))
+                    .withStyle(ChatFormatting.BLUE));
+            tooltip.add(Component.translatable("tooltip.madoka_magic.curse.upgrade")
+                    .withStyle(ChatFormatting.BLUE));
+        }
     }
 }

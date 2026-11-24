@@ -73,6 +73,7 @@ public final class SelfishEye {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onHurt(LivingHurtEvent event) {
+        if (OriginalCurseEffects.isSettlement(event.getSource())) return;
         if (event.getAmount() > 0.0F && event.getEntity() instanceof ServerPlayer victim
                 && event.getSource().getEntity() instanceof LivingEntity attacker && attacker != victim) {
             touch(victim);

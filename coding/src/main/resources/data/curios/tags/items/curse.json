@@ -1,0 +1,93 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "madoka_magic:curse_weapon_sacrifice",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_take",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_atonement",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_candeloro",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_oktavia",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_ophelia",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_homulilly",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_kriemhild_gretchen",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_annegret",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_sieglinde",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_brunhilde",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_amethyst_crab",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_ancient_remnant",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_netherite_monstrosity",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_scylla",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_ignis",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_ender_guardian",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_the_harbinger",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_the_leviathan",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_maledictus",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_walpurgisnacht",
+      "required": false
+    },
+    {
+      "id": "madoka_magic:curse_weapon_gluttony",
+      "required": false
+    }
+  ]
+}

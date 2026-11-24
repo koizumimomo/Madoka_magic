@@ -9,7 +9,6 @@ import io.madoka.magic.client.renderer.AnnegretMaskLayer;
 import io.madoka.magic.client.renderer.AnnegretRenderers;
 import io.madoka.magic.client.renderer.GluttonyWitchRenderer;
 import io.madoka.magic.client.renderer.MadokaWitchRenderer;
-import io.madoka.magic.client.renderer.MagicalGirlAccessories;
 import io.madoka.magic.client.renderer.MourningSkullOrbitRenderer;
 import io.madoka.magic.client.renderer.RainThornRenderer;
 import io.madoka.magic.client.renderer.WitchPortalRenderer;
@@ -71,10 +70,16 @@ public final class MadokaClient {
                 (net.minecraft.server.packs.resources.ResourceManagerReloadListener) TooltipDecorations::reload);
     }
 
+    /** 描边文本 tooltip（咒具/悲叹之种/魔女之吻）。 */
+    @SubscribeEvent
+    public static void onRegisterTooltipFactories(
+            net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent event) {
+        event.register(OutlinedTooltip.class, OutlinedTooltip.Renderer::new);
+    }
+
     /** 注册渲染器（祭坛悬浮材料、魔女、结界传送门）。 */
     @SubscribeEvent
     public static void onAddLayers(net.minecraftforge.client.event.EntityRenderersEvent.AddLayers event) {
-        MagicalGirlAccessories.addLayers(event);
         AnnegretMaskLayer.register(event);
     }
 
@@ -116,6 +121,10 @@ public final class MadokaClient {
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.MOURNING_SKELETON.get(), AtonementRenderers.MourningSkeleton::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.ARENA_COCOON.get(),
                 io.madoka.magic.client.renderer.ArenaCocoonRenderer::new);
+        event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.BARRIER_TREE.get(),
+                io.madoka.magic.client.renderer.BarrierTreeRenderer::new);
+        event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.BARRIER_PROP.get(),
+                io.madoka.magic.client.renderer.BarrierPropRenderer::new);
         event.registerEntityRenderer(io.madoka.magic.registry.ModEntities.GLUTTONY_WITCH.get(), GluttonyWitchRenderer::new);
         event.registerEntityRenderer(
                 io.madoka.magic.registry.ModEntities.WITCH_PORTAL.get(),

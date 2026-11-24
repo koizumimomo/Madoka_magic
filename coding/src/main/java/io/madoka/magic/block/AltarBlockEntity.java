@@ -211,6 +211,9 @@ public class AltarBlockEntity extends BlockEntity {
         if (result.isEmpty() || !canCraftContract(result, materials)) {
             return RitualResult.NO_RECIPE;
         }
+        if (result.getItem() instanceof ContractItem) {
+            inheritContractOwner(result, materials);
+        }
         boolean wish = result.getItem() instanceof WishMaterialItem;
         float healthCost = recipe == null ? 0.0F : player.getMaxHealth() * recipe.lifeCost();
         if (healthCost >= player.getHealth()) {
@@ -262,6 +265,29 @@ public class AltarBlockEntity extends BlockEntity {
         }
         level.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.8F, 1.3F);
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 0.6F, 1.6F);
+    }
+
+    /**
+     * 契约继承许愿材料上的归属者：只有写下愿望的玩家才能使用这份契约。
+     * recipe 与旧的数据包两条产出路径都会经过这里。
+     */
+    private static void inheritContractOwner(ItemStack result, SimpleContainer materials) {
+        var theme = MagicalGirlRegistry.get(ContractItem.getThemeId(result));
+        var required = theme == null ? null : ForgeRegistries.ITEMS.getValue(theme.getContractMaterial());
+        for (int slot : SLOTS) {
+            ItemStack stack = materials.getItem(slot);
+            if (!(stack.getItem() instanceof WishMaterialItem) || !WishMaterialItem.hasWish(stack)) {
+                continue;
+            }
+            if (required != null && !stack.is(required)) {
+                continue;
+            }
+            java.util.UUID owner = WishMaterialItem.ownerId(stack);
+            if (owner != null) {
+                ContractItem.setOwner(result, owner, WishMaterialItem.ownerName(stack));
+                return;
+            }
+        }
     }
 
     private static boolean canCraftContract(ItemStack result, SimpleContainer materials) {

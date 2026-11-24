@@ -9,8 +9,8 @@
   "school": "eldritch",
   "mana_max": 120,
   "tone": "pressed",
-  "damage_dealt": 1.0,
-  "damage_taken": 0.85,
+  "damage_dealt": 0.9,
+  "damage_taken": 0.75,
   "taint_rate": 1.0,
   "mana_gain": 1.0,
   "contract_material": "madoka_magic:wish_eryngium",
@@ -23,7 +23,8 @@
   "passives": [
     "sin_mark",
     "obsession",
-    "ember"
+    "ember",
+    "atonement_repay"
   ],
   "planned_skills": [],
   "growth": {"armor_per_step": 0.5},

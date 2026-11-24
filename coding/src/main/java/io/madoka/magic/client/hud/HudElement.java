@@ -26,4 +26,8 @@ public interface HudElement {
     boolean visible();
 
     void render(GuiGraphics graphics, int x, int y);
+
+    default void renderPreview(GuiGraphics graphics, int x, int y) {
+        render(graphics, x, y);
+    }
 }

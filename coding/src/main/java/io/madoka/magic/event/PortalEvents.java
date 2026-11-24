@@ -64,7 +64,7 @@ public class PortalEvents {
             if (run == null || run.defeated()) {
                 return;
             }
-            BlockPos exit = exitPosition(level, witch.blockPosition());
+            BlockPos exit = exitPosition(level, run.arena());
             saved.defeatEncounter(id, exit);
             closeEntrance(level.getServer(), saved, run.owner(), id);
             if (saved.hasVisitors(id)) {
@@ -86,9 +86,10 @@ public class PortalEvents {
         closeEntrance(server, saved, owner, null);
     }
 
-    private static BlockPos exitPosition(ServerLevel level, BlockPos death) {
-        int x = death.getX() + 4;
-        return new BlockPos(x, level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, death.getZ()), death.getZ());
+    /** 出口门位置：.encounter 传竞技场锚点（几何中心），其余传魔女倒下的位置。 */
+    private static BlockPos exitPosition(ServerLevel level, BlockPos pos) {
+        return new BlockPos(pos.getX(),
+                level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(), pos.getZ()), pos.getZ());
     }
 
     private static void closeEntrance(MinecraftServer server, MadokaSavedData saved, UUID owner, UUID id) {

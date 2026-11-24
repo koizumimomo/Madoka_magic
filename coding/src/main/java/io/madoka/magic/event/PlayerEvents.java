@@ -20,6 +20,8 @@ import io.madoka.magic.util.MadokaMath;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -134,7 +136,11 @@ public class PlayerEvents {
         if (tick % 20 == 0 && player.isAlive()) {
             data.deliverWitchRewards(player);
         }
-        if (!player.isAlive() || !data.isContracted()) {
+        if (!player.isAlive()) {
+            return;
+        }
+        ensureNightVision(player, data);
+        if (!data.isContracted()) {
             return;
         }
         PlayerTransformation.tickHalfWitch(player, data);
@@ -147,6 +153,8 @@ public class PlayerEvents {
             if (data.isTransformed()) {
                 PlayerTransformation.refreshGrowth(player, data);
                 io.madoka.magic.spell.PromiseState.tick(player);
+                // 变身玩家（魔法少女与魔女形态）常驻跳跃提升 III（60 tick 短效药水，每秒续挂）
+                player.addEffect(new MobEffectInstance(MobEffects.JUMP, 60, 2, true, false, false));
                 double max = MadokaMath.manaMax(player);
                 if (data.getMana() < max) {
                     data.restoreMana(Math.min(max - data.getMana(), MadokaMath.manaRegen(player, data)));
@@ -161,6 +169,21 @@ public class PlayerEvents {
             }
             // 每秒同步一次
             MadokaNetwork.syncTo(player);
+        }
+    }
+
+    /** 契约玩家（魔法少女与魔女玩家）常驻夜视：无限时长、无粒子、隐藏图标。
+     *  维度切换等会清空效果，每 tick 校验后下一 tick 立即补挂，肉眼无感。 */
+    private static void ensureNightVision(ServerPlayer player, PlayerMadokaData data) {
+        var current = player.getEffect(MobEffects.NIGHT_VISION);
+        if (data.isContracted()) {
+            if (current == null || !current.isInfiniteDuration() || current.getAmplifier() != 0) {
+                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,
+                        MobEffectInstance.INFINITE_DURATION, 0, true, false, false));
+            }
+        } else if (current != null && current.isInfiniteDuration() && current.getAmplifier() == 0
+                && current.isAmbient() && !current.isVisible()) {
+            player.removeEffect(MobEffects.NIGHT_VISION);
         }
     }
 

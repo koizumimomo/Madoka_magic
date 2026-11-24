@@ -9,7 +9,7 @@
   "school": "blood",
   "mana_max": 90,
   "tone": "casual",
-  "damage_dealt": 0.9,
+  "damage_dealt": 0.85,
   "damage_taken": 0.9,
   "taint_rate": 0.85,
   "mana_gain": 1.1,

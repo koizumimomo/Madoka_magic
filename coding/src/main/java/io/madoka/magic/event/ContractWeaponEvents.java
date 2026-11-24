@@ -4,7 +4,9 @@ import io.madoka.magic.MadokaMagic;
 import io.madoka.magic.config.MadokaConfig;
 import io.madoka.magic.data.PlayerMadokaData;
 import io.madoka.magic.item.ContractWeapon;
+import io.madoka.magic.item.WeaponEngraving;
 import io.madoka.magic.spell.SpellCasting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -35,6 +38,11 @@ public final class ContractWeaponEvents {
 
     private static final UUID WEAPON_MODIFIER = UUID.fromString("be0c82ad-e76d-43c3-9fa1-68f965eb6dd9");
     private static final Map<ServerPlayer, Use> USES = new WeakHashMap<>();
+    /** 最近一次近战挥击的游戏刻，供 restrict() 区分近战与技能伤害。 */
+    private static final Map<ServerPlayer, Long> MELEE_TICKS = new WeakHashMap<>();
+    /** 铭刻提示的冷却，避免连续攻击时刷屏。 */
+    private static final Map<ServerPlayer, Long> ENGAGE_HINTS = new WeakHashMap<>();
+    private static final int ENGAGE_HINT_COOLDOWN = 1200;
 
     private static final class Use {
         final ContractWeapon weapon;
@@ -71,7 +79,7 @@ public final class ContractWeaponEvents {
             return null;
         }
         var data = PlayerMadokaData.of(player);
-        return data.isContracted() && data.isTransformed() && !data.isWitchPath()
+        return data.isContracted() && data.isTransformed()
                 && held == ContractWeapon.forTheme(data.getThemeId()) ? held : null;
     }
 
@@ -87,17 +95,19 @@ public final class ContractWeaponEvents {
             USES.remove(player);
             return;
         }
-        if (input == Input.CAST) {
-            // 折页：右键直接施放第一个技能（可无目标空放），不需要蓄力
+        var data = PlayerMadokaData.of(player);
+        String spell = weapon.spell(data.getTheme(), data.isWitchPath());
+        if (input == Input.CAST || data.isWitchPath() && input == Input.START) {
+            // 折页/魔女途：右键直接施放当前形态技能列表首个技能（可无目标空放），不需要蓄力
             USES.remove(player);
-            if (weapon.spell == null) {
+            if (spell == null) {
                 return;
             }
-            if (!PlayerMadokaData.of(player).hasSpell(weapon.spell)) {
+            if (!data.hasSpell(spell)) {
                 player.displayClientMessage(Component.translatable("message.madoka_magic.weapon.skill_locked"), true);
                 return;
             }
-            SpellCasting.castFromClient(player, weapon.spell, false);
+            SpellCasting.castFromClient(player, spell, false);
             return;
         }
         if (input == Input.START) {
@@ -116,12 +126,12 @@ public final class ContractWeaponEvents {
             return;
         }
         USES.remove(player);
-        if (weapon.spell != null && use.level.getGameTime() - use.startedAt >= MadokaConfig.weapon(weapon).chargeTicks().get()) {
-            if (!PlayerMadokaData.of(player).hasSpell(weapon.spell)) {
+        if (spell != null && use.level.getGameTime() - use.startedAt >= MadokaConfig.weapon(weapon).chargeTicks().get()) {
+            if (!data.hasSpell(spell)) {
                 player.displayClientMessage(Component.translatable("message.madoka_magic.weapon.skill_locked"), true);
                 return;
             }
-            SpellCasting.castFromClient(player, weapon.spell, false);
+            SpellCasting.castFromClient(player, spell, false);
         }
     }
 
@@ -193,6 +203,7 @@ public final class ContractWeaponEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void guard(LivingDamageEvent event) {
+        if (io.madoka.magic.spell.OriginalCurseEffects.isSettlement(event.getSource())) return;
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getAmount() <= 0
                 || event.getSource().is(DamageTypeTags.BYPASSES_SHIELD)
                 || event.getSource().getSourcePosition() == null) {
@@ -227,10 +238,84 @@ public final class ContractWeaponEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void markMelee(AttackEntityEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            MELEE_TICKS.put(player, player.serverLevel().getGameTime());
+        }
+    }
+
+    /**
+     * 变身态玩家（魔法少女/魔女）用非伴生、非铭刻的武器攻击时，
+     * 近战与原版弹射物一律只造成 1 点强制伤害。技能伤害与自定义技能
+     * 射弹（mod 命名空间）不经过此限制。
+     *
+     * <p>放在 LOWEST：TaintEvents 等倍率结算都在 NORMAL，先让它们乘完，
+     * 最后再把结果压回 1 点，否则 1 点会被伤害倍率重新放大。</p>
+     */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void restrict(LivingHurtEvent event) {
+        if (restricted(event.getSource())) {
+            event.setAmount(1.0F);
+            if (event.getSource().getEntity() instanceof ServerPlayer player) {
+                engageHint(player);
+            }
+        }
+    }
+
+    /** 用未铭刻武器打出强制 1 点时，按三系各给一句提示（60 秒冷却）。 */
+    private static void engageHint(ServerPlayer player) {
+        String theme = PlayerMadokaData.of(player).getThemeId();
+        if (!"sacrifice".equals(theme) && !"take".equals(theme) && !"atonement".equals(theme)) {
+            return;
+        }
+        long now = player.serverLevel().getGameTime();
+        Long last = ENGAGE_HINTS.get(player);
+        if (last != null && now - last < ENGAGE_HINT_COOLDOWN) {
+            return;
+        }
+        ENGAGE_HINTS.put(player, now);
+        // 走聊天栏：actionbar 会被试验假人的 DPS 显示顶掉
+        player.displayClientMessage(
+                Component.translatable("message.madoka_magic.engage.hint." + theme), false);
+    }
+
+    /** 护甲/附魔减伤在 LivingHurtEvent 之后结算，这里再兜底一次保证最终就是 1 点。 */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void restrictFinal(LivingDamageEvent event) {
+        if (restricted(event.getSource())) {
+            event.setAmount(1.0F);
+        }
+    }
+
+    private static boolean restricted(net.minecraft.world.damagesource.DamageSource source) {
+        if (!(source.getEntity() instanceof ServerPlayer player) || !PlayerMadokaData.of(player).isTransformed()) {
+            return false;
+        }
+        Entity direct = source.getDirectEntity();
+        // 近战 playerAttack 的直接来源就是玩家自己（不是 null）
+        boolean melee = direct == player && source.is(DamageTypes.PLAYER_ATTACK)
+                && Long.valueOf(player.serverLevel().getGameTime()).equals(MELEE_TICKS.get(player));
+        boolean vanillaProjectile = direct != null && "minecraft".equals(
+                BuiltInRegistries.ENTITY_TYPE.getKey(direct.getType()).getNamespace());
+        if (!melee && !vanillaProjectile) {
+            return false;
+        }
+        if (melee) {
+            return ContractWeapon.of(player.getMainHandItem()) == null
+                    && !WeaponEngraving.isEngraved(player.getMainHandItem());
+        }
+        return ContractWeapon.of(player.getMainHandItem()) == null
+                && ContractWeapon.of(player.getOffhandItem()) == null
+                && !WeaponEngraving.isEngraved(player.getMainHandItem())
+                && !WeaponEngraving.isEngraved(player.getOffhandItem());
+    }
+
     private static void updateAttributes(ServerPlayer player, ContractWeapon weapon) {
         var tuning = weapon == null ? null : MadokaConfig.weapon(weapon);
         replace(player.getAttribute(Attributes.ATTACK_DAMAGE), tuning == null ? 0.0D : tuning.damageBonus().get());
         replace(player.getAttribute(Attributes.ATTACK_SPEED), tuning == null ? 0.0D : tuning.speedBonus().get());
+        replace(player.getAttribute(ForgeMod.ENTITY_REACH.get()), tuning == null ? 0.0D : tuning.reachBonus().get());
     }
 
     private static void replace(AttributeInstance attribute, double value) {

@@ -22,6 +22,8 @@ import java.util.Map;
  * <ul>
  *   <li><b>封禁原版生成</b>：暝煌龙、遗弃者、甘草女巫在非结界维度一律不再
  *       以本体形式出现（甘草女巫原版刷得很多，不封会把世界填满门）；</li>
+ *   <li><b>可驯服生物</b>：恐龙、糖果独角兽、射线猫等不接入结界体系，
+ *       原栖息地保留原版生成、驯服与骑乘玩法；</li>
  *   <li><b>随机入口</b>：玩家身处对应洞穴生物群系时，按固定概率刷出该魔女的
  *       结界入口传送门——三位概率一致，甘草女巫不再因刷得多而更常见。</li>
  * </ul>
@@ -42,15 +44,19 @@ public final class AlexCavesSpawnEvents {
     /** 玩家身处对应洞穴时，每秒刷出入口门的概率分母（1/N，N=600 即均值 10 分钟）。 */
     private static final int SPAWN_CHANCE = 600;
 
-    /** 封禁三位首领在非结界维度的所有生成（含区块读档、刷怪蛋、结构）。 */
+    /**
+     * 封禁三位首领在非结界维度的所有生成（含区块读档、刷怪蛋、结构）。
+     * 可驯服生物不属于结界体系，保留原版生成与驯服玩法。
+     */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onBossSpawn(EntityJoinLevelEvent event) {
-        if (!AlexCavesCompat.isPresent() || event.getLevel().isClientSide()
-                || event.getLevel().dimension().equals(MadokaDimensions.witchLevel(
-                        AlexCavesCompat.barrierTheme(event.getEntity())))) {
+    public static void onEntityJoin(EntityJoinLevelEvent event) {
+        if (!AlexCavesCompat.isPresent() || event.getLevel().isClientSide()) {
             return;
         }
-        if (!AlexCavesCompat.barrierTheme(event.getEntity()).isEmpty()) {
+        Entity entity = event.getEntity();
+        String theme = AlexCavesCompat.barrierTheme(entity);
+        if (!theme.isEmpty()
+                && !event.getLevel().dimension().equals(MadokaDimensions.witchLevel(theme))) {
             event.setCanceled(true);
         }
     }

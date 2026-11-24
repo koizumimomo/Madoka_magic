@@ -1,6 +1,6 @@
 package io.madoka.magic.compat;
 
-import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.dimension.MadokaDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -46,15 +46,12 @@ public final class AlexCavesCompat {
             "forsaken", "sieglinde",
             "licowitch", "annegret");
 
-    /** 主题 → 使魔（注册名 + 数量 + 出现概率）。取自同生态的洞穴生物。 */
+    /** 主题 → 使魔（注册名 + 数量 + 出现概率）。取自同生态的洞穴生物，只收非驯服种。 */
     private static final Map<String, List<Familiar>> FAMILIARS = Map.of(
-            "brunhilde", List.of(new Familiar("relicheirus", 1), new Familiar("grottoceratops", 1),
-                    new Familiar("vallumraptor", 2), new Familiar("subterranodon", 2),
-                    new Familiar("gloomoth", 2), new Familiar("gammaroach", 2)),
+            "brunhilde", List.of(new Familiar("gloomoth", 2), new Familiar("gammaroach", 2)),
             "sieglinde", List.of(new Familiar("underzealot", 2), new Familiar("watcher", 1),
-                    new Familiar("vesper", 2), new Familiar("raycat", 1),
-                    new Familiar("gammaroach", 1)),
-            "annegret", List.of(new Familiar("gummy_bear", 1), new Familiar("candicorn", 1),
+                    new Familiar("vesper", 2), new Familiar("gammaroach", 1)),
+            "annegret", List.of(new Familiar("gummy_bear", 1),
                     new Familiar("gingerbread_man", 2), new Familiar("caramel_cube", 2),
                     new Familiar("gumbeeper", 1), new Familiar("sweetish_fish", 1),
                     new Familiar("caniac", 0)));

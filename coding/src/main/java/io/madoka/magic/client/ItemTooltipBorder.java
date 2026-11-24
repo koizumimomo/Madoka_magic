@@ -149,8 +149,15 @@ public final class ItemTooltipBorder {
     }
 
     private static boolean isMadokaItem(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        // 铭刻后的武器是原版物品，也套用本模组的提示框边框与装饰。
+        if (io.madoka.magic.item.WeaponEngraving.isEngraved(stack)) {
+            return true;
+        }
         ResourceLocation id = ForgeRegistries.ITEMS.getKey(stack.getItem());
-        return !stack.isEmpty() && id != null && MadokaMagic.MODID.equals(id.getNamespace());
+        return id != null && MadokaMagic.MODID.equals(id.getNamespace());
     }
 
     private static Size measure(RenderTooltipEvent event) {

@@ -38,7 +38,7 @@ public final class ContractWeaponRenderer {
             return null;
         }
         if (player == Minecraft.getInstance().player) {
-            return ClientMadokaState.isContracted() && ClientMadokaState.isTransformed() && !ClientMadokaState.isWitchPath()
+            return ClientMadokaState.isContracted() && ClientMadokaState.isTransformed()
                     && ContractWeapon.forTheme(ClientMadokaState.getThemeId()) == held ? held : null;
         }
         return ContractWeapon.forTheme(TransformationVisuals.magicalGirlTheme(player)) == held ? held : null;
@@ -56,8 +56,8 @@ public final class ContractWeaponRenderer {
         }
         event.setSwingHand(false);
         event.setCanceled(true);
-        if (weapon(player) == ContractWeapon.BUTTERFLY) {
-            // 折页：右键直接施放「斩击」，可空放，不需要蓄力
+        if (weapon(player) == ContractWeapon.BUTTERFLY || ClientMadokaState.isWitchPath()) {
+            // 折页/魔女途：右键直接施放当前形态首个技能，可空放，不需要蓄力
             if (!castLatch) {
                 castLatch = true;
                 send(Input.CAST);

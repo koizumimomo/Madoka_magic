@@ -31,6 +31,7 @@ public record AltarRecipe(ResourceLocation id, List<Ingredient> inputs, Ingredie
                           float lifeCost, ItemStack result)
         implements Recipe<SimpleContainer> {
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MadokaMagic.MODID, "altar_ritual");
+    private static final String CURSE_UPGRADE = "madoka_curse_upgrade";
     private static final DeferredRegister<RecipeType<?>> TYPES =
             DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, MadokaMagic.MODID);
     private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS =
@@ -63,13 +64,32 @@ public record AltarRecipe(ResourceLocation id, List<Ingredient> inputs, Ingredie
                 stack.getItem() instanceof io.madoka.magic.item.GriefSeedItem && stack.getDamageValue() > 0)) {
             return false;
         }
+        if (isCurseUpgrade() && materials.stream().noneMatch(stack -> stack.is(result.getItem())
+                && stack.getItem() instanceof io.madoka.magic.item.CurseRelic
+                && io.madoka.magic.item.CurseRelic.level(stack) < 3)) return false;
         return materials.size() == inputs.size() && RecipeMatcher.findMatches(materials, inputs) != null;
     }
 
     @Override
     public ItemStack assemble(SimpleContainer altar, RegistryAccess access) {
+        if (isCurseUpgrade()) {
+            for(int slot=0;slot<altar.getContainerSize();slot++) {
+                var stack=altar.getItem(slot);
+                if(stack.is(result.getItem()) && stack.getItem() instanceof io.madoka.magic.item.CurseRelic) {
+                    int rank=io.madoka.magic.item.CurseRelic.level(stack);
+                    if(rank>=3)return ItemStack.EMPTY;
+                    var upgraded=stack.copyWithCount(1);
+                    upgraded.getOrCreateTag().putInt(io.madoka.magic.item.CurseRelic.LEVEL_TAG,rank+1);
+                    upgraded.removeTagKey(CURSE_UPGRADE);
+                    return upgraded;
+                }
+            }
+            return ItemStack.EMPTY;
+        }
         return result.copy();
     }
+
+    private boolean isCurseUpgrade() { return result.hasTag() && result.getTag().getBoolean(CURSE_UPGRADE); }
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
@@ -83,7 +103,7 @@ public record AltarRecipe(ResourceLocation id, List<Ingredient> inputs, Ingredie
 
     @Override
     public ItemStack getResultItem(RegistryAccess access) {
-        return result;
+        var preview=result.copy();preview.removeTagKey(CURSE_UPGRADE);return preview;
     }
 
     @Override
@@ -121,8 +141,12 @@ public record AltarRecipe(ResourceLocation id, List<Ingredient> inputs, Ingredie
             if (!Float.isFinite(lifeCost) || lifeCost < 0.0F || lifeCost >= 1.0F) {
                 throw new IllegalArgumentException("Ritual life_cost must be in [0, 1)");
             }
-            return new AltarRecipe(id, ingredients, catalyst, lifeCost,
-                    ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")));
+            var result=ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+            if(GsonHelper.getAsBoolean(json,"upgrade_curse",false)) {
+                result.getOrCreateTag().putBoolean(CURSE_UPGRADE,true);
+                result.getTag().putInt(io.madoka.magic.item.CurseRelic.LEVEL_TAG,2);
+            }
+            return new AltarRecipe(id, ingredients, catalyst, lifeCost,result);
         }
 
         @Override

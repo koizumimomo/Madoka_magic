@@ -14,6 +14,9 @@ public final class ClientProgression {
 
     public static void accept(CompoundTag packet) {
         state = packet.copy();
+        ClientCurseStacks.accept(packet.getCompound("curseStacks"));
+        ClientCurseDebt.accept(packet.getCompound("curseDebt"));
+        io.madoka.magic.data.OriginalCurseDefinitions.acceptClient(packet.getCompound("originalCurseDefs"));
         io.madoka.magic.item.RitualTooltipValues.accept(packet.contains("seedPurification", Tag.TAG_ANY_NUMERIC)
                 ? packet.getDouble("seedPurification") : Double.NaN);
         var level = Minecraft.getInstance().level;
@@ -41,6 +44,9 @@ public final class ClientProgression {
 
     public static void reset() {
         state = new CompoundTag();
+        ClientCurseStacks.reset();
+        ClientCurseDebt.reset();
+        io.madoka.magic.data.OriginalCurseDefinitions.acceptClient(new CompoundTag());
         io.madoka.magic.item.RitualTooltipValues.accept(Double.NaN);
         receivedAt = 0;
     }

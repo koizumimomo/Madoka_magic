@@ -9,6 +9,7 @@ import io.madoka.magic.network.MadokaNetwork;
 import io.madoka.magic.registry.MadokaAttributes;
 import io.madoka.magic.registry.ModItems;
 import io.madoka.magic.util.MadokaMath;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 契约。
@@ -62,9 +64,41 @@ public class ContractItem extends Item {
         tag.putString(THEME_TAG, themeId);
     }
 
+    /** NBT 键：契约归属玩家 UUID / 名字。由合成所用的许愿材料继承。 */
+    public static final String OWNER_TAG = "madoka_contract_owner";
+    public static final String OWNER_NAME_TAG = "madoka_contract_owner_name";
+
+    public static void setOwner(ItemStack stack, UUID player, String name) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putUUID(OWNER_TAG, player);
+        tag.putString(OWNER_NAME_TAG, name);
+    }
+
+    public static UUID getOwnerId(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag != null && tag.hasUUID(OWNER_TAG) ? tag.getUUID(OWNER_TAG) : null;
+    }
+
+    public static String getOwnerName(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag == null ? "" : tag.getString(OWNER_NAME_TAG);
+    }
+
+    /** 旧契约没有归属信息，保持对所有人可用。 */
+    public static boolean canUse(ItemStack stack, Player player) {
+        UUID owner = getOwnerId(stack);
+        return owner == null || owner.equals(player.getUUID());
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        if (!canUse(stack, player)) {
+            // fail 不会把交互发包给服务端，所以两侧都提示一次
+            player.displayClientMessage(Component.translatable(
+                    "message.madoka_magic.contract.not_owner"), true);
+            return InteractionResultHolder.fail(stack);
+        }
         if (!level.isClientSide && PlayerMadokaData.of(player).isContracted()) {
             player.displayClientMessage(Component.translatable("message.madoka_magic.contract.already_contracted"), true);
             return InteractionResultHolder.fail(stack);
@@ -107,6 +141,10 @@ public class ContractItem extends Item {
             stack = player.getItemInHand(InteractionHand.OFF_HAND);
         }
         if (stack.isEmpty() || !(stack.getItem() instanceof ContractItem)) {
+            return;
+        }
+        if (!canUse(stack, player)) {
+            player.displayClientMessage(Component.translatable("message.madoka_magic.contract.not_owner"), true);
             return;
         }
         String themeId = getThemeId(stack);

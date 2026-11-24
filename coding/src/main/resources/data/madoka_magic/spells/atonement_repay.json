@@ -1,0 +1,11 @@
+{
+  "type": "madoka_magic:atonement_repay",
+  "active": false,
+  "name_key": "spell.madoka_magic.atonement_repay",
+  "desc_key": "spell.madoka_magic.atonement_repay.desc",
+  "icon": "madoka_magic:textures/gui/spells/atonement_repay.png",
+  "cooldown": 0,
+  "mana_cost": 0.0,
+  "taint_on_cast": 0.0,
+  "unlock_level": 10
+}

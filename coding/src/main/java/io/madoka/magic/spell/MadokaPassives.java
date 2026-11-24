@@ -36,7 +36,7 @@ public final class MadokaPassives {
      */
     public static final SpellEffects.PassiveEffect DEVOTION_WING = new SpellEffects.PassiveEffect() {
         @Override
-        public void onDealDamage(ServerPlayer caster, LivingEntity target) {
+        public void onDealDamage(ServerPlayer caster, LivingEntity target, float amount) {
             ButterflyMark.apply(target, caster.getUUID(), caster.level().getGameTime());
         }
     };

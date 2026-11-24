@@ -9,6 +9,8 @@ import io.madoka.magic.entity.WitchPortalEntity;
 import io.madoka.magic.entity.BlackBeeEntity;
 import io.madoka.magic.entity.RainThornEntity;
 import io.madoka.magic.entity.ArenaCocoonEntity;
+import io.madoka.magic.entity.BarrierPropEntity;
+import io.madoka.magic.entity.BarrierTreeEntity;
 import io.madoka.magic.entity.LightArrowEntity;
 import io.madoka.magic.entity.AtonementMinions;
 import io.madoka.magic.entity.FrameShardEntity;
@@ -77,6 +79,20 @@ public final class ModEntities {
                     .of(ArenaCocoonEntity::new, MobCategory.MISC)
                     .sized(1.05F, 1.65F).clientTrackingRange(10).noSummon()
                     .build("madoka_magic:arena_cocoon"));
+
+    /** 结界近景装饰：燃尽的枯树。 */
+    public static final RegistryObject<EntityType<BarrierTreeEntity>> BARRIER_TREE =
+            ENTITIES.register("barrier_tree", () -> EntityType.Builder
+                    .of(BarrierTreeEntity::new, MobCategory.MISC)
+                    .sized(5.0F, 8.2F).clientTrackingRange(12).noSummon()
+                    .build("madoka_magic:barrier_tree"));
+
+    /** 结界共用近景道具：按 variant 切换模型（首批为方向指示牌）。 */
+    public static final RegistryObject<EntityType<BarrierPropEntity>> BARRIER_PROP =
+            ENTITIES.register("barrier_prop", () -> EntityType.Builder
+                    .of(BarrierPropEntity::new, MobCategory.MISC)
+                    .sized(1.6F, 2.6F).clientTrackingRange(12).noSummon()
+                    .build("madoka_magic:barrier_prop"));
 
     public static final RegistryObject<EntityType<LightArrowEntity>> LIGHT_ARROW =
             ENTITIES.register("light_arrow", () -> EntityType.Builder

@@ -62,14 +62,7 @@ public final class ModItems {
         if (!CURIOS_LOADED) {
             return Collections.emptyMap();
         }
-        Map<String, RegistryObject<Item>> curses = new LinkedHashMap<>();
-        curses.put("sacrifice", ITEMS.register("curse_weapon_sacrifice",
-                () -> new io.madoka.magic.item.CurseWeaponItem("sacrifice", 4.0D, 0.0D, 0.0D)));
-        curses.put("take", ITEMS.register("curse_weapon_take",
-                () -> new io.madoka.magic.item.CurseWeaponItem("take", 0.0D, 0.06D, 0.0D)));
-        curses.put("atonement", ITEMS.register("curse_weapon_atonement",
-                () -> new io.madoka.magic.item.CurseWeaponItem("atonement", 0.0D, 0.0D, 3.0D)));
-        return Collections.unmodifiableMap(curses);
+        return io.madoka.magic.compat.CuriosSlotRegistration.registerItems(ITEMS);
     }
 
     public static final Map<ContractWeapon, RegistryObject<Item>> CONTRACT_WEAPONS = registerContractWeapons();

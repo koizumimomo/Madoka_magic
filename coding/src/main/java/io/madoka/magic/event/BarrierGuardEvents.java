@@ -1,11 +1,16 @@
 package io.madoka.magic.event;
 
 import io.madoka.magic.MadokaMagic;
+import io.madoka.magic.data.MadokaSavedData;
+import io.madoka.magic.dimension.BarrierScenes;
 import io.madoka.magic.dimension.MadokaDimensions;
 import io.madoka.magic.entity.MadokaWitchEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
@@ -27,6 +32,7 @@ import java.util.WeakHashMap;
  *   <li>生物不能在结界里搞破坏（凋零/末影人等；魔女自己的生成逻辑不受影响）；</li>
  *   <li>离水的守卫者（远古守卫者）在结界中改为空中游动，
  *       因为人鱼结界不再生成护卫水池。</li>
+ *   <li>虚空场景的结界（如蝴蝶）里掉出甲板的玩家传回出生平台。</li>
  * </ul>
  */
 @Mod.EventBusSubscriber(modid = MadokaMagic.MODID)
@@ -38,6 +44,28 @@ public final class BarrierGuardEvents {
 
     private static boolean inBarrier(net.minecraft.world.entity.Entity entity) {
         return entity != null && !MadokaDimensions.barrierTheme(entity.level().dimension()).isEmpty();
+    }
+
+    /** 「仁慈的虚空」：有场景的结界里，坠出甲板的生存模式玩家传回出生平台上方。 */
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)
+                || player.isCreative() || player.isSpectator()
+                || player.getY() > BarrierScenes.VOID_FLOOR) {
+            return;
+        }
+        String theme = MadokaDimensions.barrierTheme(player.level().dimension());
+        if (!BarrierScenes.hasScene(theme)) {
+            return;
+        }
+        var saved = MadokaSavedData.get(player.serverLevel());
+        MadokaSavedData.Entry entry = saved.getEnter(player.getUUID());
+        var encounter = entry != null ? saved.getEncounter(entry.getEncounter()) : null;
+        BlockPos arena = encounter != null ? encounter.arena() : BlockPos.ZERO;
+        BlockPos back = BarrierScenes.rescuePoint(theme, arena);
+        player.teleportTo(player.serverLevel(), back.getX() + 0.5D, back.getY(), back.getZ() + 0.5D,
+                player.getYRot(), player.getXRot());
+        player.fallDistance = 0.0F;
     }
 
     /** 魔女免疫击退。 */

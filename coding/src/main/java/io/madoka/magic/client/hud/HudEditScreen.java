@@ -34,6 +34,14 @@ public class HudEditScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 1) {
+            String hit = HudLayout.hitTest(width, height, mouseX, mouseY);
+            if (hit != null) {
+                HudLayout.toggle(hit);
+                HudLayout.save();
+                return true;
+            }
+        }
         if (button == 0) {
             String hit = HudLayout.hitTest(width, height, mouseX, mouseY);
             if (hit != null) {
@@ -69,6 +77,17 @@ public class HudEditScreen extends Screen {
             return true;
         }
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        String hit = HudLayout.hitTest(width, height, mouseX, mouseY);
+        if (hit != null) {
+            HudLayout.resize(hit, (float) Math.signum(delta) * 0.1f);
+            HudLayout.save();
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
     @Override

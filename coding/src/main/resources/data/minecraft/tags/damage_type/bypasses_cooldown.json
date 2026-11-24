@@ -1,1 +1,7 @@
-{ "replace": false, "values": ["madoka_magic:familiar_link"] }
+{
+  "replace": false,
+  "values": [
+    "madoka_magic:familiar_link",
+    "madoka_magic:curse_debt"
+  ]
+}

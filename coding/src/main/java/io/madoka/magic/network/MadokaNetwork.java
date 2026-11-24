@@ -40,7 +40,7 @@ public final class MadokaNetwork {
      * <p>消息或实体同步格式变更时递增：客户端/服务端版本不一致时 Forge 会直接拒绝连接，
      * 比"字段错位读出乱数据"安全。</p>
      */
-    private static final String PROTOCOL = "21";
+    private static final String PROTOCOL = "22";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MadokaMagic.MODID, "main"),
@@ -86,6 +86,38 @@ public final class MadokaNetwork {
         CHANNEL.registerMessage(id, ProgressionState.LearnTalent.class, ProgressionState.LearnTalent::encode,
                 ProgressionState.LearnTalent::decode, ProgressionState.LearnTalent::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        id++;
+        CHANNEL.registerMessage(id++, RainCircleState.class, RainCircleState::encode, RainCircleState::decode,
+                RainCircleState::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+    }
+
+    /** 服务端 → 客户端：魔女泪雨的范围标注。active=false 表示雨已结束，清除本地状态。 */
+    public record RainCircleState(boolean active, double x, double y, double z, float radius, int durationTicks) {
+        public static void encode(RainCircleState msg, FriendlyByteBuf buf) {
+            buf.writeBoolean(msg.active);
+            if (msg.active) {
+                buf.writeDouble(msg.x);
+                buf.writeDouble(msg.y);
+                buf.writeDouble(msg.z);
+                buf.writeFloat(msg.radius);
+                buf.writeVarInt(msg.durationTicks);
+            }
+        }
+
+        public static RainCircleState decode(FriendlyByteBuf buf) {
+            if (!buf.readBoolean()) {
+                return new RainCircleState(false, 0.0D, 0.0D, 0.0D, 0.0F, 0);
+            }
+            return new RainCircleState(true, buf.readDouble(), buf.readDouble(), buf.readDouble(),
+                    buf.readFloat(), buf.readVarInt());
+        }
+
+        private static void handle(RainCircleState msg, Supplier<NetworkEvent.Context> context) {
+            var ctx = context.get();
+            ctx.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                    () -> () -> io.madoka.magic.client.renderer.RainCircleVisuals.accept(msg)));
+            ctx.setPacketHandled(true);
+        }
     }
 
     public record NightArrival() {

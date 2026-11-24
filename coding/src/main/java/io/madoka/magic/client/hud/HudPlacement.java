@@ -17,4 +17,8 @@ public record HudPlacement(HudAnchor anchor, int offsetX, int offsetY, float sca
     public HudPlacement withVisible(boolean value) {
         return new HudPlacement(anchor, offsetX, offsetY, scale, value);
     }
+
+    public HudPlacement withScale(float value) {
+        return new HudPlacement(anchor, offsetX, offsetY, value, visible);
+    }
 }

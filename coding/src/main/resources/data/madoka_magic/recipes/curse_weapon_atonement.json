@@ -1,9 +1,24 @@
 {
   "type": "madoka_magic:altar_ritual",
-  "ingredients": [
+  "conditions": [
     {
-      "item": "madoka_magic:grief_seed_atonement"
+      "type": "forge:mod_loaded",
+      "modid": "curios"
     }
+  ],
+  "ingredients": [
+    [
+      {
+        "item": "madoka_magic:grief_seed_atonement"
+      },
+      {
+        "type": "forge:partial_nbt",
+        "item": "madoka_magic:grief_seed",
+        "nbt": {
+          "theme": "atonement"
+        }
+      }
+    ]
   ],
   "catalyst": {
     "item": "minecraft:amethyst_shard"

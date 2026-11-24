@@ -155,7 +155,7 @@ public final class MadokaMath {
         long now = player.level().getGameTime();
         return damageDealtMultiplier(player) * BlossomState.getDamageMultiplier(data, now)
                 * MadokaPassives.obsessionMultiplier(data, now) * MadokaPassives.emberMultiplier(data)
-                * (data.isHalfWitch() ? MadokaConfig.HALF_WITCH_DAMAGE_DEALT.get() : 1.0D);
+                * (data.isHalfWitch() ? halfWitchDamageDealt(data) : 1.0D);
     }
 
     /** Attacker-side result, before the target's damage modifiers and armor. */
@@ -163,7 +163,7 @@ public final class MadokaMath {
         var data = PlayerMadokaData.of(player);
         double growth = amount > 0 ? growthSteps(player, data) * MadokaConfig.GROWTH_FINAL_DAMAGE.get() : 0;
         if (data.isHalfWitch()) {
-            growth *= MadokaConfig.HALF_WITCH_DAMAGE_DEALT.get();
+            growth *= halfWitchDamageDealt(data);
         }
         return amount * multiplier + growth;
     }
@@ -174,10 +174,35 @@ public final class MadokaMath {
             PlayerMadokaData data = PlayerMadokaData.of(player);
             MagicalGirl theme = data.getTheme();
             if (theme != null) {
-                return theme.getDamageTaken() * (data.isHalfWitch() ? MadokaConfig.HALF_WITCH_DAMAGE_TAKEN.get() : 1.0D);
+                return theme.getDamageTaken() * (data.isHalfWitch() ? halfWitchDamageTaken(data) : 1.0D);
             }
         }
         return 1.0D;
+    }
+
+    /** 半魔女化造成伤害倍率：普通角色 ×0.85；赎罪系把部分减伤转成增伤。 */
+    private static double halfWitchDamageDealt(PlayerMadokaData data) {
+        return isAtonement(data)
+                ? 1.0D + atonementShift(data)
+                : MadokaConfig.HALF_WITCH_DAMAGE_DEALT.get();
+    }
+
+    /** 半魔女化承受伤害倍率：赎罪系移走多少减伤，就补回多少承伤。 */
+    private static double halfWitchDamageTaken(PlayerMadokaData data) {
+        return MadokaConfig.HALF_WITCH_DAMAGE_TAKEN.get() + atonementShift(data);
+    }
+
+    /** 赎罪系从半魔女化减伤中移出的比例（其余角色为 0）。 */
+    private static double atonementShift(PlayerMadokaData data) {
+        if (!isAtonement(data)) {
+            return 0.0D;
+        }
+        double reduction = 1.0D - MadokaConfig.HALF_WITCH_DAMAGE_TAKEN.get();
+        return reduction * MadokaConfig.ATONEMENT_HALF_WITCH_SHIFT.get();
+    }
+
+    private static boolean isAtonement(PlayerMadokaData data) {
+        return !data.isWitchPath() && "atonement".equals(data.getThemeId());
     }
 
     /** 污染累积速度倍率（含宝石性质）。 */

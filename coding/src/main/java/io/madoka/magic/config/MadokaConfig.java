@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public final class MadokaConfig {
     public record WeaponTuning(ForgeConfigSpec.DoubleValue damageBonus, ForgeConfigSpec.DoubleValue speedBonus,
-                               ForgeConfigSpec.IntValue chargeTicks) {}
+                               ForgeConfigSpec.DoubleValue reachBonus, ForgeConfigSpec.IntValue chargeTicks) {}
 
     private static final Map<ContractWeapon, WeaponTuning> CONTRACT_WEAPONS;
     public static final ForgeConfigSpec.DoubleValue WEAPON_GUARD_REDUCTION;
@@ -56,6 +56,7 @@ public final class MadokaConfig {
     public static final ForgeConfigSpec.DoubleValue FORM_HEALTH_BONUS;
     public static final ForgeConfigSpec.DoubleValue FORM_ATTACK_BONUS;
     public static final ForgeConfigSpec.DoubleValue FORM_ARMOR_BONUS;
+    public static final ForgeConfigSpec.DoubleValue FORM_SPEED_BONUS;
     /** 击杀魔女获得的因果值。 */
     public static final ForgeConfigSpec.DoubleValue CAUSALITY_PER_WITCH;
 
@@ -194,6 +195,8 @@ public final class MadokaConfig {
 
     public static final ForgeConfigSpec.DoubleValue HALF_WITCH_DAMAGE_DEALT;
     public static final ForgeConfigSpec.DoubleValue HALF_WITCH_DAMAGE_TAKEN;
+    /** 赎罪系半魔女化：把多少比例的伤害减免转换为增伤。 */
+    public static final ForgeConfigSpec.DoubleValue ATONEMENT_HALF_WITCH_SHIFT;
 
     // ---- 魔女结界传送门 ----
     /** 主世界入口随机刷新的检查间隔（tick）。 */
@@ -263,6 +266,7 @@ public final class MadokaConfig {
         FORM_HEALTH_BONUS = builder.defineInRange("max_health_bonus", 10.0D, 0.0D, 1024.0D);
         FORM_ATTACK_BONUS = builder.defineInRange("attack_damage_bonus", 3.0D, 0.0D, 2048.0D);
         FORM_ARMOR_BONUS = builder.defineInRange("armor_bonus", 4.0D, 0.0D, 30.0D);
+        FORM_SPEED_BONUS = builder.defineInRange("movement_speed_bonus", 0.04D, 0.0D, 1.0D);
         builder.pop();
 
         builder.comment("魔女").push("witch");
@@ -430,6 +434,9 @@ public final class MadokaConfig {
                 .defineInRange("damage_dealt", 0.85D, 0.05D, 1.0D);
         HALF_WITCH_DAMAGE_TAKEN = builder.comment("半魔女形态承受伤害的倍率")
                 .defineInRange("damage_taken", 0.30D, 0.05D, 1.0D);
+        ATONEMENT_HALF_WITCH_SHIFT = builder
+                .comment("赎罪系专属：把多大比例的伤害减免移到增伤（0.7 = 减免从 70% 降到 21%，同时增伤 49%）")
+                .defineInRange("atonement_shift", 0.70D, 0.0D, 1.0D);
         builder.pop();
 
         builder.comment("魔女结界传送门").push("portal");
@@ -454,6 +461,8 @@ public final class MadokaConfig {
             weapons.put(weapon, new WeaponTuning(
                     builder.defineInRange("attack_damage_bonus", weapon.defaultDamage, 0.0D, 60.0D),
                     builder.defineInRange("attack_speed_bonus", weapon.defaultSpeed, -3.9D, 8.0D),
+                    builder.comment("Extra entity attack reach in blocks while transformed and holding this weapon.")
+                            .defineInRange("attack_reach_bonus", weapon.defaultReach, 0.0D, 12.0D),
                     builder.defineInRange("charge_ticks", weapon.defaultChargeTicks, 0, 100)));
             builder.pop();
         }

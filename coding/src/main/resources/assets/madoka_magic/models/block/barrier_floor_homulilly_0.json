@@ -1,8 +1,6 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "top": "madoka_magic:block/barrier_floor/homulilly_0",
-    "side": "minecraft:block/purple_terracotta",
-    "bottom": "minecraft:block/purple_terracotta"
+    "all": "madoka_magic:block/barrier_floor/homulilly_0"
   }
 }

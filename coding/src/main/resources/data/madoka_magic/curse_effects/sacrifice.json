@@ -1,0 +1,6 @@
+{
+  "kind": "butterfly",
+  "matching_multiplier": 1.2,
+  "attributes": {"attack": 4, "power": 0, "armor": 0},
+  "parameters": {"echo_ratio": [0.30, 0.45, 0.60], "mark_ticks": 40}
+}

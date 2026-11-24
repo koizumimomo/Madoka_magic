@@ -5,7 +5,7 @@
   "desc_key": "spell.madoka_magic.blossom.desc",
   "icon": "madoka_magic:textures/gui/spells/blossom.png",
   "cooldown": 20,
-  "mana_cost": 10.0,
+  "mana_cost": 17.5,
   "taint_on_cast": 0.3,
   "unlock_level": 70
 }

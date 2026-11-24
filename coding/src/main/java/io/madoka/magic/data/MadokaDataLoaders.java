@@ -22,5 +22,7 @@ public final class MadokaDataLoaders {
         io.madoka.magic.data.MagicalGirlRegistry.LOGGER.info("[madoka_magic] reload listener event received");
         event.addListener(new MagicalGirlLoader());
         event.addListener(new SpellDefinitionLoader());
+        event.addListener(new CurseStackProfiles.Loader());
+        event.addListener(new OriginalCurseDefinitions.Loader());
     }
 }

@@ -1,0 +1,9 @@
+{
+  "kind": "debt",
+  "matching_multiplier": 1.2,
+  "attributes": {"attack": 0, "power": 0, "armor": 3},
+  "parameters": {
+    "delay_ticks": [100, 140, 180], "kill_clear_fraction": 1.0,
+    "ward_level": 3, "ward_ticks": 60, "ward_cooldown_ticks": 2400
+  }
+}

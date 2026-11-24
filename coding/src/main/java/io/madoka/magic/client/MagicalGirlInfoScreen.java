@@ -76,18 +76,23 @@ public final class MagicalGirlInfoScreen extends Screen {
         right = left + panelWidth;
         bottom = top + panelHeight;
         divider = left + panelWidth * 2 / 5;
-        int buttonWidth = (panelWidth - 2 * PADDING - 12) / 4;
+        // 魔女没有天赋树：详情页直接不显示入口，只留主动/被动/返回三个按钮。
+        boolean witch = ClientMadokaState.isWitchPath();
+        int columns = witch ? 3 : 4;
+        int buttonWidth = (panelWidth - 2 * PADDING - (columns - 1) * 4) / columns;
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.active"),
                         button -> minecraft.setScreen(new MagicalGirlSkillsScreen(this, true)))
                 .bounds(left + PADDING, bottom - 27, buttonWidth, 18).build());
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.passive"),
                         button -> minecraft.setScreen(new MagicalGirlSkillsScreen(this, false)))
                 .bounds(left + PADDING + buttonWidth + 4, bottom - 27, buttonWidth, 18).build());
-        addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.talents.title"),
-                        button -> openTalents())
-                .bounds(left + PADDING + (buttonWidth + 4) * 2, bottom - 27, buttonWidth, 18).build());
+        if (!witch) {
+            addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.talents.title"),
+                            button -> openTalents())
+                    .bounds(left + PADDING + (buttonWidth + 4) * 2, bottom - 27, buttonWidth, 18).build());
+        }
         addRenderableWidget(Button.builder(Component.translatable("screen.madoka_magic.info.back"), button -> onClose())
-                .bounds(right - PADDING - buttonWidth, bottom - 27, buttonWidth, 18).build());
+                .bounds(left + PADDING + (buttonWidth + 4) * (columns - 1), bottom - 27, buttonWidth, 18).build());
     }
 
     @Override

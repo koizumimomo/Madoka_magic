@@ -11,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
@@ -115,9 +114,9 @@ public final class SpellCasting {
         return Boolean.TRUE.equals(SHIFT_HELD.get(player.getUUID()));
     }
 
+    /** 测试假人（盔甲架）也算有效目标，便于在创造模式里调技能数值。 */
     static boolean canAffect(ServerPlayer caster, LivingEntity target) {
         return target != caster && target.isAlive() && !target.isSpectator() && !target.isInvulnerable()
-                && !(target instanceof ArmorStand)
                 && (!(target instanceof Player player) || caster.canHarmPlayer(player) && !player.getAbilities().invulnerable);
     }
 
