@@ -15,7 +15,7 @@
 /coding/build/
 /coding/libs/
 /coding/mcmodsrepo/
-/coding/Mod参�?
+/coding/Mod鍙傝€?
 /coding/run-data/
 /coding/src/generated/resources/.cache/
 *.iml
@@ -31,8 +31,13 @@
 /model/references/
 /model/tooltip_borders.png
 
-# ���ز����빤�ߣ������
+# 本地产物与工具，不入库
 /art/
 /build/
 /.pixelfx-tool/
 /temp/
+
+# 本机工具副本、技能与交接稿，不入库
+/.trae/
+/coding_from_codx/
+/交接文档·*.md
