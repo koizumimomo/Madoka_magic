@@ -95,7 +95,7 @@ public final class PassiveTree {
         }
     }
 
-    /** 该玩家能点的节点是否全部至少点亮一级。 */
+    /** 该玩家能点的节点是否全部点满。 */
     private static boolean allLit(PlayerMadokaData data) {
         boolean any = false;
         for (Node node : nodes) {
@@ -103,7 +103,7 @@ public final class PassiveTree {
                 continue;
             }
             any = true;
-            if (data.getTalentRank(node.id) < 1) {
+            if (data.getTalentRank(node.id) < node.maxRank()) {
                 return false;
             }
         }
