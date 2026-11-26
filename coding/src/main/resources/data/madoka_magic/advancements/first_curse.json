@@ -1,0 +1,53 @@
+{
+  "parent": "madoka_magic:grief_seed_use",
+  "display": {
+    "icon": {
+      "item": "madoka_magic:curse_weapon_sacrifice"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.first_curse.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.first_curse.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "got": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "madoka_magic:curse_weapon_sacrifice",
+              "madoka_magic:curse_weapon_take",
+              "madoka_magic:curse_weapon_atonement",
+              "madoka_magic:curse_weapon_candeloro",
+              "madoka_magic:curse_weapon_oktavia",
+              "madoka_magic:curse_weapon_ophelia",
+              "madoka_magic:curse_weapon_homulilly",
+              "madoka_magic:curse_weapon_kriemhild_gretchen",
+              "madoka_magic:curse_weapon_annegret",
+              "madoka_magic:curse_weapon_sieglinde",
+              "madoka_magic:curse_weapon_brunhilde",
+              "madoka_magic:curse_weapon_amethyst_crab",
+              "madoka_magic:curse_weapon_ancient_remnant",
+              "madoka_magic:curse_weapon_netherite_monstrosity",
+              "madoka_magic:curse_weapon_scylla",
+              "madoka_magic:curse_weapon_ignis",
+              "madoka_magic:curse_weapon_ender_guardian",
+              "madoka_magic:curse_weapon_the_harbinger",
+              "madoka_magic:curse_weapon_the_leviathan",
+              "madoka_magic:curse_weapon_maledictus",
+              "madoka_magic:curse_weapon_walpurgisnacht",
+              "madoka_magic:curse_weapon_gluttony"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -54,6 +54,7 @@ public final class PlayerTransformation {
             data.setMana(MadokaMath.manaMax(player));
             data.save(player);
             TransformationFx.send(player, theme.getId(), TransformationFx.Kind.TRANSFORM);
+            io.madoka.magic.advancement.MadokaCriteria.BECOME_MAGICAL_GIRL.grant(player);
         }
 
         player.serverLevel().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME,
@@ -95,6 +96,7 @@ public final class PlayerTransformation {
         PlayerFormState.broadcast(player);
         TransformationFx.send(player, data.getThemeId(), TransformationFx.Kind.HALF_WITCH);
         MadokaNetwork.syncTo(player);
+        io.madoka.magic.advancement.MadokaCriteria.HALF_WITCH.grant(player);
     }
 
     public static void tickHalfWitch(ServerPlayer player, PlayerMadokaData data) {
@@ -125,6 +127,7 @@ public final class PlayerTransformation {
         PlayerFormState.broadcast(player);
         MadokaNetwork.syncTo(player);
         player.displayClientMessage(Component.translatable("message.madoka_magic.witch_power_inherited"), false);
+        io.madoka.magic.advancement.MadokaCriteria.DESPAIR.grant(player);
     }
 
     /** 变身时回收旧武器再发放契约武器，避免背包里叠加多把。 */

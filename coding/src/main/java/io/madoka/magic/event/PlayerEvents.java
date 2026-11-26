@@ -297,6 +297,9 @@ public class PlayerEvents {
                 killer.displayClientMessage(Component.translatable("message.madoka_magic.witch_rewards_pending"), true);
             }
             data.save(killer);
+            if (data.getDefeatedWitches().size() >= MadokaDimensions.BARRIERS.size() + 1) {
+                io.madoka.magic.advancement.MadokaCriteria.WITCH_HUNTER.grant(killer);
+            }
         }
         if (!data.isContracted()) {
             if (newWitch) {

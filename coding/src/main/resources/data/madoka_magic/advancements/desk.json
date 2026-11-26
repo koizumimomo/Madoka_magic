@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "madoka_magic:altar"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.desk.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.desk.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/birch_planks.png"
+  },
+  "criteria": {
+    "has_desk": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "madoka_magic:altar"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

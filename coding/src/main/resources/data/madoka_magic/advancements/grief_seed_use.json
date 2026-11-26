@@ -1,0 +1,33 @@
+{
+  "parent": "madoka_magic:first_barrier",
+  "display": {
+    "icon": {
+      "item": "madoka_magic:grief_seed"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.grief_seed_use.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.grief_seed_use.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "used": {
+      "trigger": "minecraft:item_durability_changed",
+      "conditions": {
+        "item": {
+          "items": [
+            "madoka_magic:grief_seed"
+          ]
+        },
+        "durability": {
+          "max": 23
+        }
+      }
+    }
+  }
+}

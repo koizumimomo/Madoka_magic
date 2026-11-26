@@ -1,0 +1,23 @@
+{
+  "parent": "madoka_magic:first_barrier",
+  "display": {
+    "icon": {
+      "item": "madoka_magic:witch_kiss"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.witch_hunter.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.witch_hunter.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "granted": {
+      "trigger": "madoka_magic:witch_hunter"
+    }
+  }
+}

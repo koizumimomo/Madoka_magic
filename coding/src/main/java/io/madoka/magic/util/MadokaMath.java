@@ -67,6 +67,10 @@ public final class MadokaMath {
         var purity = player.getAttribute(MadokaAttributes.GEM_PURITY.get());
         if (purity != null) {
             purity.setBaseValue(Math.min(PURITY_MAX, purity.getBaseValue() + amount));
+            if (purity.getBaseValue() >= PURITY_MAX
+                    && player instanceof net.minecraft.server.level.ServerPlayer server) {
+                io.madoka.magic.advancement.MadokaCriteria.FULL_PURITY.grant(server);
+            }
         }
     }
 

@@ -48,6 +48,8 @@ public class MadokaMagic {
         io.madoka.magic.registry.ModEffects.register(modBus);
         io.madoka.magic.ritual.AltarRecipe.register(modBus);
         MadokaAttributes.register(modBus);
+        // 进度触发器要在数据包加载前注册好。
+        io.madoka.magic.advancement.MadokaCriteria.bootstrap();
 
         // 数据兜底：先从 mod 自己的 jar 里把定义读进来（保证任何环境都有数据），
         // 服务器启动时如果资源包里有同名定义，会被 reload 覆盖（可被资源包改写）。

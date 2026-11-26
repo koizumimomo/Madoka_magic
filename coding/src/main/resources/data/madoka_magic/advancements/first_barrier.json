@@ -1,0 +1,178 @@
+{
+  "parent": "madoka_magic:first_contract",
+  "display": {
+    "icon": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.first_barrier.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.first_barrier.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_atonement": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_atonement"
+      }
+    },
+    "enter_candeloro": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_candeloro"
+      }
+    },
+    "enter_gluttony": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_gluttony"
+      }
+    },
+    "enter_homulilly": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_homulilly"
+      }
+    },
+    "enter_kriemhild_gretchen": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_kriemhild_gretchen"
+      }
+    },
+    "enter_oktavia": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_oktavia"
+      }
+    },
+    "enter_ophelia": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_ophelia"
+      }
+    },
+    "enter_sacrifice": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_sacrifice"
+      }
+    },
+    "enter_take": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_take"
+      }
+    },
+    "enter_wither": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_wither"
+      }
+    },
+    "enter_brunhilde": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_brunhilde"
+      }
+    },
+    "enter_sieglinde": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_sieglinde"
+      }
+    },
+    "enter_annegret": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_annegret"
+      }
+    },
+    "enter_netherite_monstrosity": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_netherite_monstrosity"
+      }
+    },
+    "enter_ignis": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_ignis"
+      }
+    },
+    "enter_ender_guardian": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_ender_guardian"
+      }
+    },
+    "enter_the_harbinger": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_the_harbinger"
+      }
+    },
+    "enter_the_leviathan": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_the_leviathan"
+      }
+    },
+    "enter_amethyst_crab": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_amethyst_crab"
+      }
+    },
+    "enter_ancient_remnant": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_ancient_remnant"
+      }
+    },
+    "enter_maledictus": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_maledictus"
+      }
+    },
+    "enter_scylla": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "madoka_magic:witch_scylla"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "enter_atonement",
+      "enter_candeloro",
+      "enter_gluttony",
+      "enter_homulilly",
+      "enter_kriemhild_gretchen",
+      "enter_oktavia",
+      "enter_ophelia",
+      "enter_sacrifice",
+      "enter_take",
+      "enter_wither",
+      "enter_brunhilde",
+      "enter_sieglinde",
+      "enter_annegret",
+      "enter_netherite_monstrosity",
+      "enter_ignis",
+      "enter_ender_guardian",
+      "enter_the_harbinger",
+      "enter_the_leviathan",
+      "enter_amethyst_crab",
+      "enter_ancient_remnant",
+      "enter_maledictus",
+      "enter_scylla"
+    ]
+  ]
+}

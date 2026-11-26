@@ -1,0 +1,29 @@
+{
+  "parent": "madoka_magic:first_barrier",
+  "display": {
+    "icon": {
+      "item": "minecraft:clock"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.walpurgis.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.walpurgis.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_night": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "madoka_magic:witch",
+          "nbt": "{theme:\"walpurgisnacht\"}"
+        }
+      }
+    }
+  }
+}

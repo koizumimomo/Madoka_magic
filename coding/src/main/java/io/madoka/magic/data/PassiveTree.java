@@ -90,6 +90,24 @@ public final class PassiveTree {
         data.save(player);
         io.madoka.magic.data.PlayerTransformation.applyAttributes(player);
         io.madoka.magic.network.MadokaNetwork.syncTo(player);
+        if (allLit(data)) {
+            io.madoka.magic.advancement.MadokaCriteria.STAR_MAP.grant(player);
+        }
+    }
+
+    /** 该玩家能点的节点是否全部至少点亮一级。 */
+    private static boolean allLit(PlayerMadokaData data) {
+        boolean any = false;
+        for (Node node : nodes) {
+            if (!node.matches(data)) {
+                continue;
+            }
+            any = true;
+            if (data.getTalentRank(node.id) < 1) {
+                return false;
+            }
+        }
+        return any;
     }
 
     public static void bootstrap() {

@@ -1,0 +1,23 @@
+{
+  "parent": "madoka_magic:full_purity",
+  "display": {
+    "icon": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.star_map.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.star_map.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "granted": {
+      "trigger": "madoka_magic:star_map"
+    }
+  }
+}

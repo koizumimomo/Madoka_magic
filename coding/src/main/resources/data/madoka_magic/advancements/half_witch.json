@@ -1,0 +1,23 @@
+{
+  "parent": "madoka_magic:first_contract",
+  "display": {
+    "icon": {
+      "item": "madoka_magic:black_tulip"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.half_witch.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.half_witch.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "granted": {
+      "trigger": "madoka_magic:half_witch"
+    }
+  }
+}

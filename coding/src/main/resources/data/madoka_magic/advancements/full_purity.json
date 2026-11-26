@@ -1,0 +1,23 @@
+{
+  "parent": "madoka_magic:first_contract",
+  "display": {
+    "icon": {
+      "item": "madoka_magic:soul_gem"
+    },
+    "title": {
+      "translate": "advancements.madoka_magic.full_purity.title"
+    },
+    "description": {
+      "translate": "advancements.madoka_magic.full_purity.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "granted": {
+      "trigger": "madoka_magic:full_purity"
+    }
+  }
+}
