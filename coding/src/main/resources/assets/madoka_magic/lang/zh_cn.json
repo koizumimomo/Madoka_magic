@@ -468,5 +468,16 @@
   "advancements.madoka_magic.walpurgis.title": "舞台落幕",
   "advancements.madoka_magic.walpurgis.description": "舞台塌了，雷声退下去。",
   "advancements.madoka_magic.witch_hunter.title": "魔女猎手",
-  "advancements.madoka_magic.witch_hunter.description": "所有种类的魔女，你都见过了。"
+  "advancements.madoka_magic.witch_hunter.description": "所有种类的魔女，你都见过了。",
+  "witch.madoka_magic.sacrifice.runes": "PAPILIO",
+  "witch.madoka_magic.take.runes": "MELISSA",
+  "witch.madoka_magic.atonement.runes": "NEMESIS",
+  "witch.madoka_magic.wither.runes": "LETHE",
+  "witch.madoka_magic.kriemhild_gretchen.runes": "GRETCHEN",
+  "witch.madoka_magic.homulilly.runes": "HOMULILLY",
+  "witch.madoka_magic.candeloro.runes": "CANDELORO",
+  "witch.madoka_magic.oktavia.runes": "OKTAVIA",
+  "witch.madoka_magic.ophelia.runes": "OPHELIA",
+  "witch.madoka_magic.gluttony.runes": "GULA",
+  "witch.madoka_magic.walpurgisnacht.runes": "WALPURGIS"
 }
