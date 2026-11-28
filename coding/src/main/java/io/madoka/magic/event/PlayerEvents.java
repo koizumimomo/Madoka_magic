@@ -317,7 +317,10 @@ public class PlayerEvents {
             // 打过的魔女进冷却池，近期不再顺手刷到同一只。
             data.advanceWitchPortalCooldowns(boss);
             data.coolWitchPortal(boss);
-            data.queueWitchReward(GriefSeedItem.fromWitch(boss));
+            var seed = GriefSeedItem.fromWitch(boss);
+            if (!seed.isEmpty()) {
+                data.queueWitchReward(seed);
+            }
             newWitch = data.recordDefeatedWitch(boss);
             if (newWitch) {
                 data.queueWitchReward(WitchKissItem.fromWitch(boss));

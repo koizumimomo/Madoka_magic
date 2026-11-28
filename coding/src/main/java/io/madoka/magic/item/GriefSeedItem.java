@@ -66,16 +66,15 @@ public class GriefSeedItem extends Item {
     }
 
     public static ItemStack fromWitch(String witch) {
-        ItemStack seed = new ItemStack(ModItems.GRIEF_SEEDS.getOrDefault(witch, ModItems.GRIEF_SEED).get());
-        if (seed.is(ModItems.GRIEF_SEED.get())) {
-            setOwner(seed, witch);
-        }
-        return seed;
+        var item = ModItems.GRIEF_SEEDS.get(witch);
+        return item == null ? ItemStack.EMPTY : new ItemStack(item.get());
     }
 
     public static ItemStack fromPlayerWitch(String witch, String name) {
         ItemStack seed = fromWitch(witch);
-        seed.getOrCreateTag().putString(PLAYER_SOURCE, name);
+        if (!seed.isEmpty()) {
+            seed.getOrCreateTag().putString(PLAYER_SOURCE, name);
+        }
         return seed;
     }
 
