@@ -21,10 +21,10 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.UUID;
 
 /**
- * 武器铭刻流程：
+ * 物品铭刻流程：
  * <ol>
  * <li>手持紫水晶碎片右击紫水晶簇方块，簇被取下并刻上玩家名字；</li>
- * <li>把武器与这簇水晶放进铁砧，合成出铭刻武器。</li>
+ * <li>把任意一件物品与这簇水晶放进铁砧，合成出铭刻物品。</li>
  * </ol>
  */
 @Mod.EventBusSubscriber(modid = MadokaMagic.MODID)
@@ -67,7 +67,7 @@ public final class EngravingEvents {
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
         Player player = event.getPlayer();
-        if (player == null || left.getCount() != 1 || !WeaponEngraving.isWeapon(left)
+        if (player == null || left.getCount() != 1 || !WeaponEngraving.canEngrave(left)
                 || WeaponEngraving.isEngraved(left) || !WeaponEngraving.isMarkedCluster(right)) {
             return;
         }

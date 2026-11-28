@@ -5,19 +5,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.TridentItem;
 
 import java.util.UUID;
 
 /**
- * 武器铭刻：让魔法少女/魔女玩家能正常使用伴生武器之外的武器。
+ * 物品铭刻：让魔法少女/魔女玩家能把任意一件东西变成自己趁手的武器。
  *
  * <p>流程：手持紫水晶碎片右击紫水晶簇方块，得到刻有玩家名字的紫水晶簇；
- * 把武器与该水晶簇放进铁砧，合成出铭刻武器（见 {@code EngravingEvents}）。
- * 变身态玩家用未铭刻的其它武器攻击时只能造成 1 点强制伤害，
- * 伴生武器、铭刻武器与技能伤害不受影响（见 {@code ContractWeaponEvents}）。</p>
+ * 把要用的物品与该水晶簇放进铁砧，合成出铭刻物品（见 {@code EngravingEvents}）。
+ * 不限制物品种类，木棍、石头、别的模组的道具都行。
+ * 变身态玩家用未铭刻的物品攻击时只能造成 1 点强制伤害，
+ * 伴生武器、铭刻物品与技能伤害不受影响（见 {@code ContractWeaponEvents}）。</p>
  */
 public final class WeaponEngraving {
     /** 铭刻标记（物品 NBT）。 */
@@ -65,10 +63,14 @@ public final class WeaponEngraving {
         return tag != null && tag.hasUUID(OWNER_TAG) ? tag.getUUID(OWNER_TAG) : null;
     }
 
-    /** 是否为可铭刻的武器类物品（剑/斧/镐等工具武器、弓弩、三叉戟）。 */
-    public static boolean isWeapon(ItemStack stack) {
-        return !stack.isEmpty() && (stack.getItem() instanceof TieredItem
-                || stack.getItem() instanceof ProjectileWeaponItem
-                || stack.getItem() instanceof TridentItem);
+    /**
+     * 可铭刻的物品：不限制种类，任意非空物品都行。
+     *
+     * <p>变身态的伤害规则是「不是伴生武器、也没铭刻就固定 1 点」，
+     * 所以铭刻只是给玩家一个把这件东西变成趁手武器的机会，不必再筛武器类型。
+     * 木棍、石头、别的模组的道具，只要愿意花一颗紫水晶簇就能刻。</p>
+     */
+    public static boolean canEngrave(ItemStack stack) {
+        return !stack.isEmpty();
     }
 }
