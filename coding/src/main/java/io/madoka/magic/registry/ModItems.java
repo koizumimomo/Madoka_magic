@@ -83,6 +83,7 @@ public final class ModItems {
     public static final Map<String, RegistryObject<Item>> GRIEF_SEEDS = registerVariants("grief_seed_",
             List.of("sacrifice", "take", "atonement", "homulilly",
                     "candeloro", "oktavia", "ophelia", "walpurgisnacht", "wither", WitchTypes.GLUTTONY,
+                    "kriemhild_gretchen", "brunhilde", "sieglinde", "annegret",
                     "netherite_monstrosity", "ignis", "ender_guardian", "the_harbinger", "the_leviathan",
                     "amethyst_crab", "ancient_remnant", "maledictus", "scylla"),
             theme -> new GriefSeedItem(new Item.Properties().durability(GRIEF_SEED_DURABILITY), theme));

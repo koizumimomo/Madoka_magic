@@ -13,6 +13,7 @@ import io.madoka.magic.item.WitchKissItem;
 import io.madoka.magic.network.MadokaNetwork;
 import io.madoka.magic.network.PlayerFormState;
 import io.madoka.magic.registry.MadokaAttributes;
+import net.minecraft.world.item.ItemStack;
 import io.madoka.magic.spell.BlossomState;
 import io.madoka.magic.spell.MadokaPassives;
 import io.madoka.magic.spell.SpellRegistry;
@@ -123,6 +124,33 @@ public class PlayerEvents {
 
     // ------------------------------------------------------------ 每 tick
 
+    /**
+     * 旧存档里的悲叹之种是通用物品、魔女记在 NBT 上；现在每位魔女有专属种，
+     * 把背包里剩下的通用种换成对应主题，避免同一位魔女的种出现两份看起来一样的东西。
+     */
+    private static void migrateLegacySeeds(ServerPlayer player) {
+        var inventory = player.getInventory();
+        boolean changed = false;
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            var stack = inventory.getItem(slot);
+            if (stack.isEmpty() || !stack.is(io.madoka.magic.registry.ModItems.GRIEF_SEED.get())) {
+                continue;
+            }
+            String owner = GriefSeedItem.getOwner(stack);
+            var themed = io.madoka.magic.registry.ModItems.GRIEF_SEEDS.get(owner);
+            if (themed == null) {
+                continue;
+            }
+            var replacement = new ItemStack(themed.get(), stack.getCount());
+            replacement.setDamageValue(stack.getDamageValue());
+            inventory.setItem(slot, replacement);
+            changed = true;
+        }
+        if (changed) {
+            player.containerMenu.broadcastChanges();
+        }
+    }
+
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
@@ -135,6 +163,7 @@ public class PlayerEvents {
         int tick = player.tickCount;
         if (tick % 20 == 0 && player.isAlive()) {
             data.deliverWitchRewards(player);
+            migrateLegacySeeds(player);
         }
         if (!player.isAlive()) {
             return;
